@@ -1,0 +1,81 @@
+---
+title: Skeleton
+description: A heritage-inspired loading placeholder with a subtle jali lattice pattern.
+---
+
+import { ComponentPreview } from "@/components/component-preview"
+import {
+  SkeletonDemo,
+  SkeletonVariants,
+  SkeletonCardDemo,
+} from "@/components/examples/skeleton-demo"
+
+## Preview
+
+<ComponentPreview>
+  <SkeletonDemo />
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @odiaui/skeleton
+```
+
+## Usage
+
+```tsx
+import { Skeleton } from "@/components/ui/skeleton"
+
+export function Example() {
+  return <Skeleton className="h-4 w-48" />
+}
+```
+
+## Variants
+
+- **`heritage`** (default) — warm sandstone tint with a faint jali lattice, inspired by Odisha temple stone screens.
+- **`plain`** — neutral `bg-muted` surface for generic layouts.
+
+<ComponentPreview>
+  <SkeletonVariants />
+</ComponentPreview>
+
+```tsx
+<Skeleton variant="heritage" className="h-10 w-full" />
+<Skeleton variant="plain" className="h-10 w-full" />
+```
+
+## Examples
+
+### Card loading state
+
+<ComponentPreview>
+  <SkeletonCardDemo />
+</ComponentPreview>
+
+```tsx
+<div className="flex w-full max-w-sm items-start gap-3 rounded-lg border p-4">
+  <Skeleton className="size-10 shrink-0 rounded-full" />
+  <div className="flex flex-1 flex-col gap-2">
+    <Skeleton className="h-4 w-1/2" />
+    <Skeleton className="h-3 w-full" />
+    <Skeleton className="h-3 w-4/5" />
+  </div>
+</div>
+```
+
+## Accessibility
+
+`Skeleton` is decorative and renders with `aria-hidden="true"`. For screen-reader
+users, wrap your loading region in a live status container:
+
+```tsx
+<div role="status" aria-live="polite">
+  <span className="sr-only">Loading content…</span>
+  <Skeleton className="h-4 w-48" />
+</div>
+```
+
+The pulse animation is disabled automatically for users who prefer reduced motion
+(`motion-reduce:animate-none`).
