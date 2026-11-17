@@ -61,10 +61,53 @@ Use these values for heritage accents. They are tested in light and dark mode.
 
 ---
 
+## 2b. Color tokens (`--odia-*`)
+
+**Decision:** OdiaUI components get their colors from OdiaUI's own `--odia-*`
+tokens, not from the host's shadcn tokens. Each item ships the tokens it uses in
+its registry entry, so the look is the same in any host theme.
+
+How it works:
+
+- Each registry item declares the tokens it needs under `cssVars` with a `light`
+  and a `dark` value. The shadcn CLI merges them into the consumer's CSS on install.
+- Keys are written **without** the `--` prefix in the manifest (`odia-surface`),
+  and used **with** it in code (`bg-(--odia-surface)`).
+- Every token is prefixed `odia-`. A host's own tokens (`--input`, `--ring`,
+  `--border`...) can then never override ours.
+- Dark mode lives in the token values (`cssVars.dark`), so components do not need
+  a `dark:` class for these colors.
+- Tokens are shared. Before adding a new one, reuse an existing token if the role matches.
+
+Standard token set:
+
+| Token | Role |
+| --- | --- |
+| `--odia-surface` | field / surface background |
+| `--odia-ink` | primary text |
+| `--odia-muted` | placeholder and secondary text |
+| `--odia-border` | borders (>= 3:1 against the page and the surface) |
+| `--odia-ring` | focus border and ring |
+| `--odia-invalid` | `aria-invalid` and error states |
+
+Rules:
+
+- Do not use shadcn theme tokens (`border-input`, `ring-ring`, `bg-card`,
+  `text-muted-foreground`...) for a component's own colors. The one allowed
+  exception is `ring-offset-background`, so the focus offset matches the page. Document it.
+- Measure every token pair against §2 before adding or changing a value.
+- If a component is installed without the CLI (copy and paste), the tokens are
+  missing. Say so in that component's docs page.
+- Existing items (Card, Button) still use other color sources and should move to
+  `--odia-*` one at a time. Do not mix both systems inside one component.
+
+---
+
 ## 3. Dark mode
 
 Every item ships theme-aware. No exceptions.
 
+- Colors that come from `--odia-*` tokens get dark mode from `cssVars.dark`.
 - Never hard-code a light-only or dark-only color. If a variant uses a dark hue,
   pair it with a `dark:` counterpart (`text-amber-800 dark:text-amber-300`).
 - Alpha borders must remain visible in both modes
@@ -128,10 +171,12 @@ Every item ships theme-aware. No exceptions.
 ## 8. Host-project independence
 
 - The installable source in `registry/new-york/ui/` is the source of truth.
-- Component styles must survive a different host theme:
-  prefer explicit local utilities for component-specific looks.
+- Component styles must survive a different host theme: use the `--odia-*` tokens
+  from §2b, shipped through the item's `cssVars`.
 - Use semantic shadcn tokens **only** when theme adaptation is part of the contract
   (e.g. `ring-offset-background`) — and document it.
+- Adding variables through the item's `cssVars` is allowed and expected. Editing the
+  consumer's other global CSS is not.
 - Never require edits to the consumer's global CSS, shadcn primitives, fonts, or aliases.
 - Docs demos must import the **real registry component**, not a look-alike mock.
 
@@ -154,6 +199,10 @@ Copy this into your PR / task notes and tick every box:
 - [ ] className override works (cn merge)
 - [ ] Scoped transition (no transition-all)
 - [ ] Reduced motion respected
+- [ ] Colors use `--odia-*` tokens only (no host shadcn tokens, no stray hex)
+- [ ] Tokens declared in the item's `cssVars` with `light` and `dark` values
+- [ ] Token pairs measured against §2 (values noted in the PR)
+- [ ] After install, the variables exist in the consumer's CSS
 - [ ] Registry manifest updated + `bun run registry:build` run
 - [ ] Docs page + meta.json entry
 - [ ] Demo imports registry source
@@ -171,6 +220,9 @@ Copy this into your PR / task notes and tick every box:
 | `focus-visible:ring-offset-2` with no offset color | add `focus-visible:ring-offset-background` |
 | White text on light amber | deepen the gradient (see §2) or use dark text |
 | `text-amber-800` with no `dark:` variant | add `dark:text-amber-300` |
+| `border-input` / `ring-ring` / `bg-card` for a component's own look | use `--odia-*` tokens (§2b) |
+| `--odia-*` token used but missing from the item's `cssVars` | add it with `light` and `dark` values |
+| Token name without the `odia-` prefix in `cssVars` | prefix it, so host tokens cannot override it |
 | Hard-coded `font-sans` / font family | inherit the host font |
 | Icon-only button without label | add `aria-label` + document it |
 | Demo re-implements the component styles | import from `registry/new-york/ui/` |

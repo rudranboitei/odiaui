@@ -26,7 +26,7 @@ Do not change these architectural decisions unless the user explicitly asks.
 
 Before making changes:
 
-1. Read `DESIGN.md` and the closest existing component before touching styles or APIs.
+1. Read `DESIGN.md` (especially §2b, the `--odia-*` token rules) and the closest existing component before touching styles or APIs.
 2. Read `package.json`, `components.json`, `.scn-stack.json`, and the root `registry.json`.
 3. Read `registry/new-york/ui/registry.json` and, when relevant, `registry/new-york/themes/registry.json`.
 4. Inspect the closest existing component in `registry/new-york/ui/` and its matching page in `content/docs/components/`.
@@ -96,10 +96,11 @@ the checklist before declaring work complete.
 ### Styling and host-project independence
 
 - A component installed into another app must retain its documented appearance and behavior in different host themes.
-- Prefer explicit, local Tailwind utilities for component-specific visual treatment.
-- Do not depend accidentally on a consumer's global CSS, custom theme, or undocumented CSS variables.
-- Use semantic shadcn tokens only when theme adaptation is an intentional part of the component contract; document that behavior.
-- Do not modify the consumer's global stylesheet, shadcn base components, or unrelated shared styles to make one registry item work.
+- Colors come from OdiaUI's own `--odia-*` tokens, as defined in `DESIGN.md` §2b. Use them through Tailwind v4 variable syntax, for example `bg-(--odia-surface)` and `border-(--odia-border)`.
+- Every token a component uses must be declared in that registry item's `cssVars` with a `light` and a `dark` value. The shadcn CLI merges them into the consumer's CSS on install. Write keys without the `--` prefix in the manifest (`odia-surface`) and keep the `odia-` prefix so a host's own tokens can never override them.
+- Do not use the host's shadcn tokens (`border-input`, `ring-ring`, `bg-card`, `text-muted-foreground`...) for a component's own colors. The only allowed exception is `ring-offset-background`; document it.
+- Reuse an existing `--odia-*` token when its role matches before adding a new one. Do not mix `--odia-*` tokens with another color system inside one component.
+- Do not modify the consumer's global stylesheet, shadcn base components, or unrelated shared styles to make one registry item work. Adding variables through the item's own `cssVars` is the one allowed way to add CSS.
 - Keep styles scoped to the component and its supporting files.
 - Test in both light and dark mode and against a host app with a different theme.
 
@@ -148,6 +149,17 @@ The UI manifest currently stores paths relative to `registry/new-york/ui/`:
 }
 ```
 
+A component that uses color tokens also declares them (see `DESIGN.md` §2b):
+
+```json
+{
+  "cssVars": {
+    "light": { "odia-surface": "oklch(0.97 0.015 76)" },
+    "dark": { "odia-surface": "oklch(0.22 0.02 60)" }
+  }
+}
+```
+
 Only add dependency fields when the source actually needs them:
 
 ```json
@@ -178,6 +190,7 @@ Dependency rules:
 - `devDependencies`: packages needed only to develop/build the registry item, not by the installed component. Do not put ordinary runtime imports here.
 - `registryDependencies`: other registry items required by this item. For an item in this same OdiaUI registry, use its actual item name (for example, `button`), not a guessed path or package name.
 - For a component from another registry, use the exact supported namespace item or URL format and verify it before adding it.
+- `cssVars`: the `--odia-*` tokens the shipped files use, each with `light` and `dark` values. List every token used in the source and none that are unused.
 - Do not list a dependency merely because it exists in the repository. Trace actual imports and usage.
 - Do not duplicate a primitive that already exists in OdiaUI. Reuse the existing item where appropriate.
 - If a dependency is already supplied by the target project's normal shadcn setup, still declare it only when the registry schema and installation contract require it. Verify behavior with a real install rather than guessing.
@@ -271,7 +284,7 @@ Before finishing:
 
 1. Walk through the pre-ship checklist in `DESIGN.md` §9 and verify every box.
 2. Run `bun run registry:build` after changing registry source or manifests.
-3. Confirm the expected generated file exists under `public/r/` and contains the correct item name, files, dependencies, and registry dependencies.
+3. Confirm the expected generated file exists under `public/r/` and contains the correct item name, files, dependencies, registry dependencies, and `cssVars`.
 4. Run the repository's available lint/check scripts. Inspect `package.json` first; do not invent script names.
 5. Run `bunx tsc --noEmit` when TypeScript validation is relevant and the repository's tsconfig supports it.
 6. Run the Next.js production build when practical: `bun run build`.
@@ -304,6 +317,7 @@ In the consumer project, verify:
 - Imports resolve without manual patching.
 - Required npm and registry dependencies are installed.
 - No missing aliases, CSS, fonts, assets, or helper files.
+- Every `--odia-*` variable the component uses now exists in the consumer's CSS, with both light and dark values.
 - TypeScript passes.
 - Interactive behavior works with mouse and keyboard.
 - Appearance remains correct in light mode, dark mode, and a different host theme.
@@ -321,6 +335,10 @@ Before declaring the task complete, check for these mistakes:
 - Invalid JSON, duplicate item names, or mismatched item/file types.
 - npm package placed in `registryDependencies` or registry item placed in `dependencies`.
 - Missing supporting files in a multi-file item.
+- A `--odia-*` token used in the source but missing from the item's `cssVars`, or declared without both `light` and `dark` values.
+- A token name in `cssVars` without the `odia-` prefix, or written with a leading `--`.
+- Host shadcn tokens (`border-input`, `ring-ring`, `bg-card`...) used for a component's own colors.
+- Token colors that were not measured against the contrast rules in `DESIGN.md` §2.
 - Imports that point to website-only code or aliases unavailable in the consumer.
 - Documentation import path that differs from the actual installed file path.
 - MDX page missing from `content/docs/components/meta.json`.
