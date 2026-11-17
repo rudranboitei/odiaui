@@ -17,6 +17,21 @@
       ]
     },
     {
+      "name": "heritage-button",
+      "type": "registry:ui",
+      "title": "Heritage Button",
+      "description": "A customizable button with subtle Odisha-inspired decorative details.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "heritage-button.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "card",
       "type": "registry:ui",
       "title": "Card",

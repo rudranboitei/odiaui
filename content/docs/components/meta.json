@@ -3,6 +3,7 @@
   "pages": [
     "button",
     "card",
-    "badge"
+    "badge",
+    "heritage-button"
   ]
 }
