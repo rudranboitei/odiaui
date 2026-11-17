@@ -27,6 +27,12 @@
 - 📝 **MDX documentation** — powered by Fumadocs at [odiaui.xyz/docs](https://odiaui.xyz/docs)
 - 🌗 **Dark mode ready** — every component ships theme-aware
 
+## 🎨 Design rules
+
+Every registry item follows the design system spec in [`DESIGN.md`](DESIGN.md) —
+color and contrast rules, dark mode, motion, accessibility, component API conventions,
+and the pre-ship checklist. Read it before adding or restyling a component.
+
 ## 📦 Install
 
 Add the `@odiaui` registry to your project:

@@ -26,11 +26,12 @@ Do not change these architectural decisions unless the user explicitly asks.
 
 Before making changes:
 
-1. Read `package.json`, `components.json`, `.scn-stack.json`, and the root `registry.json`.
-2. Read `registry/new-york/ui/registry.json` and, when relevant, `registry/new-york/themes/registry.json`.
-3. Inspect the closest existing component in `registry/new-york/ui/` and its matching page in `content/docs/components/`.
-4. Inspect the related example/demo under the existing examples/components structure before creating a new preview.
-5. Check the current Git diff and avoid overwriting unrelated user changes.
+1. Read `DESIGN.md` and the closest existing component before touching styles or APIs.
+2. Read `package.json`, `components.json`, `.scn-stack.json`, and the root `registry.json`.
+3. Read `registry/new-york/ui/registry.json` and, when relevant, `registry/new-york/themes/registry.json`.
+4. Inspect the closest existing component in `registry/new-york/ui/` and its matching page in `content/docs/components/`.
+5. Inspect the related example/demo under the existing examples/components structure before creating a new preview.
+6. Check the current Git diff and avoid overwriting unrelated user changes.
 
 Do not assume paths, scripts, aliases, dependencies, or Fumadocs conventions. Confirm them in the repository first.
 
@@ -41,6 +42,7 @@ The current repository uses this structure:
 ```text
 odiaui/
 ├── .agents/skills/registry/SKILL.md  # This skill
+├── DESIGN.md                          # Canonical design system & UI rules
 ├── app/                              # Next.js App Router
 ├── components/                       # Website and documentation UI
 ├── content/docs/                     # Fumadocs MDX pages
@@ -75,6 +77,11 @@ Important registry details:
 ## 4. OdiaUI design principles
 
 Every new item must fit the product, not just compile.
+
+**Canonical spec:** [`DESIGN.md`](../../../DESIGN.md) at the repository root is the
+source of truth for color, contrast, dark mode, motion, accessibility, component API,
+and the pre-ship checklist. Read it before creating or restyling any item, and verify
+the checklist before declaring work complete.
 
 ### Visual direction
 
@@ -262,12 +269,13 @@ The current `registry:build` script runs `shadcn build` and generates registry J
 
 Before finishing:
 
-1. Run `bun run registry:build` after changing registry source or manifests.
-2. Confirm the expected generated file exists under `public/r/` and contains the correct item name, files, dependencies, and registry dependencies.
-3. Run the repository's available lint/check scripts. Inspect `package.json` first; do not invent script names.
-4. Run `bunx tsc --noEmit` when TypeScript validation is relevant and the repository's tsconfig supports it.
-5. Run the Next.js production build when practical: `bun run build`.
-6. Inspect `git diff` and ensure no generated, unrelated, or user-owned files were accidentally changed.
+1. Walk through the pre-ship checklist in `DESIGN.md` §9 and verify every box.
+2. Run `bun run registry:build` after changing registry source or manifests.
+3. Confirm the expected generated file exists under `public/r/` and contains the correct item name, files, dependencies, and registry dependencies.
+4. Run the repository's available lint/check scripts. Inspect `package.json` first; do not invent script names.
+5. Run `bunx tsc --noEmit` when TypeScript validation is relevant and the repository's tsconfig supports it.
+6. Run the Next.js production build when practical: `bun run build`.
+7. Inspect `git diff` and ensure no generated, unrelated, or user-owned files were accidentally changed.
 
 Do not hand-edit `public/r/*.json`; fix the source manifests/files and rebuild.
 
