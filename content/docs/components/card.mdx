@@ -1,10 +1,17 @@
 ---
 title: Card
-description: A card component with header, content, and footer.
+description: Displays a card with header, content and footer, plus optional Odisha artwork and edge-bleeding media.
 ---
 
 import { ComponentPreview } from "@/components/component-preview"
-import { CardDemo } from "@/components/examples/card-demo"
+import {
+  CardDemo,
+  CardSizeDemo,
+  CardSpacingDemo,
+  CardEdgeToEdge,
+  CardImageDemo,
+  CardWatermarksDemo,
+} from "@/components/examples/card-demo"
 
 ## Preview
 
@@ -12,22 +19,56 @@ import { CardDemo } from "@/components/examples/card-demo"
   <CardDemo />
 </ComponentPreview>
 
+```tsx
+<Card className="w-full max-w-sm" watermark="padma">
+  <CardHeader>
+    <CardTitle>Login to your account</CardTitle>
+    <CardDescription>
+      Enter your email below to login to your account
+    </CardDescription>
+    <CardAction>
+      <Button variant="outline" size="sm" showChakra={false}>
+        Sign Up
+      </Button>
+    </CardAction>
+  </CardHeader>
+  <CardContent className="flex flex-col gap-4">
+    {/* email + password fields */}
+  </CardContent>
+  <CardFooter className="flex-col gap-2">
+    <Button className="w-full">Login</Button>
+    <Button variant="outline" className="w-full">
+      Login with Google
+    </Button>
+  </CardFooter>
+</Card>
+```
+
 ## Installation
 
 ```bash
-npx shadcn@latest add @odiaui/card
+bunx shadcn@latest add @odiaui/card
 ```
+
+The item needs `class-variance-authority` and installs the `badge` registry item
+(it supplies the decorative `BadgeIcon` watermarks). The sand palette is scoped
+to the card parts, so no custom theme or global CSS edit is required.
+
+The examples below use the shared `Button` (the heritage button is the only
+button in OdiaUI). Install it with `bunx shadcn@latest add @odiaui/button` and
+import it from `@/components/ui/button`.
 
 ## Usage
 
 ```tsx
 import {
   Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
 } from "@/components/ui/card"
 
 export function Example() {
@@ -35,15 +76,219 @@ export function Example() {
     <Card>
       <CardHeader>
         <CardTitle>Card Title</CardTitle>
-        <CardDescription>Card description goes here.</CardDescription>
+        <CardDescription>Card Description</CardDescription>
+        <CardAction>Card Action</CardAction>
       </CardHeader>
       <CardContent>
-        <p>Card content.</p>
+        <p>Card Content</p>
       </CardContent>
       <CardFooter>
-        <p>Card footer.</p>
+        <p>Card Footer</p>
       </CardFooter>
     </Card>
   )
 }
 ```
+
+## Composition
+
+```text
+Card
+├── CardHeader
+│   ├── CardTitle
+│   ├── CardDescription
+│   └── CardAction
+├── CardContent
+└── CardFooter
+```
+
+## Size
+
+Use `size="sm"` for tighter spacing. The size sets the shared `--card-spacing`
+variable used by the header, content and footer insets.
+
+<ComponentPreview>
+  <CardSizeDemo />
+</ComponentPreview>
+
+```tsx
+<Card size="sm">
+  <CardHeader>
+    <CardTitle>Scheduled reports</CardTitle>
+    <CardDescription>Weekly snapshots. No more manual exports.</CardDescription>
+  </CardHeader>
+  {/* ... */}
+</Card>
+```
+
+| `size`      | `--card-spacing` |
+| ----------- | ---------------- |
+| `"default"` | `1.5rem`         |
+| `"sm"`      | `1rem`           |
+
+## Spacing
+
+For finer control, set `--card-spacing` on the `Card` with an arbitrary property
+or an inline style. Every inset follows it.
+
+<ComponentPreview>
+  <CardSpacingDemo />
+</ComponentPreview>
+
+```tsx
+<Card className="[--card-spacing:--spacing(8)]">...</Card>
+```
+
+Use negative margins with `-mx-(--card-spacing)` to make content go edge to edge
+while staying aligned with the card inset. When edge-to-edge content sits above
+a footer, add `-mb-(--card-spacing)` to `CardContent` to remove the section gap.
+
+<ComponentPreview>
+  <CardEdgeToEdge />
+</ComponentPreview>
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+export function CardEdgeToEdge() {
+  return (
+    <Card className="mx-auto w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Terms of Service</CardTitle>
+        <CardDescription>
+          Review the terms before accepting the agreement.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="-mb-(--card-spacing)">
+        <div
+          tabIndex={0}
+          aria-label="Terms of Service"
+          className="-mx-(--card-spacing) max-h-48 space-y-4 overflow-y-scroll border-t bg-muted/50 px-(--card-spacing) py-4 text-sm leading-relaxed"
+        >
+          <p>
+            These terms govern your use of the workspace, including access to
+            shared documents, project files, and collaboration tools.
+          </p>
+          <p>
+            You are responsible for the content you upload and for ensuring that
+            your team has the appropriate permissions to view or edit it.
+          </p>
+          <p>
+            We may update features or limits as the service evolves. When those
+            changes materially affect your workflow, we will notify your
+            workspace administrators.
+          </p>
+          <p>
+            By continuing, you agree to keep your account credentials secure and
+            to follow your organization&apos;s acceptable use policies.
+          </p>
+        </div>
+      </CardContent>
+      <CardFooter className="justify-end gap-2">
+        <Button variant="outline">Decline</Button>
+        <Button>Accept</Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+The scrollable terms region is focusable (`tabIndex={0}`) with an `aria-label`, so
+keyboard users can scroll it and screen readers can identify it.
+
+## Image
+
+Add an image before the header to create a card with a cover. The negative top
+margin cancels the card's top padding so the image bleeds to the edges.
+
+<ComponentPreview>
+  <CardImageDemo />
+</ComponentPreview>
+
+```tsx
+<Card size="sm">
+  <img
+    src="/cover.jpg"
+    alt="Event cover"
+    className="-mt-(--card-spacing) aspect-video w-full rounded-t-[inherit] object-cover"
+  />
+  <CardHeader>
+    <Badge variant="secondary" className="w-fit">Featured</Badge>
+    <CardTitle>Design systems meetup</CardTitle>
+  </CardHeader>
+  <CardFooter>
+    <Button className="w-full">View Event</Button>
+  </CardFooter>
+</Card>
+```
+
+`CardMedia` is the OdiaUI shortcut for this: `<CardMedia position="top">`
+applies the same edge bleed and a sand fallback background. It also supports
+`position="bottom"` and `position="left"`.
+
+## Watermarks
+
+The `watermark` prop adds faint, decorative Odisha artwork cropped into the
+corner. It is off by default and always `aria-hidden`.
+
+<ComponentPreview className="p-6">
+  <CardWatermarksDemo />
+</ComponentPreview>
+
+```tsx
+<Card size="sm" watermark="chakra">...</Card>
+```
+
+| Value      | Motif                     |
+| ---------- | ------------------------- |
+| `"none"`   | No artwork (default)      |
+| `"deula"`  | Kalinga temple tower      |
+| `"chakra"` | Konark wheel              |
+| `"padma"`  | Lotus                     |
+
+## Ornament
+
+`CardOrnament` is a thin ikat diamond strip you can drop anywhere as a divider,
+for example under a header.
+
+## API Reference
+
+### Card
+
+| Prop        | Type                                       | Default     |
+| ----------- | ------------------------------------------ | ----------- |
+| `size`      | `"default" \| "sm"`                        | `"default"` |
+| `watermark` | `"none" \| "deula" \| "chakra" \| "padma"` | `"none"`    |
+| `className` | `string`                                   | —           |
+
+### Parts
+
+| Part              | Element | Purpose                                             |
+| ----------------- | ------- | --------------------------------------------------- |
+| `CardHeader`      | `div`   | Title, description and optional action              |
+| `CardTitle`       | `div`   | Card title                                          |
+| `CardDescription` | `div`   | Helper text under the title                         |
+| `CardAction`      | `div`   | Top-right of the header                             |
+| `CardContent`     | `div`   | Main body                                           |
+| `CardFooter`      | `div`   | Actions and secondary content                       |
+| `CardMedia`       | `div`   | Edge-bleeding image slot (`top`/`left`/`bottom`)     |
+| `CardOrnament`    | `svg`   | Decorative ikat strip                               |
+
+Every part extends the native props of the element it renders. `className` is
+merged last through `cn`, so you can override any style. Refs are forwarded as
+regular props (React 19).
+
+## Accessibility
+
+- Watermarks and the ikat strip are decorative (`aria-hidden="true"`) and never
+  take focus. Give a real `<img>` its own `alt` text.
+- Interactive content such as `Button` keeps its own focus ring, labels and
+  reduced-motion behavior.

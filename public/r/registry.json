@@ -6,7 +6,7 @@
     {
       "name": "button",
       "title": "Button",
-      "description": "A button component with multiple variants.",
+      "description": "The shared button in OdiaUI blue (#3b82f6) with a chakra mark, an outline option and accessible dark-ink text.",
       "dependencies": [
         "class-variance-authority"
       ],
@@ -19,24 +19,15 @@
       "type": "registry:ui"
     },
     {
-      "name": "heritage-button",
-      "title": "Heritage Button",
-      "description": "A customizable button with subtle Odisha-inspired decorative details.",
+      "name": "card",
+      "title": "Card",
+      "description": "A card with header, content and footer, plus optional Odisha watermarks and edge-bleeding media.",
       "dependencies": [
         "class-variance-authority"
       ],
-      "files": [
-        {
-          "path": "registry/new-york/ui/heritage-button.tsx",
-          "type": "registry:ui"
-        }
+      "registryDependencies": [
+        "@odiaui/badge"
       ],
-      "type": "registry:ui"
-    },
-    {
-      "name": "card",
-      "title": "Card",
-      "description": "A card component with header, content, and footer.",
       "files": [
         {
           "path": "registry/new-york/ui/card.tsx",

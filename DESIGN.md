@@ -80,8 +80,8 @@ Every item ships theme-aware. No exceptions.
 - **Fonts:** never hard-code font families in registry components — inherit the host.
 - **Sizes:** `text-sm` (14px) is the button default; `text-xs` for `sm`; `text-base` for `lg`.
 - **Radii:** choose one shape language per component and document it.
-  Base `Button` uses `rounded-md`; `HeritageButton` intentionally uses the pill
-  `rounded-full`. Do not mix shapes inside one component family.
+  The shared `Button` intentionally uses the pill `rounded-full`. Do not mix
+  shapes inside one component family.
 
 ---
 
@@ -114,7 +114,7 @@ Every item ships theme-aware. No exceptions.
 - Variants via `cva`, with explicit `defaultVariants`.
 - `className` merges **last** through the repo's `cn` utility, so consumers can override:
   ```tsx
-  cn(heritageButtonVariants({ variant, size }), className)
+  cn(buttonVariants({ variant, size }), className)
   ```
 - `forwardRef` + `displayName` for interactive/native elements, matching the
   established pattern in `registry/new-york/ui/button.tsx`.

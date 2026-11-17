@@ -12,11 +12,11 @@ export function ComponentPreview({ children, className }: ComponentPreviewProps)
   return (
     <div
       className={cn(
-        "not-prose flex min-h-[200px] w-full items-center justify-center rounded-xl border bg-card p-8",
+        "not-prose group relative my-6 flex min-h-64 w-full items-center justify-center overflow-hidden rounded-xl border border-neutral-200 bg-[#fafafa] p-6 text-neutral-900 md:p-10 dark:border-neutral-800 dark:bg-neutral-950 dark:text-white",
         className
       )}
     >
-      {children}
+      <div className="flex w-full items-center justify-center">{children}</div>
     </div>
   )
 }
