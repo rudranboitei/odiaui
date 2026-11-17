@@ -176,3 +176,5 @@ Copy this into your PR / task notes and tick every box:
 | Demo re-implements the component styles | import from `registry/new-york/ui/` |
 | Editing `public/r/*.json` by hand | edit source/manifest, rerun `registry:build` |
 | Publishing stale registry output | `bun run registry:build` before commit |
+| `next/image` with a local SVG (400 from optimizer) | add `unoptimized` (Next blocks SVG optimization by default) |
+| Adding `<Link>`/`<a>` inside Fumadocs `nav.title` | Fumadocs already wraps the title in a link — render content only (no nested anchors) |

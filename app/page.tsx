@@ -11,6 +11,7 @@ export default function Home() {
             width={40}
             height={40}
             className="dark:hidden"
+            unoptimized
           />
           <Image
             src="/brand/odiaui-icon-white.svg"
@@ -18,6 +19,7 @@ export default function Home() {
             width={40}
             height={40}
             className="hidden dark:block"
+            unoptimized
           />
           odiaui
         </h1>
