@@ -1,8 +1,26 @@
+import Image from "next/image";
+
 export default function Home() {
   return (
     <div className="max-w-3xl mx-auto flex flex-col min-h-svh px-4 py-8 gap-8">
       <header className="flex flex-col gap-1">
-        <h1 className="text-3xl font-bold tracking-tight">odiaui</h1>
+        <h1 className="flex items-center gap-3 text-3xl font-bold tracking-tight">
+          <Image
+            src="/brand/odiaui-icon-black.svg"
+            alt="odiaui logo"
+            width={40}
+            height={40}
+            className="dark:hidden"
+          />
+          <Image
+            src="/brand/odiaui-icon-white.svg"
+            alt="odiaui logo"
+            width={40}
+            height={40}
+            className="hidden dark:block"
+          />
+          odiaui
+        </h1>
         <p className="text-muted-foreground">
           A custom registry for distributing code using shadcn.
         </p>
