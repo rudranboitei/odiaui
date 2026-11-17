@@ -95,17 +95,28 @@ export function Example() {
 
 ### Table
 
+Mirror your real row layout — same columns, same spacing — and render it while
+the first page of data loads, swapping it out for real rows once data arrives.
+
 <ComponentPreview className="p-6">
   <SkeletonTable />
 </ComponentPreview>
 
 ```tsx
 <div className="w-full overflow-hidden rounded-lg border">
-  {rows.map((row) => (
+  {/* header */}
+  <div className="grid grid-cols-[2fr_1fr] items-center gap-4 border-b bg-muted/40 px-4 py-3 sm:grid-cols-[2fr_1fr_1fr_1fr]">
+    <Skeleton className="h-3.5 w-28" />
+    <Skeleton className="h-3.5 w-16" />
+    <Skeleton className="hidden h-3.5 w-14 sm:block" />
+    <Skeleton className="hidden h-3.5 w-10 sm:block" />
+  </div>
+
+  {/* rows */}
+  {[0, 1, 2].map((row) => (
     <div
       key={row}
-      className="grid grid-cols-[2fr_1fr] items-center gap-4 border-b px-4 py-3
-                 sm:grid-cols-[2fr_1fr_1fr_1fr]"
+      className="grid grid-cols-[2fr_1fr] items-center gap-4 border-b px-4 py-3 last:border-0 sm:grid-cols-[2fr_1fr_1fr_1fr]"
     >
       <div className="flex items-center gap-3">
         <Skeleton shape="diamond" className="size-6 shrink-0" />
@@ -152,14 +163,14 @@ ratio — size them with `className`.
   <SkeletonShapes />
 </ComponentPreview>
 
-| Shape     | Placeholder                                  |
-| --------- | -------------------------------------------- |
-| `none`    | Free-form block (default)                    |
-| `line`    | Thin text line, `h-2.5 w-full`               |
-| `chakra`  | Konark wheel — square                       |
-| `arch`    | Deula doorway arch — 3:4                     |
-| `diamond` | Rotated square — square                      |
-| `pida`    | Stepped pidha roof block                     |
+| Shape     | Placeholder                            |
+| --------- | -------------------------------------- |
+| `none`    | Free-form block (default)              |
+| `line`    | Thin text line, `h-2.5 w-full`         |
+| `chakra`  | Konark wheel — square                  |
+| `arch`    | Deula doorway arch — 3:4               |
+| `diamond` | Diamond-cut square (clip-path)         |
+| `pida`    | Stepped pidha roof block               |
 
 ```tsx
 <Skeleton shape="chakra" className="size-14" />
