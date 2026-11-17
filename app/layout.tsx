@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "odiaui",
     images: [
       {
-        url: "/odiaui-og-image-1200x630.png",
+        url: "/odiaui-og-image-dark-1200x630.png",
         width: 1200,
         height: 630,
         alt: "odiaui — a custom shadcn component registry",
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    images: ["/odiaui-og-image-1200x630.png"],
+    images: ["/odiaui-og-image-dark-1200x630.png"],
   },
 };
 
