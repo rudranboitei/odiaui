@@ -1,13 +1,19 @@
 ---
 title: Skeleton
-description: A heritage-inspired loading placeholder with a subtle jali lattice pattern.
+description: A loading placeholder with carved Odisha temple artwork, Konark wheel silhouettes and an ikat band.
 ---
 
 import { ComponentPreview } from "@/components/component-preview"
 import {
   SkeletonDemo,
+  SkeletonText,
+  SkeletonCard,
+  SkeletonForm,
+  SkeletonTable,
+  SkeletonMedia,
+  SkeletonShapes,
   SkeletonVariants,
-  SkeletonCardDemo,
+  SkeletonArtGrid,
 } from "@/components/examples/skeleton-demo"
 
 ## Preview
@@ -28,54 +34,198 @@ bunx shadcn@latest add @odiaui/skeleton
 import { Skeleton } from "@/components/ui/skeleton"
 
 export function Example() {
-  return <Skeleton className="h-4 w-48" />
+  return <Skeleton shape="line" className="w-48" />
 }
-```
-
-## Variants
-
-- **`heritage`** (default) — warm sandstone tint with a faint jali lattice, inspired by Odisha temple stone screens.
-- **`plain`** — neutral `bg-muted` surface for generic layouts.
-
-<ComponentPreview>
-  <SkeletonVariants />
-</ComponentPreview>
-
-```tsx
-<Skeleton variant="heritage" className="h-10 w-full" />
-<Skeleton variant="plain" className="h-10 w-full" />
 ```
 
 ## Examples
 
-### Card loading state
+### Text
 
 <ComponentPreview>
-  <SkeletonCardDemo />
+  <SkeletonText />
 </ComponentPreview>
 
 ```tsx
-<div className="flex w-full max-w-sm items-start gap-3 rounded-lg border p-4">
-  <Skeleton className="size-10 shrink-0 rounded-full" />
-  <div className="flex flex-1 flex-col gap-2">
-    <Skeleton className="h-4 w-1/2" />
-    <Skeleton className="h-3 w-full" />
-    <Skeleton className="h-3 w-4/5" />
+<div className="flex flex-col gap-4">
+  <Skeleton className="h-6 w-2/3" />
+  <div className="flex flex-col gap-2">
+    <Skeleton shape="line" />
+    <Skeleton shape="line" className="w-11/12" />
+    <Skeleton shape="line" className="w-3/5" />
   </div>
 </div>
 ```
 
+### Card
+
+<ComponentPreview>
+  <SkeletonCard />
+</ComponentPreview>
+
+```tsx
+<div className="flex flex-col gap-4 rounded-xl border p-4">
+  <Skeleton art="temple" className="aspect-[16/9] w-full rounded-lg" />
+  <div className="flex flex-col gap-2">
+    <Skeleton shape="line" className="w-2/3" />
+    <Skeleton shape="line" />
+    <Skeleton shape="line" className="w-4/5" />
+  </div>
+  <div className="flex items-center gap-3">
+    <Skeleton shape="chakra" className="size-8 shrink-0" />
+    <Skeleton shape="line" className="w-24" />
+    <Skeleton variant="ikat" className="ml-auto h-6 w-16 rounded-full" />
+  </div>
+</div>
+```
+
+### Form
+
+<ComponentPreview>
+  <SkeletonForm />
+</ComponentPreview>
+
+```tsx
+<div className="grid gap-4">
+  <div className="grid gap-2">
+    <Skeleton className="h-4 w-16" />
+    <Skeleton className="h-9 w-full" />
+  </div>
+  <div className="grid gap-2">
+    <Skeleton className="h-4 w-24" />
+    <Skeleton className="h-9 w-full" />
+    <Skeleton shape="line" className="w-2/3" />
+  </div>
+  <Skeleton className="h-9 w-28" />
+</div>
+```
+
+### Table
+
+<ComponentPreview className="p-6">
+  <SkeletonTable />
+</ComponentPreview>
+
+```tsx
+<div className="w-full overflow-hidden rounded-lg border">
+  {rows.map((row) => (
+    <div
+      key={row}
+      className="grid grid-cols-[2fr_1fr] items-center gap-4 border-b px-4 py-3
+                 sm:grid-cols-[2fr_1fr_1fr_1fr]"
+    >
+      <div className="flex items-center gap-3">
+        <Skeleton shape="diamond" className="size-6 shrink-0" />
+        <Skeleton className="h-4 w-28" />
+      </div>
+      <Skeleton className="h-4 w-16" />
+      <Skeleton className="hidden h-4 w-12 sm:block" />
+      <Skeleton className="hidden h-5 w-14 rounded-full sm:block" />
+    </div>
+  ))}
+</div>
+```
+
+### Media
+
+Give media placeholders a fixed aspect ratio and add `art` for faint carved
+artwork — a temple skyline, a Konark wheel or a deula doorway. Pass an array to
+layer a whole scene.
+
+<ComponentPreview>
+  <SkeletonMedia />
+</ComponentPreview>
+
+```tsx
+<div className="overflow-hidden rounded-xl border">
+  <Skeleton
+    art={["temple", "wheel"]}
+    className="aspect-[16/9] w-full rounded-none"
+  />
+  <div className="flex flex-col gap-2.5 p-4">
+    <Skeleton variant="ikat" className="h-5 w-16 rounded-full" />
+    <Skeleton className="h-5 w-3/4" />
+    <Skeleton className="h-4 w-full" />
+  </div>
+</div>
+```
+
+## Shapes
+
+Heritage silhouettes carry their own carved artwork and set their own aspect
+ratio — size them with `className`.
+
+<ComponentPreview className="p-6">
+  <SkeletonShapes />
+</ComponentPreview>
+
+| Shape     | Placeholder                                  |
+| --------- | -------------------------------------------- |
+| `none`    | Free-form block (default)                    |
+| `line`    | Thin text line, `h-2.5 w-full`               |
+| `chakra`  | Konark wheel — square                       |
+| `arch`    | Deula doorway arch — 3:4                     |
+| `diamond` | Rotated square — square                      |
+| `pida`    | Stepped pidha roof block                     |
+
+```tsx
+<Skeleton shape="chakra" className="size-14" />
+<Skeleton shape="arch" className="h-16 w-12" />
+<Skeleton shape="diamond" className="size-11" />
+<Skeleton shape="pida" className="h-11 w-28" />
+```
+
+## Variants
+
+<ComponentPreview className="p-6">
+  <SkeletonVariants />
+</ComponentPreview>
+
+- **`default`** — classic pulse on a soft foreground tint.
+- **`shimmer`** — a background sheen pulsing over the surface.
+- **`ikat`** — an ikat band of dashes and outlined diamonds, tiled along the shape.
+
+## Artwork
+
+Add one artwork or an array to a media placeholder. Combined layers are ordered
+sky → gateway → temple, so temples always read in front.
+
+<ComponentPreview className="p-6">
+  <SkeletonArtGrid />
+</ComponentPreview>
+
+| Art      | Placement                                            |
+| -------- | ---------------------------------------------------- |
+| `temple` | Kalinga rekha deula skyline along the bottom         |
+| `wheel`  | Konark wheel cropped into the top-right corner       |
+| `arch`   | Nested doorway arch standing at the bottom centre    |
+
+```tsx
+<Skeleton art="temple" className="aspect-[16/9] w-full" />
+<Skeleton art={["temple", "wheel"]} className="aspect-video w-full" />
+```
+
+## Props
+
+| Prop      | Type                                                             | Default     | Description                    |
+| --------- | ---------------------------------------------------------------- | ----------- | ------------------------------ |
+| `variant` | `"default" \| "shimmer" \| "ikat"`                                | `"default"` | Animated surface treatment.    |
+| `shape`   | `"none" \| "line" \| "chakra" \| "arch" \| "diamond" \| "pida"`   | `"none"`    | Silhouette plus its artwork.   |
+| `art`     | `"temple" \| "wheel" \| "arch"` or an array                       | —           | Artwork for media placeholders.|
+
+Extends all native `<div>` attributes and forwards refs.
+
 ## Accessibility
 
-`Skeleton` is decorative and renders with `aria-hidden="true"`. For screen-reader
-users, wrap your loading region in a live status container:
+`Skeleton` is decorative and renders with `aria-hidden="true"`. Announce loading
+state on a wrapper instead:
 
 ```tsx
 <div role="status" aria-live="polite">
   <span className="sr-only">Loading content…</span>
-  <Skeleton className="h-4 w-48" />
+  <Skeleton shape="line" className="w-48" />
 </div>
 ```
 
-The pulse animation is disabled automatically for users who prefer reduced motion
+Animation is disabled automatically for users who prefer reduced motion
 (`motion-reduce:animate-none`).

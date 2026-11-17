@@ -64,7 +64,7 @@ bunx shadcn@latest add @odiaui/button
 | [`Button`](https://odiaui.xyz/docs/components/button)   | A button component with multiple variants.        |
 | [`Card`](https://odiaui.xyz/docs/components/card)       | A card component with header, content, and footer.|
 | [`Badge`](https://odiaui.xyz/docs/components/badge)     | A badge component with multiple variants.         |
-| [`Skeleton`](https://odiaui.xyz/docs/components/skeleton)| A heritage-inspired loading placeholder.          |
+| [`Skeleton`](https://odiaui.xyz/docs/components/skeleton)| A loading placeholder with Odisha temple artwork.   |
 
 > More components are on the way — watch the repo for updates. ⭐
 

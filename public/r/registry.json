@@ -63,7 +63,7 @@
     {
       "name": "skeleton",
       "title": "Skeleton",
-      "description": "A heritage-inspired loading placeholder with a subtle jali lattice pattern.",
+      "description": "A loading placeholder with carved Odisha temple artwork, Konark wheel silhouettes and ikat patterns.",
       "dependencies": [
         "class-variance-authority"
       ],
