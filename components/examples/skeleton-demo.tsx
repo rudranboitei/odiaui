@@ -2,17 +2,6 @@
 
 import { Skeleton } from "@/registry/new-york/ui/skeleton"
 
-/** Default preview: a short paragraph of placeholder text. */
-export function SkeletonDemo() {
-  return (
-    <div className="flex w-full max-w-sm flex-col gap-2.5">
-      <Skeleton shape="line" className="w-3/4" />
-      <Skeleton shape="line" />
-      <Skeleton shape="line" className="w-5/6" />
-    </div>
-  )
-}
-
 /** Multi-paragraph article body. */
 export function SkeletonText() {
   return (
