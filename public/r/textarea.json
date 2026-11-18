@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "textarea",
+  "title": "Textarea",
+  "description": "A multi-line text field with a soft rectangular focus ring and invalid and disabled states.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/ui/textarea.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\n/** Same self-contained field tokens as `Input`. */\nconst FIELD_TOKENS = [\n  \"[--odia-surface:oklch(1_0_0)] dark:[--odia-surface:oklch(0.205_0_0)]\",\n  \"[--odia-ink:oklch(0.145_0_0)] dark:[--odia-ink:oklch(0.985_0_0)]\",\n  \"[--odia-muted:oklch(0.556_0_0)] dark:[--odia-muted:oklch(0.708_0_0)]\",\n  \"[--odia-border:oklch(0.88_0_0)] dark:[--odia-border:oklch(0.32_0_0)]\",\n  \"[--odia-ring:oklch(0.55_0_0)] dark:[--odia-ring:oklch(0.72_0_0)]\",\n  \"[--odia-invalid:oklch(0.577_0.245_27.325)] dark:[--odia-invalid:oklch(0.704_0.191_22.216)]\",\n]\n\nconst textareaVariants = cva(\n  [\n    \"flex w-full resize-y rounded-2xl border border-(--odia-border) bg-(--odia-surface) px-4 py-3\",\n    \"tracking-[0.02em] text-(--odia-ink) transition-colors duration-200\",\n    \"placeholder:text-(--odia-muted)\",\n    \"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--odia-ring)\",\n    \"aria-invalid:border-(--odia-invalid) aria-invalid:outline-(--odia-invalid)\",\n    \"disabled:cursor-not-allowed disabled:opacity-60\",\n  ],\n  {\n    variants: {\n      size: {\n        default: \"min-h-20 text-sm\",\n        sm: \"min-h-16 px-3 py-2 text-xs\",\n        lg: \"min-h-28 px-5 py-4 text-base\",\n      },\n    },\n    defaultVariants: {\n      size: \"default\",\n    },\n  }\n)\n\ntype TextareaProps = React.ComponentProps<\"textarea\"> &\n  VariantProps<typeof textareaVariants>\n\nfunction Textarea({ className, size, ...props }: TextareaProps) {\n  return (\n    <textarea\n      data-slot=\"textarea\"\n      data-size={size ?? \"default\"}\n      className={cn(FIELD_TOKENS, textareaVariants({ size }), className)}\n      {...props}\n    />\n  )\n}\n\nexport { Textarea, textareaVariants }\nexport type { TextareaProps }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "odia-surface": "oklch(1 0 0)",
+      "odia-ink": "oklch(0.145 0 0)",
+      "odia-muted": "oklch(0.556 0 0)",
+      "odia-border": "oklch(0.88 0 0)",
+      "odia-ring": "oklch(0.55 0 0)",
+      "odia-invalid": "oklch(0.577 0.245 27.325)"
+    },
+    "dark": {
+      "odia-surface": "oklch(0.205 0 0)",
+      "odia-ink": "oklch(0.985 0 0)",
+      "odia-muted": "oklch(0.708 0 0)",
+      "odia-border": "oklch(0.32 0 0)",
+      "odia-ring": "oklch(0.72 0 0)",
+      "odia-invalid": "oklch(0.704 0.191 22.216)"
+    }
+  },
+  "type": "registry:ui"
+}

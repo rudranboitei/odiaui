@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "title": "Label",
+  "description": "An accessible form label that pairs with Input and Textarea, including disabled-state styling.",
+  "files": [
+    {
+      "path": "registry/new-york/ui/label.tsx",
+      "content": "import * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst LABEL_TOKENS = [\n  \"[--odia-ink:oklch(0.145_0_0)] dark:[--odia-ink:oklch(0.985_0_0)]\",\n]\n\nfunction Label({ className, ...props }: React.ComponentProps<\"label\">) {\n  return (\n    <label\n      data-slot=\"label\"\n      className={cn(\n        LABEL_TOKENS,\n        \"flex items-center gap-2 text-sm leading-none font-medium tracking-[0.02em] text-(--odia-ink) select-none\",\n        \"group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-60\",\n        \"peer-disabled:cursor-not-allowed peer-disabled:opacity-60\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "odia-ink": "oklch(0.145 0 0)"
+    },
+    "dark": {
+      "odia-ink": "oklch(0.985 0 0)"
+    }
+  },
+  "type": "registry:ui"
+}

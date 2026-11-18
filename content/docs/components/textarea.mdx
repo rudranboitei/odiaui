@@ -1,0 +1,172 @@
+---
+title: Textarea
+description: A multi-line text field with a soft focus ring, a resizable body, and invalid and disabled states.
+---
+
+import { ComponentPreview } from "@/components/component-preview"
+import {
+  TextareaDemo,
+  TextareaDisabledDemo,
+  TextareaWithLabelDemo,
+  TextareaInvalidDemo,
+  TextareaSizesDemo,
+  TextareaWithButtonDemo,
+} from "@/components/examples/textarea-demo"
+
+## Preview
+
+<ComponentPreview>
+  <TextareaDemo />
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @odiaui/textarea
+```
+
+The field uses `class-variance-authority` and the shared `cn` utility from
+`@/lib/utils`. It shares the self-contained `--odia-*` tokens with
+[`Input`](/docs/components/input), so it matches in any host theme.
+
+## Usage
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+
+export function Example() {
+  return <Textarea placeholder="Type your message here." />
+}
+```
+
+## Examples
+
+### Disabled
+
+Use the native `disabled` prop to prevent interaction.
+
+<ComponentPreview>
+  <TextareaDisabledDemo />
+</ComponentPreview>
+
+```tsx
+<Textarea disabled placeholder="Type your message here." />
+```
+
+### With Label
+
+Pair the field with a label so screen readers announce its purpose.
+
+<ComponentPreview>
+  <TextareaWithLabelDemo />
+</ComponentPreview>
+
+```tsx
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaWithLabel() {
+  return (
+    <div className="grid w-full max-w-sm gap-2">
+      <Label htmlFor="message">Message</Label>
+      <Textarea id="message" placeholder="Type your message here." />
+    </div>
+  )
+}
+```
+
+### Invalid
+
+Set `aria-invalid` to switch the border and focus ring to the error color. Pair
+it with a message so the error is not conveyed by color alone.
+
+<ComponentPreview>
+  <TextareaInvalidDemo />
+</ComponentPreview>
+
+```tsx
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaInvalid() {
+  return (
+    <div className="grid w-full max-w-sm gap-2">
+      <Label htmlFor="message-invalid">Message</Label>
+      <Textarea
+        id="message-invalid"
+        aria-invalid
+        placeholder="Type your message here."
+      />
+      <p className="text-sm text-destructive">Message cannot be empty.</p>
+    </div>
+  )
+}
+```
+
+### Sizes
+
+Use the `size` prop to adjust the minimum height, padding, and text size.
+
+<ComponentPreview>
+  <TextareaSizesDemo />
+</ComponentPreview>
+
+```tsx
+<Textarea size="sm" placeholder="Small" />
+<Textarea size="default" placeholder="Default" />
+<Textarea size="lg" placeholder="Large" />
+```
+
+| `size`      | Min height | Text size |
+| ----------- | ---------- | --------- |
+| `"sm"`      | `min-h-16` | `text-xs` |
+| `"default"` | `min-h-20` | `text-sm` |
+| `"lg"`      | `min-h-28` | `text-base` |
+
+### With Button
+
+Place the textarea and its action in a grid. The `justify-self-end` keeps the
+shared `Button` aligned to the field edge.
+
+<ComponentPreview>
+  <TextareaWithButtonDemo />
+</ComponentPreview>
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaWithButton() {
+  return (
+    <div className="grid w-full max-w-sm gap-2">
+      <Textarea placeholder="Type your message here." />
+      <Button type="submit" className="justify-self-end">
+        Send message
+      </Button>
+    </div>
+  )
+}
+```
+
+## API Reference
+
+### Textarea
+
+`Textarea` accepts the standard HTML textarea props, along with the following
+component prop.
+
+| Prop        | Type                        | Default     | Description                         |
+| ----------- | --------------------------- | ----------- | ----------------------------------- |
+| `size`      | `"default" \| "sm" \| "lg"` | `"default"` | Sets the minimum height and text size |
+| `rows`      | `number`                    | —           | Native number of visible lines      |
+| `className` | `string`                    | —           | Adds or overrides field styles       |
+
+The textarea is vertically resizable by default (`resize-y`). Refs are
+forwarded and `className` merges last through `cn`.
+
+## Accessibility
+
+- Give every textarea a visible `<Label htmlFor>` or an `aria-label`.
+- Use `aria-invalid` with a text message; never rely on color alone.
+- The focus ring is always visible and has a themed offset.
+- Disabled fields use the native `disabled` prop and never take focus.

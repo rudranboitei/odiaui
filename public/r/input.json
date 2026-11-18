@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "input",
+  "title": "Input",
+  "description": "A pill-shaped text field with a soft focus ring and invalid and disabled states.",
+  "dependencies": [
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/ui/input.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\n/**\n * Field tokens. Defined on the element so the field renders the same in any\n * host theme, with dark values handled by the `dark:` variant — no global CSS\n * edits required.\n */\nconst FIELD_TOKENS = [\n  \"[--odia-surface:oklch(1_0_0)] dark:[--odia-surface:oklch(0.205_0_0)]\",\n  \"[--odia-ink:oklch(0.145_0_0)] dark:[--odia-ink:oklch(0.985_0_0)]\",\n  \"[--odia-muted:oklch(0.556_0_0)] dark:[--odia-muted:oklch(0.708_0_0)]\",\n  \"[--odia-border:oklch(0.88_0_0)] dark:[--odia-border:oklch(0.32_0_0)]\",\n  \"[--odia-ring:oklch(0.55_0_0)] dark:[--odia-ring:oklch(0.72_0_0)]\",\n  \"[--odia-invalid:oklch(0.577_0.245_27.325)] dark:[--odia-invalid:oklch(0.704_0.191_22.216)]\",\n]\n\nconst inputVariants = cva(\n  [\n    \"flex w-full min-w-0 rounded-full border border-(--odia-border) bg-(--odia-surface) px-4 py-2\",\n    \"tracking-[0.02em] text-(--odia-ink) transition-colors duration-200\",\n    \"placeholder:text-(--odia-muted)\",\n    \"file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-(--odia-ink)\",\n    \"focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--odia-ring)\",\n    \"aria-invalid:border-(--odia-invalid) aria-invalid:outline-(--odia-invalid)\",\n    \"disabled:cursor-not-allowed disabled:opacity-60\",\n  ],\n  {\n    variants: {\n      size: {\n        default: \"h-10 text-sm\",\n        sm: \"h-9 px-3 text-xs\",\n        lg: \"h-12 px-5 text-base\",\n      },\n    },\n    defaultVariants: {\n      size: \"default\",\n    },\n  }\n)\n\ntype InputProps = Omit<React.ComponentProps<\"input\">, \"size\"> &\n  VariantProps<typeof inputVariants>\n\nfunction Input({ className, type = \"text\", size, ...props }: InputProps) {\n  return (\n    <input\n      type={type}\n      data-slot=\"input\"\n      data-size={size ?? \"default\"}\n      className={cn(FIELD_TOKENS, inputVariants({ size }), className)}\n      {...props}\n    />\n  )\n}\n\nexport { Input, inputVariants }\nexport type { InputProps }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "odia-surface": "oklch(1 0 0)",
+      "odia-ink": "oklch(0.145 0 0)",
+      "odia-muted": "oklch(0.556 0 0)",
+      "odia-border": "oklch(0.88 0 0)",
+      "odia-ring": "oklch(0.55 0 0)",
+      "odia-invalid": "oklch(0.577 0.245 27.325)"
+    },
+    "dark": {
+      "odia-surface": "oklch(0.205 0 0)",
+      "odia-ink": "oklch(0.985 0 0)",
+      "odia-muted": "oklch(0.708 0 0)",
+      "odia-border": "oklch(0.32 0 0)",
+      "odia-ring": "oklch(0.72 0 0)",
+      "odia-invalid": "oklch(0.704 0.191 22.216)"
+    }
+  },
+  "type": "registry:ui"
+}

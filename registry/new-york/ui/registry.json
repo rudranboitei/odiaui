@@ -65,6 +65,92 @@
           "type": "registry:ui"
         }
       ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "A pill-shaped text field with a soft focus ring and invalid and disabled states.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "input.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "cssVars": {
+        "light": {
+          "odia-surface": "oklch(1 0 0)",
+          "odia-ink": "oklch(0.145 0 0)",
+          "odia-muted": "oklch(0.556 0 0)",
+          "odia-border": "oklch(0.88 0 0)",
+          "odia-ring": "oklch(0.55 0 0)",
+          "odia-invalid": "oklch(0.577 0.245 27.325)"
+        },
+        "dark": {
+          "odia-surface": "oklch(0.205 0 0)",
+          "odia-ink": "oklch(0.985 0 0)",
+          "odia-muted": "oklch(0.708 0 0)",
+          "odia-border": "oklch(0.32 0 0)",
+          "odia-ring": "oklch(0.72 0 0)",
+          "odia-invalid": "oklch(0.704 0.191 22.216)"
+        }
+      }
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "An accessible form label that pairs with Input and Textarea, including disabled-state styling.",
+      "files": [
+        {
+          "path": "label.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "cssVars": {
+        "light": {
+          "odia-ink": "oklch(0.145 0 0)"
+        },
+        "dark": {
+          "odia-ink": "oklch(0.985 0 0)"
+        }
+      }
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "A multi-line text field with a soft rectangular focus ring and invalid and disabled states.",
+      "dependencies": [
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "textarea.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "cssVars": {
+        "light": {
+          "odia-surface": "oklch(1 0 0)",
+          "odia-ink": "oklch(0.145 0 0)",
+          "odia-muted": "oklch(0.556 0 0)",
+          "odia-border": "oklch(0.88 0 0)",
+          "odia-ring": "oklch(0.55 0 0)",
+          "odia-invalid": "oklch(0.577 0.245 27.325)"
+        },
+        "dark": {
+          "odia-surface": "oklch(0.205 0 0)",
+          "odia-ink": "oklch(0.985 0 0)",
+          "odia-muted": "oklch(0.708 0 0)",
+          "odia-border": "oklch(0.32 0 0)",
+          "odia-ring": "oklch(0.72 0 0)",
+          "odia-invalid": "oklch(0.704 0.191 22.216)"
+        }
+      }
     }
   ]
 }

@@ -1,0 +1,159 @@
+---
+title: Label
+description: An accessible form label with a shared type scale and disabled-state styling.
+---
+
+import { ComponentPreview } from "@/components/component-preview"
+import {
+  LabelDemo,
+  LabelRequiredDemo,
+  LabelCheckboxDemo,
+  LabelDisabledDemo,
+} from "@/components/examples/label-demo"
+
+## Preview
+
+<ComponentPreview>
+  <LabelDemo />
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @odiaui/label
+```
+
+`Label` renders a native `<label>` and shares the `--odia-*` color tokens with
+[`Input`](/docs/components/input) and [`Textarea`](/docs/components/textarea).
+It has no extra dependencies beyond the shared `cn` utility.
+
+## Usage
+
+```tsx
+import { Label } from "@/components/ui/label"
+
+export function Example() {
+  return <Label htmlFor="email">Email</Label>
+}
+```
+
+## Examples
+
+### With Input
+
+Link the label to its field with `htmlFor` and the field’s `id`.
+
+<ComponentPreview>
+  <LabelDemo />
+</ComponentPreview>
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function LabelWithInput() {
+  return (
+    <div className="grid w-full max-w-sm gap-2">
+      <Label htmlFor="email">Email</Label>
+      <Input id="email" type="email" placeholder="m@example.com" />
+    </div>
+  )
+}
+```
+
+### Required
+
+Mark required fields clearly. Keep the marker outside the label text so it is
+not read as part of the field name.
+
+<ComponentPreview>
+  <LabelRequiredDemo />
+</ComponentPreview>
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function LabelRequired() {
+  return (
+    <div className="grid w-full max-w-sm gap-2">
+      <Label htmlFor="name">
+        Name <span className="text-destructive">*</span>
+      </Label>
+      <Input id="name" placeholder="Your name" />
+    </div>
+  )
+}
+```
+
+### With Checkbox
+
+`Label` also works with native controls such as checkboxes. The
+`peer-disabled:` variant dims the label only when the peer control is disabled.
+
+<ComponentPreview>
+  <LabelCheckboxDemo />
+</ComponentPreview>
+
+```tsx
+import { Label } from "@/components/ui/label"
+
+export function LabelWithCheckbox() {
+  return (
+    <div className="flex items-center gap-2">
+      <input
+        id="terms"
+        type="checkbox"
+        className="peer size-4 accent-primary"
+      />
+      <Label htmlFor="terms">Accept terms and conditions</Label>
+    </div>
+  )
+}
+```
+
+### Disabled
+
+Wrap the field in a `group` with `data-disabled="true"` to dim the label
+alongside a disabled control.
+
+<ComponentPreview>
+  <LabelDisabledDemo />
+</ComponentPreview>
+
+```tsx
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export function LabelDisabled() {
+  return (
+    <div className="group grid w-full max-w-sm gap-2" data-disabled="true">
+      <Label htmlFor="email-disabled">Disabled field</Label>
+      <Input id="email-disabled" disabled placeholder="Disabled" />
+    </div>
+  )
+}
+```
+
+## API Reference
+
+### Label
+
+`Label` extends all native `<label>` attributes.
+
+| Prop        | Type      | Default | Description                    |
+| ----------- | --------- | ------- | ------------------------------ |
+| `htmlFor`   | `string`  | —       | Associates the label with a control |
+| `className` | `string`  | —       | Adds or overrides label styles |
+
+`className` merges last through `cn`, and refs are forwarded.
+
+## Accessibility
+
+- Always associate a label with `htmlFor` matching the control’s `id`.
+- Use `peer-disabled:` or `group-data-[disabled=true]` so the label dims with
+  its control, instead of hiding the relationship.
+- Keep required markers outside the label text or add `aria-required` on the
+  field, so screen readers announce the requirement correctly.
+- `Label` uses the same visible focus and contrast tokens as the rest of the
+  form fields.
