@@ -1,10 +1,18 @@
 ---
 title: Badge
-description: A badge component with multiple variants.
+description: Pill badges with the six shadcn variants, three OdiaUI tones, sizes, icons and optional heritage motifs.
 ---
 
 import { ComponentPreview } from "@/components/component-preview"
-import { BadgeDemo } from "@/components/examples/badge-demo"
+import {
+  BadgeDemo,
+  BadgeOdiaDemo,
+  BadgeSizesDemo,
+  BadgeWithIconDemo,
+  BadgeSpinnerDemo,
+  BadgeMotifDemo,
+  BadgeLinkDemo,
+} from "@/components/examples/badge-demo"
 
 ## Preview
 
@@ -16,25 +24,197 @@ import { BadgeDemo } from "@/components/examples/badge-demo"
 
 <InstallCommand command="shadcn@latest add @odiaui/badge" />
 
+The item needs only `class-variance-authority`. Its colours come from
+self-contained `--odia-*` tokens, so it keeps the same look in any host theme.
+If you copy the source without the CLI, those tokens are also scoped on each
+badge, so copy-paste renders correctly — the CLI still injects them into your CSS.
+
 ## Usage
 
 ```tsx
 import { Badge } from "@/components/ui/badge"
 
 export function Example() {
-  return <Badge>Badge</Badge>
+  return <Badge>Default</Badge>
 }
 ```
 
+The badge is a `div`, so it works anywhere a small non-interactive label is
+needed. For a clickable badge, wrap it in a real `<button>` or `<a>`.
+
 ## Variants
+
+All six shadcn variants are supported, plus three OdiaUI tones.
 
 <ComponentPreview>
   <BadgeDemo />
 </ComponentPreview>
 
 ```tsx
-<Badge variant="default">Default</Badge>
+<Badge>Default</Badge>
 <Badge variant="secondary">Secondary</Badge>
 <Badge variant="destructive">Destructive</Badge>
 <Badge variant="outline">Outline</Badge>
+<Badge variant="ghost">Ghost</Badge>
+<Badge variant="link">Link</Badge>
 ```
+
+| Variant        | Look                                      |
+| -------------- | ----------------------------------------- |
+| `default`      | Solid ink pill with surface text          |
+| `secondary`    | Soft neutral fill with a border           |
+| `destructive`  | Deep red fill with a danger-red border    |
+| `outline`      | Transparent with a token border           |
+| `ghost`        | Text only, no fill or border              |
+| `link`         | Underlined text for inline metadata       |
+
+## OdiaUI Variants
+
+Sand, success and warning use their own token pairs. Their text/background
+contrast is at least 4.5:1 in both light and dark mode.
+
+<ComponentPreview>
+  <BadgeOdiaDemo />
+</ComponentPreview>
+
+```tsx
+<Badge variant="sand">Heritage</Badge>
+<Badge variant="success">Published</Badge>
+<Badge variant="warning">Review</Badge>
+```
+
+| Variant   | Token pair                                  |
+| --------- | ------------------------------------------- |
+| `sand`    | `--odia-sand` / `--odia-sand-foreground`    |
+| `success` | `--odia-success` / `--odia-success-foreground` |
+| `warning` | `--odia-warning` / `--odia-warning-foreground` |
+
+## Sizes
+
+Three sizes match the shared button scale. All are pill-shaped.
+
+<ComponentPreview>
+  <BadgeSizesDemo />
+</ComponentPreview>
+
+```tsx
+<Badge size="sm">Small</Badge>
+<Badge size="default">Default</Badge>
+<Badge size="lg">Large</Badge>
+```
+
+| `size`      | Height | Text  |
+| ----------- | ------ | ----- |
+| `"sm"`      | `1.25rem` | 11px |
+| `"default"` | `1.5rem`  | 12px |
+| `"lg"`      | `1.75rem` | 14px |
+
+## With Icon
+
+Put `data-icon="inline-start"` or `data-icon="inline-end"` on an icon so the
+badge sizes it consistently. Decorative icons stay `aria-hidden`.
+
+<ComponentPreview>
+  <BadgeWithIconDemo />
+</ComponentPreview>
+
+```tsx
+import { BadgeCheck, Bookmark } from "lucide-react"
+
+<Badge variant="success">
+  <BadgeCheck data-icon="inline-start" aria-hidden="true" />
+  Verified
+</Badge>
+
+<Badge variant="outline">
+  Saved
+  <Bookmark data-icon="inline-end" aria-hidden="true" />
+</Badge>
+```
+
+## With Spinner
+
+A spinner uses the same `data-icon` hook. It respects reduced motion.
+
+<ComponentPreview>
+  <BadgeSpinnerDemo />
+</ComponentPreview>
+
+```tsx
+import { Loader2 } from "lucide-react"
+
+<Badge variant="secondary">
+  <Loader2
+    data-icon="inline-start"
+    className="animate-spin motion-reduce:animate-none"
+    aria-hidden="true"
+  />
+  Generating
+</Badge>
+```
+
+## Heritage Motif
+
+The `motif` prop adds a faint, decorative Odisha artwork before the label. It
+is optional — a plain badge stays plain.
+
+<ComponentPreview>
+  <BadgeMotifDemo />
+</ComponentPreview>
+
+```tsx
+<Badge variant="sand" motif="chakra">Chakra</Badge>
+```
+
+| `motif`    | Artwork                    |
+| ---------- | -------------------------- |
+| `"deula"`  | Kalinga temple silhouette  |
+| `"chakra"` | Konark wheel               |
+| `"padma"`  | Lotus petals               |
+
+The same `BadgeIcon` component ships with the item and is reused as the Card's
+watermark artwork.
+
+## Link
+
+Wrap a link badge in an anchor so keyboard and screen-reader semantics stay
+native.
+
+<ComponentPreview>
+  <BadgeLinkDemo />
+</ComponentPreview>
+
+```tsx
+<a href="/docs">
+  <Badge variant="link">
+    Open link
+    <ArrowUpRight data-icon="inline-end" aria-hidden="true" />
+  </Badge>
+</a>
+```
+
+## API Reference
+
+### Badge
+
+| Prop        | Type                                                                     | Default     |
+| ----------- | ------------------------------------------------------------------------ | ----------- |
+| `variant`   | `"default" \| "secondary" \| "destructive" \| "outline" \| "ghost" \| "link" \| "sand" \| "success" \| "warning"` | `"default"` |
+| `size`      | `"sm" \| "default" \| "lg"`                                              | `"default"` |
+| `motif`     | `"deula" \| "chakra" \| "padma"`                                         | —           |
+| `className` | `string`                                                                 | —           |
+
+The badge forwards its ref and passes every other `div` prop through.
+`className` merges last through `cn`, so any style can be overridden.
+
+`badgeVariants` is exported for building matching labels elsewhere.
+
+## Accessibility
+
+- A badge is a non-interactive label. Use a real `<button>` or `<a>` around it
+  when it performs an action.
+- Motif artwork and decorative icons are `aria-hidden`; the text carries the
+  meaning. Never use colour or a motif as the only signal.
+- Spinner icons respect `motion-reduce`.
+- The badge shows a token focus ring when it or its wrapper receives keyboard
+  focus, so link badges remain visibly focusable.

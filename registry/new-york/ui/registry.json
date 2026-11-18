@@ -40,7 +40,7 @@
       "name": "badge",
       "type": "registry:ui",
       "title": "Badge",
-      "description": "A badge component with multiple variants.",
+      "description": "Pill badges with the six shadcn variants, three OdiaUI tones, sizes, icons and optional heritage motifs.",
       "dependencies": [
         "class-variance-authority"
       ],
@@ -49,7 +49,39 @@
           "path": "badge.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "cssVars": {
+        "light": {
+          "odia-surface": "oklch(1 0 0)",
+          "odia-ink": "oklch(0.145 0 0)",
+          "odia-muted": "oklch(0.556 0 0)",
+          "odia-border": "oklch(0.88 0 0)",
+          "odia-ring": "oklch(0.55 0 0)",
+          "odia-danger": "oklch(0.46 0.19 27)",
+          "odia-danger-foreground": "oklch(1 0 0)",
+          "odia-sand": "oklch(0.9 0.045 76)",
+          "odia-sand-foreground": "oklch(0.28 0.09 58)",
+          "odia-success": "oklch(0.94 0.05 155)",
+          "odia-success-foreground": "oklch(0.25 0.1 155)",
+          "odia-warning": "oklch(0.95 0.06 85)",
+          "odia-warning-foreground": "oklch(0.27 0.1 75)"
+        },
+        "dark": {
+          "odia-surface": "oklch(0.205 0 0)",
+          "odia-ink": "oklch(0.985 0 0)",
+          "odia-muted": "oklch(0.708 0 0)",
+          "odia-border": "oklch(0.32 0 0)",
+          "odia-ring": "oklch(0.72 0 0)",
+          "odia-danger": "oklch(0.48 0.17 27)",
+          "odia-danger-foreground": "oklch(1 0 0)",
+          "odia-sand": "oklch(0.27 0.03 60)",
+          "odia-sand-foreground": "oklch(0.93 0.08 82)",
+          "odia-success": "oklch(0.26 0.06 155)",
+          "odia-success-foreground": "oklch(0.92 0.08 155)",
+          "odia-warning": "oklch(0.27 0.06 75)",
+          "odia-warning-foreground": "oklch(0.93 0.08 85)"
+        }
+      }
     },
     {
       "name": "skeleton",

@@ -3,35 +3,93 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+/* -------------------------------------------------------------------------- */
+/*  OdiaUI Badge                                                              */
+/*  The six shadcn variants (default, secondary, destructive, outline, ghost,   */
+/*  link) plus three OdiaUI tones (sand, success, warning). Colours come from   */
+/*  --odia-* tokens only, so the badge keeps its look in any host theme.        */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Scoped token defaults. The CLI also injects these into the consumer's CSS;
+ * declaring them here means a copy-and-paste install still renders correctly.
+ */
+const BADGE_TOKENS = [
+  "[--odia-surface:oklch(1_0_0)] dark:[--odia-surface:oklch(0.205_0_0)]",
+  "[--odia-ink:oklch(0.145_0_0)] dark:[--odia-ink:oklch(0.985_0_0)]",
+  "[--odia-muted:oklch(0.556_0_0)] dark:[--odia-muted:oklch(0.708_0_0)]",
+  "[--odia-border:oklch(0.88_0_0)] dark:[--odia-border:oklch(0.32_0_0)]",
+  "[--odia-ring:oklch(0.55_0_0)] dark:[--odia-ring:oklch(0.72_0_0)]",
+  "[--odia-danger:oklch(0.46_0.19_27)] dark:[--odia-danger:oklch(0.48_0.17_27)]",
+  "[--odia-danger-foreground:oklch(1_0_0)] dark:[--odia-danger-foreground:oklch(1_0_0)]",
+  "[--odia-sand:oklch(0.9_0.045_76)] dark:[--odia-sand:oklch(0.27_0.03_60)]",
+  "[--odia-sand-foreground:oklch(0.28_0.09_58)] dark:[--odia-sand-foreground:oklch(0.93_0.08_82)]",
+  "[--odia-success:oklch(0.94_0.05_155)] dark:[--odia-success:oklch(0.26_0.06_155)]",
+  "[--odia-success-foreground:oklch(0.25_0.1_155)] dark:[--odia-success-foreground:oklch(0.92_0.08_155)]",
+  "[--odia-warning:oklch(0.95_0.06_85)] dark:[--odia-warning:oklch(0.27_0.06_75)]",
+  "[--odia-warning-foreground:oklch(0.27_0.1_75)] dark:[--odia-warning-foreground:oklch(0.93_0.08_85)]",
+]
+
 const badgeVariants = cva(
-  "inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+  [
+    "inline-flex shrink-0 items-center justify-center gap-1 rounded-full border",
+    "whitespace-nowrap font-medium tracking-[0.02em] select-none",
+    "transition-colors duration-150",
+    "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--odia-ring)",
+    "[&_[data-icon]]:size-3.5 [&_[data-icon]]:shrink-0",
+  ],
   {
     variants: {
       variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+        default: "border-transparent bg-(--odia-ink) text-(--odia-surface)",
         secondary:
-          "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "border-(--odia-border) bg-(--odia-ink)/[0.06] text-(--odia-ink)",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
-        outline: "text-foreground",
+          "border-transparent bg-(--odia-danger) text-(--odia-danger-foreground)",
+        outline: "border-(--odia-border) bg-transparent text-(--odia-ink)",
+        ghost: "border-transparent bg-transparent text-(--odia-muted)",
+        link: "border-transparent bg-transparent text-(--odia-ink) underline underline-offset-4",
+        sand: "border-(--odia-sand-foreground)/25 bg-(--odia-sand) text-(--odia-sand-foreground)",
+        success:
+          "border-(--odia-success-foreground)/25 bg-(--odia-success) text-(--odia-success-foreground)",
+        warning:
+          "border-(--odia-warning-foreground)/25 bg-(--odia-warning) text-(--odia-warning-foreground)",
+      },
+      size: {
+        sm: "h-5 px-2 text-[0.6875rem]",
+        default: "h-6 px-2.5 text-xs",
+        lg: "h-7 px-3 text-sm",
       },
     },
     defaultVariants: {
       variant: "default",
+      size: "default",
     },
   }
 )
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
-
-function Badge({ className, variant, ...props }: BadgeProps) {
-  return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
-  )
+    VariantProps<typeof badgeVariants> {
+  /** Optional, decorative Odisha motif rendered before the label. */
+  motif?: BadgeIconName
 }
+
+const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(
+  ({ className, variant, size, motif, children, ...props }, ref) => (
+    <div
+      ref={ref}
+      data-slot="badge"
+      data-variant={variant ?? "default"}
+      className={cn(BADGE_TOKENS, badgeVariants({ variant, size }), className)}
+      {...props}
+    >
+      {motif ? <BadgeIcon name={motif} className="size-3 opacity-70" /> : null}
+      {children}
+    </div>
+  )
+)
+Badge.displayName = "Badge"
 
 /* -------------------------------------------------------------------------- */
 /*  BadgeIcon                                                                 */
