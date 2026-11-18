@@ -5,358 +5,130 @@ description: Build, add, update, document, validate, and troubleshoot components
 
 # OdiaUI Registry Skill
 
-Use this skill whenever adding, modifying, reviewing, documenting, or debugging an OdiaUI registry item. Follow the repository's existing implementation rather than assuming a generic shadcn project layout.
+Build and maintain registry items in `rudranboitei/odiaui` (`https://odiaui.xyz`, namespace `@odiaui`). Follow the exact repository layout and `DESIGN.md` rules—never assume generic shadcn paths.
 
-## 1. Project identity and fixed decisions
+## 1. Hard Rules (Zero Exceptions)
 
-- Project: **OdiaUI**, an open-source React component library built on the shadcn registry model.
-- Philosophy: **Modern UI. Rooted in Odisha. Built for everyone.**
-- Distribution: hosted shadcn registry at `https://odiaui.xyz`.
-- Registry namespace: `@odiaui`.
-- Framework: Next.js App Router.
-- UI stack: React, TypeScript, Tailwind CSS v4, shadcn registry conventions, Radix primitives as configured by the project.
-- Documentation: Fumadocs with MDX.
-- Package manager: **Bun only**. Use the existing `bun.lock`; do not introduce npm, pnpm, or yarn lockfiles.
-- Registry style: `new-york`.
-- This is a single repository, not a monorepo.
+1. **Read `DESIGN.md` first** before creating or restyling any item. Obey all `--odia-*` token, contrast, motion, and API rules.
+2. **Package manager is Bun only.** Use `bun`, `bun run`, `bunx`. Never run `npm`, `pnpm`, or `yarn`, and never create non-Bun lockfiles.
+3. **Manifest `files[].path` is relative to the manifest's folder:**
+   - Inside `registry/new-york/ui/registry.json` → `"path": "button.tsx"` (NEVER `"registry/new-york/ui/button.tsx"`).
+   - Inside `registry/new-york/themes/registry.json` → `"path": "theme-odiaui.css"`.
+4. **Demo files live in `components/examples/`** (e.g., `components/examples/button-demo.tsx`), NOT inside `registry/`.
+5. **Never hand-edit `public/r/*.json`.** Always regenerate via `bun run registry:build`.
+6. **Styling & Token Rules (Tailwind CSS v4):**
+   - Use OdiaUI tokens with Tailwind v4 syntax: `bg-(--odia-surface)`, `text-(--odia-ink)`, `border-(--odia-border)`.
+   - Never use host shadcn tokens (`bg-card`, `border-input`, `ring-ring`, `text-muted-foreground`) for component colors (only `ring-offset-background` is permitted if documented).
+   - Every `--odia-*` token used in `.tsx` MUST appear in that item's `cssVars` (`light` and `dark`) without the `--` prefix (e.g., `"odia-surface": "oklch(...)"`). Every declared token MUST be used.
+7. **Consumer-safe imports only:** Shipped files in `registry/` may only import `@/lib/utils`, npm packages listed in `dependencies`, or other registry items listed in `registryDependencies`. Never import from `@/components/examples/` or website-only files.
 
-Do not change these architectural decisions unless the user explicitly asks.
-
-## 2. Inspect before editing
-
-Before making changes:
-
-1. Read `DESIGN.md` (especially §2b, the `--odia-*` token rules) and the closest existing component before touching styles or APIs.
-2. Read `package.json`, `components.json`, `.scn-stack.json`, and the root `registry.json`.
-3. Read `registry/new-york/ui/registry.json` and, when relevant, `registry/new-york/themes/registry.json`.
-4. Inspect the closest existing component in `registry/new-york/ui/` and its matching page in `content/docs/components/`.
-5. Inspect the related example/demo under the existing examples/components structure before creating a new preview.
-6. Check the current Git diff and avoid overwriting unrelated user changes.
-
-Do not assume paths, scripts, aliases, dependencies, or Fumadocs conventions. Confirm them in the repository first.
-
-## 3. Repository map
-
-The current repository uses this structure:
+## 2. Exact Repository Map
 
 ```text
 odiaui/
-├── .agents/skills/registry/SKILL.md  # This skill
-├── DESIGN.md                          # Canonical design system & UI rules
-├── app/                              # Next.js App Router
-├── components/                       # Website and documentation UI
-├── content/docs/                     # Fumadocs MDX pages
-│   ├── meta.json                     # Main docs navigation
+├── .agents/skills/registry/SKILL.md   # This skill
+├── DESIGN.md                           # Source of truth for tokens, contrast, API & checklist
+├── app/                                # Next.js App Router
+├── components/
+│   ├── examples/                       # Live demos imported by MDX (<name>-demo.tsx)
+│   └── ...                             # Website & docs UI wrappers (e.g., ComponentPreview)
+├── content/docs/
+│   ├── meta.json                       # Main docs navigation
 │   └── components/
-│       ├── meta.json                 # Component docs navigation
-│       └── <name>.mdx                # Component documentation
-├── lib/                              # Shared project utilities
-├── public/r/                         # Generated registry JSON; never edit by hand
+│       ├── meta.json                   # Component sidebar navigation (slugs without .mdx)
+│       └── <name>.mdx                  # Fumadocs component documentation
+├── lib/                                # Shared utilities (cn)
+├── public/r/                           # Auto-generated registry JSON output
 ├── registry/
 │   └── new-york/
 │       ├── ui/
-│       │   ├── registry.json         # UI registry items
-│       │   └── *.tsx                 # Installable component source
+│       │   ├── registry.json           # UI items manifest (paths relative to this folder)
+│       │   └── <name>.tsx              # Installable component source
 │       └── themes/
-│           ├── registry.json         # Theme registry items
-│           └── *.css                 # Installable theme files
-├── components.json                   # shadcn aliases and @odiaui namespace
-├── registry.json                     # Root registry; includes sub-registries
-├── package.json
-└── bun.lock
+│           ├── registry.json           # Theme items manifest
+│           └── <name>.css              # Installable theme CSS
+├── components.json                     # shadcn config & @odiaui namespace
+├── registry.json                       # Root manifest including sub-registries
+└── package.json
 ```
 
-Important registry details:
+## 3. Mandatory Pre-Edit Inspection
 
-- The root `registry.json` is the registry entry point. It currently includes the UI and theme registry manifests.
-- `registry/new-york/ui/registry.json` is the manifest for UI items. Its `files[].path` values are relative to `registry/new-york/ui/` (for example, `button.tsx`).
-- `registry/new-york/themes/registry.json` is the manifest for theme items. Its file paths are relative to `registry/new-york/themes/`.
-- `public/r/` contains generated output. Never hand-edit generated JSON there.
-- Keep the root `registry.json` include list in sync if a genuinely new sub-registry is introduced. Do not create a new registry directory or alter the include list for an ordinary component.
+Before writing code, read:
+1. `DESIGN.md` (especially token definitions and the pre-ship checklist).
+2. Closest existing component in `registry/new-york/ui/*.tsx` + its entry in `registry/new-york/ui/registry.json`.
+3. Closest existing demo in `components/examples/*-demo.tsx` + its doc in `content/docs/components/*.mdx`.
+4. `package.json` to confirm exact script names.
 
-## 4. OdiaUI design principles
+## 4. Workflow: Adding or Updating a UI Item
 
-Every new item must fit the product, not just compile.
+Execute these steps in order:
 
-**Canonical spec:** [`DESIGN.md`](../../../DESIGN.md) at the repository root is the
-source of truth for color, contrast, dark mode, motion, accessibility, component API,
-and the pre-ship checklist. Read it before creating or restyling any item, and verify
-the checklist before declaring work complete.
+1. **Create Component (`registry/new-york/ui/<name>.tsx`)**
+   - Kebab-case filename.
+   - Extend native HTML element props; merge `className` via `cn` from `@/lib/utils`.
+   - Keep Odisha motifs refined, optional/configurable via props when appropriate, and functional in both light and dark modes.
+   - Match existing ref-forwarding and export conventions.
 
-### Visual direction
+2. **Register Item (`registry/new-york/ui/registry.json`)**
+   - Add entry with `"path": "<name>.tsx"` (relative path only).
+   - List runtime npm imports in `"dependencies"` and OdiaUI/shadcn items in `"registryDependencies"` (e.g., `["utils"]` or `["button"]`).
+   - Declare exact `"cssVars"` (`light` and `dark`) for every `--odia-*` variable used.
 
-- Modern, minimal, polished, reusable UI.
-- Odisha heritage can inform details through restrained motifs, geometry, linework, or ornamentation.
-- Cultural details must feel intentional and contemporary, not like tourism-site decoration.
-- Do not add robots, generic AI visuals, random gradients, excessive glow, or decorative noise.
-- Do not force an Odisha motif into a component where it harms clarity or usability.
-- Heritage treatment should be optional/configurable when appropriate (for example, a documented `watermark` or decoration control), not hard-coded into generic behavior.
-- Do not add a separate component just to duplicate an existing base component. OdiaUI has one shared/base `Button`; build on it instead of creating another competing button API.
+3. **Create Demo (`components/examples/<name>-demo.tsx`)**
+   - Import the real registry component from `@/registry/new-york/ui/<name>`.
+   - Showcase key variants, states, and Odisha heritage options cleanly.
 
-### Styling and host-project independence
+4. **Create Docs (`content/docs/components/<name>.mdx`) & Update Nav (`content/docs/components/meta.json`)**
+   - Match frontmatter and `<ComponentPreview>` / `<Tabs>` structure of neighboring `.mdx` files.
+   - Document installation (`bunx shadcn@latest add @odiaui/<name>`), usage, variants, props table, and accessibility notes.
+   - Add `"<name>"` (no `.mdx` extension) to `content/docs/components/meta.json`.
 
-- A component installed into another app must retain its documented appearance and behavior in different host themes.
-- Colors come from OdiaUI's own `--odia-*` tokens, as defined in `DESIGN.md` §2b. Use them through Tailwind v4 variable syntax, for example `bg-(--odia-surface)` and `border-(--odia-border)`.
-- Every token a component uses must be declared in that registry item's `cssVars` with a `light` and a `dark` value. The shadcn CLI merges them into the consumer's CSS on install. Write keys without the `--` prefix in the manifest (`odia-surface`) and keep the `odia-` prefix so a host's own tokens can never override them.
-- Do not use the host's shadcn tokens (`border-input`, `ring-ring`, `bg-card`, `text-muted-foreground`...) for a component's own colors. The only allowed exception is `ring-offset-background`; document it.
-- Reuse an existing `--odia-*` token when its role matches before adding a new one. Do not mix `--odia-*` tokens with another color system inside one component.
-- Do not modify the consumer's global stylesheet, shadcn base components, or unrelated shared styles to make one registry item work. Adding variables through the item's own `cssVars` is the one allowed way to add CSS.
-- Keep styles scoped to the component and its supporting files.
-- Test in both light and dark mode and against a host app with a different theme.
+5. **Build & Validate**
+   ```bash
+   bun run registry:build
+   bunx tsc --noEmit
+   ```
+   - Inspect `public/r/<name>.json` to verify `files`, `dependencies`, `registryDependencies`, and `cssVars` are accurate.
+   - Run any lint/format/build scripts defined in `package.json`.
 
-### API and quality
+## 5. Registry Item Types & Dependencies
 
-- Use clear, predictable prop names and sensible defaults.
-- Support `className` where it makes sense and merge classes with the repository's existing `cn` utility.
-- Preserve native HTML attributes and event handlers by extending the correct React element attribute type.
-- Use correct semantic elements, accessible labels, keyboard behavior, visible focus states, and disabled states.
-- Support responsive layouts and avoid fixed dimensions unless the design requires them.
-- Avoid unnecessary dependencies, abstractions, effects, client components, and duplicated state.
-- Keep TypeScript strict and avoid `any` unless there is a documented reason.
-- Follow the existing component's export and ref-forwarding pattern. Do not mechanically add `forwardRef` to every component; use it when refs are part of the component API or the established pattern requires it.
+| Type | Use For |
+| :--- | :--- |
+| `registry:ui` | Base primitives (`button`, `card`, `badge`, `slider`, `switch`) |
+| `registry:component` | Composite or domain-specific React components |
+| `registry:block` | Multi-file composed sections/patterns (list every file in `files[]`) |
+| `registry:hook` | Reusable React hooks |
+| `registry:lib` | Helper/utility modules |
+| `registry:theme` | Theme CSS files (`registry/new-york/themes/`) |
 
-## 5. Adding a UI component
+- **`dependencies`**: Only npm packages imported by shipped registry files.
+- **`registryDependencies`**: Only registry item names (e.g., `"button"`, `"utils"`), never npm packages.
 
-For a normal reusable component:
+## 6. Consumer Installation Verification
 
-1. Choose a kebab-case registry item name, such as `segmented-control`.
-2. Create its source under `registry/new-york/ui/`.
-3. Add its metadata to `registry/new-york/ui/registry.json`.
-4. Add an MDX page at `content/docs/components/<name>.mdx`.
-5. Add the page name to `content/docs/components/meta.json`.
-6. Add or update a live example using the repository's existing preview pattern.
-7. Build the registry and run available checks.
-8. Test the generated item in a separate consumer app.
-
-Do not put a component only in `components/` and assume it is installable. The installable source belongs in `registry/new-york/ui/` and must be included in the registry manifest.
-
-### Registry item example
-
-The UI manifest currently stores paths relative to `registry/new-york/ui/`:
-
-```json
-{
-  "name": "segmented-control",
-  "type": "registry:ui",
-  "title": "Segmented Control",
-  "description": "A compact control for selecting one option from a set.",
-  "files": [
-    {
-      "path": "segmented-control.tsx",
-      "type": "registry:ui"
-    }
-  ]
-}
-```
-
-A component that uses color tokens also declares them (see `DESIGN.md` §2b):
-
-```json
-{
-  "cssVars": {
-    "light": { "odia-surface": "oklch(0.97 0.015 76)" },
-    "dark": { "odia-surface": "oklch(0.22 0.02 60)" }
-  }
-}
-```
-
-Only add dependency fields when the source actually needs them:
-
-```json
-{
-  "dependencies": ["lucide-react"],
-  "registryDependencies": ["button"]
-}
-```
-
-Keep JSON valid. Preserve existing entries and ordering conventions. Do not replace the whole manifest just to add one item.
-
-## 6. Registry types and dependency rules
-
-Use the narrowest correct item type:
-
-- `registry:ui` — reusable UI primitives such as Button, Card, Badge, Input.
-- `registry:component` — a custom React component that is not a primitive/UI primitive.
-- `registry:block` — a larger composed pattern or ready-to-use section, often containing multiple files.
-- `registry:hook` — reusable React hook.
-- `registry:lib` — reusable utility/helper file.
-- `registry:theme` — theme CSS and related theme metadata.
-- `registry:file` — supporting file that does not fit another type.
-- `registry:page` — page/route-oriented item when genuinely appropriate.
-
-Dependency rules:
-
-- `dependencies`: npm packages the installing project needs at runtime (for example, `lucide-react`, `motion`, or `sonner`). Add only packages imported by the shipped files.
-- `devDependencies`: packages needed only to develop/build the registry item, not by the installed component. Do not put ordinary runtime imports here.
-- `registryDependencies`: other registry items required by this item. For an item in this same OdiaUI registry, use its actual item name (for example, `button`), not a guessed path or package name.
-- For a component from another registry, use the exact supported namespace item or URL format and verify it before adding it.
-- `cssVars`: the `--odia-*` tokens the shipped files use, each with `light` and `dark` values. List every token used in the source and none that are unused.
-- Do not list a dependency merely because it exists in the repository. Trace actual imports and usage.
-- Do not duplicate a primitive that already exists in OdiaUI. Reuse the existing item where appropriate.
-- If a dependency is already supplied by the target project's normal shadcn setup, still declare it only when the registry schema and installation contract require it. Verify behavior with a real install rather than guessing.
-
-A multi-file block should list every required source file in `files[]`. Give each file the correct registry type (`registry:component`, `registry:hook`, `registry:lib`, etc.). Missing a helper file is a common cause of broken installs.
-
-## 7. Adding hooks
-
-- Place hook source in the location used by the existing registry conventions; inspect the current registry structure before choosing a path.
-- Register it as `registry:hook` in the appropriate included manifest.
-- Keep hooks focused and framework-appropriate.
-- Document required inputs, returned values, side effects, and a usage example.
-- Include every helper file the hook imports.
-- Avoid adding a hook when a small local function or existing React primitive is sufficient.
-
-## 8. Adding blocks
-
-A block is a composed pattern, not simply a large primitive.
-
-Before implementation:
-
-1. Identify the intended use case and the consumer-facing result.
-2. Break the block into its source components, hooks, and helper files.
-3. Reuse OdiaUI primitives (especially the shared Button) instead of copying their implementation.
-4. Decide which dependencies are npm packages and which are registry items.
-5. Define a clear, documented public API and sensible defaults.
-
-For the registry item:
-
-- Use `registry:block` for the top-level item.
-- List every shipped file in `files[]` with its correct file type.
-- List every required npm package in `dependencies`.
-- List required registry items in `registryDependencies`.
-- Avoid relying on files that exist only in the OdiaUI website repository unless those files are included in the installable item or are guaranteed by the consumer's standard shadcn setup.
-
-Document installation, imports, props, composition, and at least one complete working example. Test the block in a clean consumer project, not only on the OdiaUI documentation site.
-
-## 9. Fumadocs documentation
-
-For each public component or block, create or update:
-
-`content/docs/components/<name>.mdx`
-
-Follow the frontmatter and MDX component conventions of nearby pages. The current component docs use frontmatter similar to:
-
-```mdx
----
-title: Segmented Control
-description: A compact control for selecting one option from a set.
----
-```
-
-A useful page should include, as relevant:
-
-- Preview using the repository's existing `ComponentPreview` pattern.
-- Installation command: `bunx shadcn@latest add @odiaui/<name>`.
-- Import path matching the installed file and configured aliases.
-- Basic usage example that compiles.
-- Variants, sizes, states, and composition examples.
-- Important props and defaults.
-- Accessibility and keyboard notes for interactive components.
-- Any required dependencies or limitations.
-
-Update `content/docs/components/meta.json` by adding the page slug to its `pages` array. Preserve existing pages. Do not add `.mdx` to the slug unless neighboring metadata does so.
-
-If the page uses a live demo, create/update the demo following existing examples and preview components. Ensure imports resolve and the preview demonstrates the actual registry component rather than a separate mock implementation.
-
-## 10. Examples and source parity
-
-- The installable source in `registry/new-york/ui/` is the source of truth for what users receive.
-- A documentation demo must import/use the same component behavior and API that the registry ships.
-- Do not implement a visually different copy solely for the docs preview.
-- Keep demo-only code out of the registry item unless consumers need it.
-- When updating a component API, update its docs, examples, and any internal site usage in the same change.
-
-## 11. Build and validation workflow
-
-Use Bun and the scripts that actually exist in `package.json`.
-
-Typical workflow:
+Never claim an item works for end users until verified in a clean consumer Next.js + shadcn project:
 
 ```bash
-bun install
-bun run registry:build
+# Terminal 1 (in odiaui/)
 bun run dev
-```
 
-The current `registry:build` script runs `shadcn build` and generates registry JSON under `public/r/`.
-
-Before finishing:
-
-1. Walk through the pre-ship checklist in `DESIGN.md` §9 and verify every box.
-2. Run `bun run registry:build` after changing registry source or manifests.
-3. Confirm the expected generated file exists under `public/r/` and contains the correct item name, files, dependencies, registry dependencies, and `cssVars`.
-4. Run the repository's available lint/check scripts. Inspect `package.json` first; do not invent script names.
-5. Run `bunx tsc --noEmit` when TypeScript validation is relevant and the repository's tsconfig supports it.
-6. Run the Next.js production build when practical: `bun run build`.
-7. Inspect `git diff` and ensure no generated, unrelated, or user-owned files were accidentally changed.
-
-Do not hand-edit `public/r/*.json`; fix the source manifests/files and rebuild.
-
-## 12. Consumer installation test
-
-A successful website build does not prove a registry item installs correctly.
-
-Test each new or materially changed item in a separate clean shadcn consumer project:
-
-```bash
+# Terminal 2 (in clean consumer app)
 bunx shadcn@latest add http://localhost:3000/r/<name>.json
 ```
 
-Start the OdiaUI dev server first if using the local URL. If local static output is not served by the dev server, use the built/deployed registry URL only after verifying it is current.
+Verify in the consumer app:
+- Component installs into `components/ui/<name>.tsx` with zero broken imports.
+- All `--odia-*` variables inject cleanly into the consumer's CSS with light and dark values.
+- `bunx tsc --noEmit` passes and light/dark modes render properly without modifying global CSS.
 
-Also test the namespace flow when relevant:
+## 7. Pre-Completion Audit
 
-```bash
-bunx shadcn@latest registry add '@odiaui=https://odiaui.xyz/r/{name}.json'
-bunx shadcn@latest add @odiaui/<name>
-```
-
-In the consumer project, verify:
-
-- All files are installed at the expected paths.
-- Imports resolve without manual patching.
-- Required npm and registry dependencies are installed.
-- No missing aliases, CSS, fonts, assets, or helper files.
-- Every `--odia-*` variable the component uses now exists in the consumer's CSS, with both light and dark values.
-- TypeScript passes.
-- Interactive behavior works with mouse and keyboard.
-- Appearance remains correct in light mode, dark mode, and a different host theme.
-- The component does not require edits to the consumer's global CSS or existing shadcn primitives.
-
-Never claim an item is installation-tested unless this test was actually performed.
-
-## 13. Common failure prevention
-
-Before declaring the task complete, check for these mistakes:
-
-- Wrong source path in `files[]`.
-- Wrong relative-path convention for the manifest being edited.
-- Item added to the wrong registry manifest or omitted from the root include chain.
-- Invalid JSON, duplicate item names, or mismatched item/file types.
-- npm package placed in `registryDependencies` or registry item placed in `dependencies`.
-- Missing supporting files in a multi-file item.
-- A `--odia-*` token used in the source but missing from the item's `cssVars`, or declared without both `light` and `dark` values.
-- A token name in `cssVars` without the `odia-` prefix, or written with a leading `--`.
-- Host shadcn tokens (`border-input`, `ring-ring`, `bg-card`...) used for a component's own colors.
-- Token colors that were not measured against the contrast rules in `DESIGN.md` §2.
-- Imports that point to website-only code or aliases unavailable in the consumer.
-- Documentation import path that differs from the actual installed file path.
-- MDX page missing from `content/docs/components/meta.json`.
-- Preview using a mock or outdated component API.
-- Accidental changes to global CSS, shadcn primitives, unrelated components, or generated JSON.
-- Using `pnpm`, `npm install`, or `yarn` in this Bun project.
-- Claiming a build or consumer install passed without running it.
-
-## 14. Working style for AI agents
-
-When the user asks to add or modify an item:
-
-1. Inspect the existing code and identify the closest pattern.
-2. Determine the item type and all files needed before editing.
-3. Implement the component, registry metadata, docs, navigation, and demo together when applicable.
-4. Preserve existing APIs and avoid unrelated refactors.
-5. Build and validate using the actual project scripts.
-6. Test installation in a separate consumer app when the task requires a production-ready registry item.
-7. Report exactly what changed, commands run, and any checks that were not run.
-
-If an important design or behavior requirement is missing, ask one focused clarification instead of inventing a public API. Otherwise make a reasonable implementation consistent with nearby components and this skill.
+Before finishing any task, verify:
+- [ ] `DESIGN.md` checklist passed.
+- [ ] `files[].path` in `registry/new-york/ui/registry.json` has no folder prefix (`<name>.tsx`).
+- [ ] Every `--odia-*` token in `.tsx` matches `cssVars` 1:1 (and uses Tailwind v4 `bg-(--odia-*)` syntax).
+- [ ] Demo exists at `components/examples/<name>-demo.tsx` and imports `@/registry/new-york/ui/<name>`.
+- [ ] Slug added to `content/docs/components/meta.json`.
+- [ ] `bun run registry:build` succeeded and `public/r/<name>.json` was inspected.
