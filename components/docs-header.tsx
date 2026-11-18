@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { ChevronDown, Github, Languages, SidebarIcon } from "lucide-react";
+import { SidebarCollapseTrigger } from "fumadocs-ui/components/sidebar/base";
 import { useDocsLayout } from "fumadocs-ui/layouts/docs";
 import {
   LanguageSelect,
@@ -47,6 +48,25 @@ export function DocsHeader({ className, ...props }: React.ComponentProps<"header
       <div className="flex-1" />
 
       <div className="hidden items-center gap-1 md:flex">
+        {/* The mobile `SidebarTrigger` only opens the drawer. On desktop the
+            sidebar is collapsed instead, using Fumadocs' own collapse control. */}
+        <SidebarCollapseTrigger
+          className={iconButton}
+          aria-label="Toggle sidebar"
+          title="Toggle sidebar"
+        >
+          <SidebarIcon aria-hidden className="size-4" />
+        </SidebarCollapseTrigger>
+
+        {SearchTrigger ? (
+          <SearchTrigger className={iconButton} hideIfDisabled />
+        ) : null}
+
+        <span
+          aria-hidden="true"
+          className="mx-1 h-4 w-px shrink-0 bg-fd-border"
+        />
+
         <LanguageSelect
           variant="ghost"
           className="h-8 gap-1.5 rounded-full px-2 text-fd-muted-foreground hover:text-fd-foreground"
@@ -71,7 +91,11 @@ export function DocsHeader({ className, ...props }: React.ComponentProps<"header
       </div>
 
       {SearchTrigger ? (
-        <SearchTrigger className={cn(iconButton, "md:hidden")} hideIfDisabled />
+        <SearchTrigger
+          className={cn(iconButton, "md:hidden")}
+          hideIfDisabled
+          aria-label="Open search"
+        />
       ) : null}
 
       {SidebarTrigger ? (

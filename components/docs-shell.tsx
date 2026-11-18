@@ -8,6 +8,7 @@ import { I18nProvider } from "fumadocs-ui/contexts/i18n";
 
 import { DocsHeader } from "@/components/docs-header";
 import { defaultLocale, docsPrefix, locales, odiaLabels } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
 
 function BrandLogo() {
   return (
@@ -89,7 +90,13 @@ export function DocsShell({
           // GitHub, the language switcher, and the theme toggle are in the
           // header (desktop) and the drawer header (mobile), not the sidebar
           // footer. The footer is the last direct child of the sidebar.
-          className: "[&>div:last-child]:hidden",
+          className: cn(
+            "[&>div:last-child]:hidden",
+            // The header owns these controls on desktop. Keep the drawer's
+            // copies on mobile, where the header only shows logo/search/menu.
+            "md:[&_[data-search-full]]:hidden",
+            "md:[&>div:first-child>div:first-child>button]:hidden"
+          ),
           // banner: (
           //   <Link
           //     href={`${prefix}/mcp`}
