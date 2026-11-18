@@ -155,8 +155,8 @@ toast("Bottom center toast", { position: "bottom-center" })
 
 ## Dismissible
 
-Use `closeButton: true` with a long or infinite duration for messages the user
-should dismiss themselves.
+Every toast has a close button by default, so users can dismiss it at any time.
+Use a long or infinite duration for messages that should stay until dismissed.
 
 <ComponentPreview>
   <ToastDismissibleDemo />
@@ -165,10 +165,12 @@ should dismiss themselves.
 ```tsx
 toast("Profile updated", {
   description: "Your changes are saved.",
-  closeButton: true,
   duration: Infinity,
 })
 ```
+
+To hide it globally, pass `toastOptions={{ closeButton: false }}` to
+`<Toaster />`. To hide it for one toast, pass `closeButton: false` to `toast()`.
 
 ## API Reference
 
@@ -181,7 +183,8 @@ All native Sonner `ToasterProps` pass through. Common options:
 | `position`     | `"top-left" \| "top-right" \| "bottom-left" \| "bottom-right" \| "top-center" \| "bottom-center"` | `"bottom-right"` |
 | `theme`        | `"light" \| "dark" \| "system"`                        | `"system"`     |
 | `duration`     | `number`                                               | Sonner default |
-| `closeButton`  | `boolean`                                              | `false`        |
+| `closeButton`  | `boolean`                                              | Sonner default |
+| `toastOptions.closeButton` | `boolean`                                  | `true`         |
 | `expand`       | `boolean`                                              | `false`        |
 | `visibleToasts`| `number`                                               | `3`            |
 | `toastOptions` | `ToastOptions`                                         | —              |

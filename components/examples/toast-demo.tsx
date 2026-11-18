@@ -148,7 +148,7 @@ export function ToastPositionDemo() {
 
 /* -------------------------------- Dismissible ------------------------------- */
 
-/** Add a close button for toasts that stay on screen until dismissed. */
+/** Every toast has a close button; this one stays until it is dismissed. */
 export function ToastDismissibleDemo() {
   return (
     <Button
@@ -156,7 +156,6 @@ export function ToastDismissibleDemo() {
       onClick={() =>
         toast("Profile updated", {
           description: "Your changes are saved.",
-          closeButton: true,
           duration: Infinity,
         })
       }

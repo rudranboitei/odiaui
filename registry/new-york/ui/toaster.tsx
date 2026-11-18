@@ -59,7 +59,7 @@ const TOAST_STYLE = {
   "--error-bg": "var(--odia-surface)",
   "--error-text": "var(--odia-ink)",
   "--error-border": "var(--odia-invalid)",
-  "--border-radius": "1rem",
+  "--border-radius": "9999px",
 } as React.CSSProperties
 
 /**
@@ -67,7 +67,7 @@ const TOAST_STYLE = {
  * secondary to the icon + message, which carry the meaning.
  */
 const toastVariants = cva(
-  "!rounded-2xl !border !bg-(--odia-surface) !p-4 !text-(--odia-ink)",
+  "!rounded-full !border !bg-(--odia-surface) !p-4 !text-(--odia-ink)",
   {
     variants: {
       variant: {
@@ -124,6 +124,9 @@ function Toaster({
       style={{ ...TOAST_STYLE, ...style } as React.CSSProperties}
       icons={{ ...TOAST_ICONS, ...icons }}
       toastOptions={{
+        // Every toast gets a dismiss button, like shadcn's Sonner examples.
+        // Pass `toastOptions={{ closeButton: false }}` to opt out.
+        closeButton: true,
         ...toastOptions,
         classNames: {
           toast: cn("!font-normal !tracking-normal", custom?.toast),
