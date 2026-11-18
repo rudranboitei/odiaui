@@ -17,9 +17,9 @@ export function ComponentPreview({ children, className }: ComponentPreviewProps)
         className
       )}
     >
-      <span className="pointer-events-none absolute top-3 right-3 rounded-md border border-neutral-200 bg-white/80 px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-neutral-500 uppercase backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/80 dark:text-neutral-400">
+      {/* <span className="pointer-events-none absolute top-3 right-3 rounded-full  px-1.5 py-0.5 text-[10px] font-medium tracking-wider text-neutral-500 uppercase backdrop-blur  dark:text-neutral-400">
         Preview
-      </span>
+      </span> */}
       <div className="flex w-full flex-wrap items-center justify-center gap-4">
         {children}
       </div>
