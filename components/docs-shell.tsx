@@ -90,22 +90,22 @@ export function DocsShell({
           // header (desktop) and the drawer header (mobile), not the sidebar
           // footer. The footer is the last direct child of the sidebar.
           className: "[&>div:last-child]:hidden",
-          banner: (
-            <Link
-              href={`${prefix}/mcp`}
-              className="flex flex-col gap-1 rounded-lg border bg-fd-card p-3 text-sm transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
-            >
-              <span className="flex items-center gap-1.5 font-medium">
-                <Sparkles className="size-3.5 text-fd-primary" />
-                {isOdia ? odiaLabels["AI-ready docs"] : "AI-ready docs"}
-              </span>
-              <span className="text-xs text-fd-muted-foreground">
-                {isOdia
-                  ? odiaLabels["Search and read these docs from your editor with MCP."]
-                  : "Search and read these docs from your editor with MCP."}
-              </span>
-            </Link>
-          ),
+          // banner: (
+          //   <Link
+          //     href={`${prefix}/mcp`}
+          //     className="flex flex-col gap-1 rounded-lg border bg-fd-card p-3 text-sm transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+          //   >
+          //     <span className="flex items-center gap-1.5 font-medium">
+          //       <Sparkles className="size-3.5 text-fd-primary" />
+          //       {isOdia ? odiaLabels["AI-ready docs"] : "AI-ready docs"}
+          //     </span>
+          //     <span className="text-xs text-fd-muted-foreground">
+          //       {isOdia
+          //         ? odiaLabels["Search and read these docs from your editor with MCP."]
+          //         : "Search and read these docs from your editor with MCP."}
+          //     </span>
+          //   </Link>
+          // ),
         }}
       >
         {children}
