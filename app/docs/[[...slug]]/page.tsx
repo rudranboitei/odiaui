@@ -1,6 +1,7 @@
 import { findNeighbour } from "fumadocs-core/page-tree";
 import { source } from "@/lib/source";
 import { getMDXComponents } from "@/components/mdx";
+import { OpenInV0 } from "@/components/open-in-v0";
 import {
   DocsPage,
   DocsBody,
@@ -29,6 +30,10 @@ export default async function Page(props: {
   const githubUrl = `https://github.com/${githubRepo}/blob/main/content/docs/${encodeURI(
     page.path
   )}`;
+  const componentName =
+    page.slugs[0] === "components" && page.slugs.length === 2
+      ? page.slugs[1]
+      : undefined;
 
   return (
     <DocsPage
@@ -39,7 +44,8 @@ export default async function Page(props: {
     >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <DocsTitle>{page.data.title}</DocsTitle>
-        <div className="flex items-center gap-2 pt-1">
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          {componentName ? <OpenInV0 name={componentName} /> : null}
           <MarkdownCopyButton markdownUrl={markdownUrl} />
           <ViewOptionsPopover
             markdownUrl={markdownUrl}

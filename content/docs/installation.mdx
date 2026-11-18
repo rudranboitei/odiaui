@@ -6,30 +6,9 @@ description: How to install odiaui components in your project.
 ## Prerequisites
 
 You need a project with [shadcn/ui](https://ui.shadcn.com) already configured.
-If you haven't set up shadcn yet:
+If you haven't set up shadcn yet, run the init command:
 
-<Tabs items={["bun", "npm", "pnpm", "yarn"]}>
-<Tab value="bun">
-```bash
-bunx shadcn@latest init
-```
-</Tab>
-<Tab value="npm">
-```bash
-npx shadcn@latest init
-```
-</Tab>
-<Tab value="pnpm">
-```bash
-pnpm dlx shadcn@latest init
-```
-</Tab>
-<Tab value="yarn">
-```bash
-yarn dlx shadcn@latest init
-```
-</Tab>
-</Tabs>
+<InstallCommand command="shadcn@latest init" />
 
 ## Add the registry
 
@@ -41,37 +20,14 @@ yarn dlx shadcn@latest init
 Add `@odiaui` to your `components.json` once. This is the recommended way to
 install components.
 
-<Tabs items={["bun", "npm", "pnpm", "yarn"]}>
-<Tab value="bun">
-```bash
-bunx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
-```
-</Tab>
-<Tab value="npm">
-```bash
-npx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
-```
-</Tab>
-<Tab value="pnpm">
-```bash
-pnpm dlx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
-```
-</Tab>
-<Tab value="yarn">
-```bash
-yarn dlx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
-```
-</Tab>
-</Tabs>
+<InstallCommand command="shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json" />
 
 </Step>
 <Step>
 
 **Install a component**
 
-```bash
-bunx shadcn@latest add @odiaui/button
-```
+<InstallCommand command="shadcn@latest add @odiaui/button" />
 
 The component is copied into `components/ui`, along with the dependencies and
 `--odia-*` CSS variables it needs.
@@ -96,21 +52,17 @@ export function Example() {
 
 If you don't want to register the namespace, pass the item URL directly:
 
-```bash
-bunx shadcn@latest add https://odiaui.xyz/r/button.json
-```
+<InstallCommand command="shadcn@latest add https://odiaui.xyz/r/button.json" />
 
 ## Browse the registry
 
-Use the `list` command to see every available item:
+List every available item:
 
-```bash
-bunx shadcn@latest list @odiaui
-```
+<InstallCommand command="shadcn@latest list @odiaui" />
 
 Or open the [components overview](/docs/components).
 
 <Callout title="Package manager">
-  The examples use Bun because this site is built with it. Any of the tabs above
-  work — pick the one your project uses.
+  Every command above supports Bun, npm, pnpm, and Yarn — switch tabs to match
+  the package manager your project uses.
 </Callout>

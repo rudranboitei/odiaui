@@ -3,12 +3,20 @@ title: Components
 description: Installable components, built on shadcn/ui tokens with an OdiaUI touch.
 ---
 
+import {
+  AlignLeft,
+  BadgeCheck,
+  Loader,
+  MousePointerClick,
+  Square,
+  Tag,
+  TextCursorInput,
+} from "lucide-react"
+
 Every component is distributed as source code through the shadcn registry, so
 you own and can edit it after installing.
 
-```bash
-bunx shadcn@latest add @odiaui/button
-```
+<InstallCommand command="shadcn@latest add @odiaui/button" />
 
 ## Browse
 
@@ -17,36 +25,43 @@ bunx shadcn@latest add @odiaui/button
     title="Button"
     href="/docs/components/button"
     description="Variants, sizes, icon support, and a built-in loading state."
+    icon={<MousePointerClick />}
   />
   <Card
     title="Input"
     href="/docs/components/input"
     description="A pill-shaped text field with invalid and disabled states."
+    icon={<TextCursorInput />}
   />
   <Card
     title="Label"
     href="/docs/components/label"
     description="Accessible labels that pair with Input and Textarea."
+    icon={<Tag />}
   />
   <Card
     title="Textarea"
     href="/docs/components/textarea"
     description="A multi-line field with a resizable body."
+    icon={<AlignLeft />}
   />
   <Card
     title="Card"
     href="/docs/components/card"
     description="Header, content, and footer, plus optional Odisha artwork."
+    icon={<Square />}
   />
   <Card
     title="Badge"
     href="/docs/components/badge"
     description="Status and metadata labels with multiple variants."
+    icon={<BadgeCheck />}
   />
   <Card
     title="Skeleton"
     href="/docs/components/skeleton"
     description="Loading placeholders with carved temple artwork."
+    icon={<Loader />}
   />
 </Cards>
 

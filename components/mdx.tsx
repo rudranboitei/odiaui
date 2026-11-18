@@ -7,6 +7,7 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import { TypeTable } from "fumadocs-ui/components/type-table";
 
 import { ComponentPreview } from "@/components/component-preview";
+import { InstallCommand } from "@/components/package-manager";
 
 /**
  * MDX components shared by every docs page.
@@ -23,6 +24,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     File,
     Files,
     Folder,
+    InstallCommand,
     Step,
     Steps,
     Tab,
