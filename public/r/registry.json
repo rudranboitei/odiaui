@@ -155,6 +155,112 @@
       "type": "registry:ui"
     },
     {
+      "name": "avatar",
+      "title": "Avatar",
+      "description": "An illustrated avatar with image, fallback, badge, and group parts, ten portraits, and 14 local placeholder SVGs.",
+      "dependencies": [
+        "@radix-ui/react-avatar",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/ui/avatar.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/new-york/ui/avatar-art.tsx",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/new-york/ui/avatar-placeholders.ts",
+          "type": "registry:ui"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/chakra-silhouette.svg",
+          "type": "registry:file",
+          "target": "public/avatars/chakra-silhouette.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/deula-papercut.svg",
+          "type": "registry:file",
+          "target": "public/avatars/deula-papercut.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/duotone-turban.svg",
+          "type": "registry:file",
+          "target": "public/avatars/duotone-turban.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/dusk-young-man.svg",
+          "type": "registry:file",
+          "target": "public/avatars/dusk-young-man.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/ikat-hood.svg",
+          "type": "registry:file",
+          "target": "public/avatars/ikat-hood.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/lineart-woman.svg",
+          "type": "registry:file",
+          "target": "public/avatars/lineart-woman.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/pattachitra-portrait.svg",
+          "type": "registry:file",
+          "target": "public/avatars/pattachitra-portrait.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/pattern-chakra.svg",
+          "type": "registry:file",
+          "target": "public/avatars/pattern-chakra.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/pattern-deula.svg",
+          "type": "registry:file",
+          "target": "public/avatars/pattern-deula.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/pattern-ikat.svg",
+          "type": "registry:file",
+          "target": "public/avatars/pattern-ikat.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/pattern-padma.svg",
+          "type": "registry:file",
+          "target": "public/avatars/pattern-padma.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/pattern-pida.svg",
+          "type": "registry:file",
+          "target": "public/avatars/pattern-pida.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/santal-woman.svg",
+          "type": "registry:file",
+          "target": "public/avatars/santal-woman.svg"
+        },
+        {
+          "path": "registry/new-york/ui/avatars/sticker-elder-woman.svg",
+          "type": "registry:file",
+          "target": "public/avatars/sticker-elder-woman.svg"
+        }
+      ],
+      "cssVars": {
+        "light": {
+          "odia-surface": "oklch(1 0 0)",
+          "odia-ink": "oklch(0.145 0 0)",
+          "odia-border": "oklch(0.88 0 0)"
+        },
+        "dark": {
+          "odia-surface": "oklch(0.205 0 0)",
+          "odia-ink": "oklch(0.985 0 0)",
+          "odia-border": "oklch(0.32 0 0)"
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
       "name": "theme-odiaui",
       "title": "odiaui Theme",
       "description": "Custom theme for odiaui.",

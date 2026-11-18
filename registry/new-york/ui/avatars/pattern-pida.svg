@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Pida diamond pattern avatar">
+<defs><clipPath id="c"><circle cx="128" cy="128" r="128"/></clipPath></defs>
+<g clip-path="url(#c)"><rect width="256" height="256" fill="#F6EFE0"/>
+<path d="M128 16 L240 128 L128 240 L16 128Z" fill="#E8715A"/><path d="M128 38 L218 128 L128 218 L38 128Z" fill="#F6EFE0"/><path d="M128 60 L196 128 L128 196 L60 128Z" fill="#E8715A"/><path d="M128 82 L174 128 L128 174 L82 128Z" fill="#F6EFE0"/><path d="M128 104 L152 128 L128 152 L104 128Z" fill="#8E1B2B"/>
+</g></svg>

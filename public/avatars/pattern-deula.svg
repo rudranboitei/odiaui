@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Deula temple pattern avatar">
+<defs><clipPath id="c"><circle cx="128" cy="128" r="128"/></clipPath></defs>
+<g clip-path="url(#c)"><rect width="256" height="256" fill="#1F3A5F"/>
+<circle cx="128" cy="76" r="26" fill="#F2C14E" opacity=".9"/><path d="M108 218 V130 L118 112 V86 L128 60 L138 86 V112 L148 130 V218Z" fill="#E7B54A"/><path d="M88 238 V160 L110 138 H146 L168 160 V238Z" fill="#C9962B"/><path d="M48 256 V210 L88 184 V256Z M168 184 L208 210 V256 H168Z" fill="#9A6F1E"/><rect x="118" y="196" width="20" height="42" rx="10" fill="#1F3A5F"/>
+</g></svg>

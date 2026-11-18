@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Woman in Sambalpuri ikat">
+<defs><clipPath id="c"><circle cx="128" cy="128" r="128"/></clipPath><pattern id="ikat" width="14" height="14" patternUnits="userSpaceOnUse">
+<rect width="14" height="14" fill="#8E1B2B"/>
+<path d="M7 1 L12 7 L7 13 L2 7 Z" fill="none" stroke="#F1D9A0" stroke-width="1.6"/>
+<circle cx="7" cy="7" r="1.3" fill="#F1D9A0"/></pattern></defs>
+<g clip-path="url(#c)"><rect width="256" height="256" fill="#F6EFE0"/>
+<path d="M58 152 C40 36 216 36 198 152 L210 256 H46Z" fill="url(#ikat)"/><path d="M24 256 C24 206 76 190 128 190 C180 190 232 206 232 256Z" fill="#1E1410"/><path d="M40 256 C46 222 84 204 128 204 C172 204 210 222 216 256Z" fill="url(#ikat)"/><path d="M112 160 H144 V200 C144 208 112 208 112 200 Z" fill="#A87248"/><ellipse cx="80" cy="124" rx="8" ry="13" fill="#A87248"/><ellipse cx="176" cy="124" rx="8" ry="13" fill="#A87248"/><ellipse cx="128" cy="118" rx="48" ry="56" fill="#C48B60"/><path d="M80 116 C72 62 106 52 128 52 C150 52 184 62 176 116 C172 92 154 80 130 76 C108 82 88 92 80 116 Z" fill="#1E1410"/><path d="M128 54 L130 76" stroke="#00000033" stroke-width="2"/><ellipse cx="110" cy="122" rx="4" ry="5" fill="#2B1B14"/><ellipse cx="146" cy="122" rx="4" ry="5" fill="#2B1B14"/>
+<circle cx="111.5" cy="120.5" r="1.3" fill="#fff"/><circle cx="147.5" cy="120.5" r="1.3" fill="#fff"/>
+<path d="M98 110 Q110 104 121 109" fill="none" stroke="#2B1B14" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M135 109 Q146 104 158 110" fill="none" stroke="#2B1B14" stroke-width="3.2" stroke-linecap="round"/>
+<path d="M128 124 Q122 138 127 141 Q131 142 134 140" fill="none" stroke="#A87248" stroke-width="2.6" stroke-linecap="round"/><path d="M113 150 Q128 162 143 150" fill="none" stroke="#7A2E2A" stroke-width="3.2" stroke-linecap="round"/><circle cx="100" cy="140" r="7" fill="#E57373" opacity=".18"/><circle cx="156" cy="140" r="7" fill="#E57373" opacity=".18"/><circle cx="128" cy="96" r="4" fill="#C62828"/><circle cx="80" cy="140" r="5" fill="#C9962B"/><circle cx="176" cy="140" r="5" fill="#C9962B"/><path d="M58 152 C40 36 216 36 198 152" fill="none" stroke="#C9962B" stroke-width="6"/>
+</g></svg>

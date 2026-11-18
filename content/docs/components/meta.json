@@ -3,6 +3,7 @@
   "description": "Installable components, built on shadcn/ui tokens.",
   "pages": [
     "button",
+    "avatar",
     "input",
     "label",
     "textarea",
