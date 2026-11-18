@@ -3,24 +3,59 @@ title: Introduction
 description: Get started with odiaui — a custom shadcn component registry.
 ---
 
-## Installation
+odiaui is a component registry built on the
+[shadcn registry protocol](https://ui.shadcn.com/docs/registry). Components are
+copied into your project as source code that you own and can customize.
 
-Add the odiaui registry to your project:
+## Install
+
+Add the registry once:
 
 ```bash
-npx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
+bunx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
 ```
 
 Then install any component:
 
 ```bash
-npx shadcn@latest add @odiaui/button
+bunx shadcn@latest add @odiaui/button
 ```
 
-## What is this?
+## Start here
 
-odiaui is a custom component registry built on the [shadcn registry protocol](https://ui.shadcn.com/docs/registry). You can install any component with the shadcn CLI — they'll be copied into your project as source code that you own and can customize.
+<Cards>
+  <Card
+    title="Installation"
+    href="/docs/installation"
+    description="Set up the registry and install your first component."
+  />
+  <Card
+    title="Components"
+    href="/docs/components"
+    description="Browse every installable component."
+  />
+  <Card
+    title="Design System"
+    href="/docs/design"
+    description="Color, contrast, motion, and API rules."
+  />
+  <Card
+    title="MCP Server"
+    href="/docs/mcp"
+    description="Let AI agents search and read these docs."
+  />
+</Cards>
 
-## Components
+## Why odiaui?
 
-Browse available components in the sidebar.
+- **You own the code.** Components are plain files in your project, not a
+  runtime dependency.
+- **Theme-aware.** Colors come from shadcn tokens and self-contained
+  `--odia-*` variables, so light and dark mode work out of the box.
+- **Made for agents.** The docs ship as Markdown and an
+  [MCP server](/docs/mcp), so assistants can read them directly.
+
+<Callout title="Using an AI agent?">
+  Point it at [`/llms.txt`](/llms.txt) for an index, or connect the
+  [MCP server](/docs/mcp) to search and read pages.
+</Callout>

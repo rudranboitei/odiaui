@@ -1,0 +1,112 @@
+---
+title: MCP Server
+description: Connect AI agents to the odiaui docs with the Model Context Protocol.
+---
+
+odiaui exposes its documentation through a
+[Model Context Protocol](https://modelcontextprotocol.io) server. Agents can
+search the docs and read pages without fetching and parsing HTML.
+
+## Endpoint
+
+```
+https://odiaui.xyz/api/mcp
+```
+
+The server uses the streamable HTTP transport and requires no authentication.
+
+## Tools
+
+| Tool | Description |
+| --- | --- |
+| `search` | Search the docs with a query and return matching pages. |
+| `list_pages` | List every docs page with its title and URL. |
+| `get_page` | Read the Markdown content of a page by its URL. |
+
+## Connect OpenCode
+
+Add the server to your project's `opencode.json`:
+
+```json title="opencode.json"
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "servers": {
+      "odiaui-docs": {
+        "type": "remote",
+        "url": "https://odiaui.xyz/api/mcp"
+      }
+    }
+  }
+}
+```
+
+Or use the CLI:
+
+```bash
+opencode mcp add odiaui-docs --url https://odiaui.xyz/api/mcp
+```
+
+## Connect other clients
+
+Clients that use the `mcpServers` shape, such as Cursor or Claude Desktop, can
+connect with:
+
+```json title="mcp.json"
+{
+  "mcpServers": {
+    "odiaui-docs": {
+      "url": "https://odiaui.xyz/api/mcp"
+    }
+  }
+}
+```
+
+## Local development
+
+The route lives at `app/api/mcp/route.ts`. Start the site and point the client
+at your local server instead:
+
+```bash
+bun dev
+```
+
+```json title="opencode.json"
+{
+  "mcp": {
+    "servers": {
+      "odiaui-docs": {
+        "type": "remote",
+        "url": "http://localhost:3000/api/mcp"
+      }
+    }
+  }
+}
+```
+
+## How it works
+
+The route registers the tools from `fumadocs-core/mcp`:
+
+```ts title="app/api/mcp/route.ts"
+import { createMcpHandler, McpServer } from "@modelcontextprotocol/server";
+import { registerSearchTool, registerSourceTools } from "fumadocs-core/mcp";
+import { createFromSource } from "fumadocs-core/search/server";
+import { docsLlms, source } from "@/lib/source";
+
+const handler = createMcpHandler(() => {
+  const mcp = new McpServer({ name: "odiaui-docs", version: "1.0.0" });
+
+  registerSourceTools(mcp, source, docsLlms);
+  registerSearchTool(mcp, createFromSource(source));
+
+  return mcp;
+});
+
+export async function POST(request: Request) {
+  return handler.fetch(request);
+}
+```
+
+`docsLlms` renders each page from its processed Markdown. The same renderer
+serves the [files for LLMs](/docs/llms).

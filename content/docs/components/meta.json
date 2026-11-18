@@ -1,5 +1,6 @@
 {
   "title": "Components",
+  "description": "Installable components, built on shadcn/ui tokens.",
   "pages": [
     "button",
     "input",

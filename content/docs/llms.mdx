@@ -1,0 +1,48 @@
+---
+title: llms.txt
+description: Serve the odiaui docs as Markdown for LLMs, AI agents, and editors.
+---
+
+odiaui ships its documentation as plain Markdown so language models and coding
+agents can read it without scraping HTML.
+
+## Files
+
+| File | Description |
+| --- | --- |
+| [`/llms.txt`](/llms.txt) | Short index of every docs page with a link to its Markdown. |
+| [`/llms-full.txt`](/llms-full.txt) | The full content of every docs page in one file. |
+| [`/docs/components/llms-full.txt`](/docs/components/llms-full.txt) | Only the component reference, when an agent doesn't need the guides. |
+| `/docs/**/*.md` | The Markdown of a single page, like `/docs/components/button.md`. |
+
+Paste a URL into your agent, or fetch it directly:
+
+```bash
+curl https://odiaui.xyz/llms-full.txt
+```
+
+Each page also advertises its Markdown in the HTML `<head>`:
+
+```html
+<link rel="alternate" type="text/markdown" href="/docs/components/button.md" />
+```
+
+## Page actions
+
+Every docs page has actions to copy the page as Markdown or open it in an AI
+app. They read the page's `.md` file, so they always match what agents get.
+
+## Keeping a local copy
+
+If you work offline or want to pin a version, download the full file once:
+
+```bash
+curl -o odiaui-llms.txt https://odiaui.xyz/llms-full.txt
+```
+
+Then point your tool at the local file. Regenerate it whenever the docs change.
+
+## MCP
+
+Prefer tools over files? The docs also expose an [MCP server](/docs/mcp) with
+`search`, `list_pages`, and `get_page`.

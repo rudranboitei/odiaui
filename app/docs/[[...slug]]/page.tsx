@@ -1,12 +1,20 @@
+import { findNeighbour } from "fumadocs-core/page-tree";
 import { source } from "@/lib/source";
+import { getMDXComponents } from "@/components/mdx";
 import {
   DocsPage,
   DocsBody,
   DocsDescription,
   DocsTitle,
 } from "fumadocs-ui/page";
+import {
+  MarkdownCopyButton,
+  PageLastUpdate,
+  ViewOptionsPopover,
+} from "fumadocs-ui/layouts/docs/page";
 import { notFound } from "next/navigation";
-import defaultMdxComponents from "fumadocs-ui/mdx";
+
+const githubRepo = "rudranboitei/odiaui";
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>;
@@ -17,14 +25,37 @@ export default async function Page(props: {
   if (!page) notFound();
 
   const MDX = page.data.body;
+  const markdownUrl = `${page.url}.md`;
+  const githubUrl = `https://github.com/${githubRepo}/blob/main/content/docs/${encodeURI(
+    page.path
+  )}`;
 
   return (
-    <DocsPage toc={page.data.toc} full={page.data.full}>
-      <DocsTitle>{page.data.title}</DocsTitle>
-      <DocsDescription>{page.data.description}</DocsDescription>
+    <DocsPage
+      toc={page.data.toc}
+      full={page.data.full}
+      breadcrumb={{ enabled: true }}
+      footer={{ items: findNeighbour(source.pageTree, page.url) }}
+    >
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <DocsTitle>{page.data.title}</DocsTitle>
+        <div className="flex items-center gap-2 pt-1">
+          <MarkdownCopyButton markdownUrl={markdownUrl} />
+          <ViewOptionsPopover
+            markdownUrl={markdownUrl}
+            githubUrl={githubUrl}
+          />
+        </div>
+      </div>
+      <DocsDescription className="mb-0">
+        {page.data.description}
+      </DocsDescription>
       <DocsBody>
-        <MDX components={{ ...defaultMdxComponents }} />
+        <MDX components={getMDXComponents()} />
       </DocsBody>
+      {page.data.lastModified ? (
+        <PageLastUpdate date={page.data.lastModified} />
+      ) : null}
     </DocsPage>
   );
 }
@@ -44,5 +75,10 @@ export async function generateMetadata(props: {
   return {
     title: page.data.title,
     description: page.data.description,
+    alternates: {
+      types: {
+        "text/markdown": `${page.url}.md`,
+      },
+    },
   };
 }

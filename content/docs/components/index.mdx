@@ -1,0 +1,63 @@
+---
+title: Components
+description: Installable components, built on shadcn/ui tokens with an OdiaUI touch.
+---
+
+Every component is distributed as source code through the shadcn registry, so
+you own and can edit it after installing.
+
+```bash
+bunx shadcn@latest add @odiaui/button
+```
+
+## Browse
+
+<Cards>
+  <Card
+    title="Button"
+    href="/docs/components/button"
+    description="Variants, sizes, icon support, and a built-in loading state."
+  />
+  <Card
+    title="Input"
+    href="/docs/components/input"
+    description="A pill-shaped text field with invalid and disabled states."
+  />
+  <Card
+    title="Label"
+    href="/docs/components/label"
+    description="Accessible labels that pair with Input and Textarea."
+  />
+  <Card
+    title="Textarea"
+    href="/docs/components/textarea"
+    description="A multi-line field with a resizable body."
+  />
+  <Card
+    title="Card"
+    href="/docs/components/card"
+    description="Header, content, and footer, plus optional Odisha artwork."
+  />
+  <Card
+    title="Badge"
+    href="/docs/components/badge"
+    description="Status and metadata labels with multiple variants."
+  />
+  <Card
+    title="Skeleton"
+    href="/docs/components/skeleton"
+    description="Loading placeholders with carved temple artwork."
+  />
+</Cards>
+
+## Conventions
+
+- Colors come from shadcn theme tokens (`primary`, `muted`, `border`, …) and
+  self-contained `--odia-*` tokens, so components work in light and dark mode.
+- `className` merges last through `cn`, so you can override any style.
+- Refs are forwarded, and every component accepts the matching HTML props.
+
+<Callout>
+  Building something custom? Start from a shadcn/ui component and apply the
+  [design rules](/docs/design) so it matches the rest of the registry.
+</Callout>

@@ -5,38 +5,112 @@ description: How to install odiaui components in your project.
 
 ## Prerequisites
 
-You need a project with [shadcn/ui](https://ui.shadcn.com) already configured. If you haven't set up shadcn yet:
+You need a project with [shadcn/ui](https://ui.shadcn.com) already configured.
+If you haven't set up shadcn yet:
 
+<Tabs items={["bun", "npm", "pnpm", "yarn"]}>
+<Tab value="bun">
+```bash
+bunx shadcn@latest init
+```
+</Tab>
+<Tab value="npm">
 ```bash
 npx shadcn@latest init
 ```
+</Tab>
+<Tab value="pnpm">
+```bash
+pnpm dlx shadcn@latest init
+```
+</Tab>
+<Tab value="yarn">
+```bash
+yarn dlx shadcn@latest init
+```
+</Tab>
+</Tabs>
 
-## Add the Registry
+## Add the registry
 
-### Using Namespace (Recommended)
+<Steps>
+<Step>
 
+**Register the namespace**
+
+Add `@odiaui` to your `components.json` once. This is the recommended way to
+install components.
+
+<Tabs items={["bun", "npm", "pnpm", "yarn"]}>
+<Tab value="bun">
+```bash
+bunx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
+```
+</Tab>
+<Tab value="npm">
 ```bash
 npx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
 ```
+</Tab>
+<Tab value="pnpm">
+```bash
+pnpm dlx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
+```
+</Tab>
+<Tab value="yarn">
+```bash
+yarn dlx shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json
+```
+</Tab>
+</Tabs>
 
-Then install components by namespace:
+</Step>
+<Step>
+
+**Install a component**
 
 ```bash
-npx shadcn@latest add @odiaui/button
+bunx shadcn@latest add @odiaui/button
 ```
 
-### Using URL
+The component is copied into `components/ui`, along with the dependencies and
+`--odia-*` CSS variables it needs.
 
-You can also install directly by URL:
+</Step>
+<Step>
+
+**Use it**
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export function Example() {
+  return <Button>Click me</Button>
+}
+```
+
+</Step>
+</Steps>
+
+## Install by URL
+
+If you don't want to register the namespace, pass the item URL directly:
 
 ```bash
-npx shadcn@latest add https://odiaui.xyz/r/button.json
+bunx shadcn@latest add https://odiaui.xyz/r/button.json
 ```
 
-## Browse Components
+## Browse the registry
 
-Use the `list` command to see all available components:
+Use the `list` command to see every available item:
 
 ```bash
-npx shadcn@latest list @odiaui
+bunx shadcn@latest list @odiaui
 ```
+
+Or open the [components overview](/docs/components).
+
+<Callout title="Package manager">
+  The examples use Bun because this site is built with it. Any of the tabs above
+  work — pick the one your project uses.
+</Callout>
