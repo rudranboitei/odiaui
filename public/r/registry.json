@@ -6,9 +6,11 @@
     {
       "name": "button",
       "title": "Button",
-      "description": "The shared button in OdiaUI blue (#3b82f6) with a chakra mark, an outline option and accessible dark-ink text.",
+      "description": "Displays a pill-rounded button or a component that looks like a button, built on shadcn/ui default theme tokens.",
       "dependencies": [
-        "class-variance-authority"
+        "@radix-ui/react-slot",
+        "class-variance-authority",
+        "lucide-react"
       ],
       "files": [
         {

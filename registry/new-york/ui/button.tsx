@@ -1,50 +1,32 @@
 import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Loader2 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-/* -------------------------------------------------------------------------- */
-/*  OdiaUI Button                                                             */
-/*  The single shared button for every component. Uses the OdiaUI blue (#3b82f6) */
-/*  with a dark ink label for AA contrast, plus a plain outline option and a    */
-/*  no-icon option for compact UI.                                             */
-/* -------------------------------------------------------------------------- */
-
 const buttonVariants = cva(
-  [
-    "inline-flex items-center justify-center gap-2",
-    "whitespace-nowrap rounded-full",
-    // #020617 on #3b82f6 = 5.48:1 (AA); white on #3b82f6 is only 3.68:1.
-    "text-sm font-medium text-[#020617]",
-    "transition duration-200",
-    "focus-visible:outline-none focus-visible:ring-2",
-    "focus-visible:ring-[#3b82f6] focus-visible:ring-offset-2",
-    "focus-visible:ring-offset-background",
-    "disabled:pointer-events-none disabled:opacity-50",
-    "active:scale-[0.98]",
-    "motion-reduce:transition-none motion-reduce:active:scale-100",
-  ],
+  "inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium tracking-[0.02em] transition-opacity duration-200 select-none outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-60 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: [
-          "border border-[#3b82f6]/60",
-          "bg-[#3b82f6]",
-          "shadow-[0_4px_12px_rgba(59,130,246,0.3),inset_0_1px_0_rgba(255,255,255,0.18)]",
-          "hover:brightness-110",
-        ],
-        outline: [
-          "border border-[#3b82f6]/50",
-          "bg-transparent text-[#1d4ed8]",
-          "shadow-sm hover:bg-[#3b82f6]/10",
-          "dark:border-[#3b82f6]/50 dark:text-[#93c5fd] dark:hover:bg-[#3b82f6]/15",
-        ],
+        default:
+          "bg-primary text-primary-foreground hover:opacity-90",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:opacity-90 focus-visible:outline-destructive",
+        outline:
+          "border border-input bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
+        secondary:
+          "bg-secondary text-secondary-foreground hover:opacity-90",
+        ghost:
+          "text-foreground hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-10 px-5",
-        sm: "h-9 px-4 text-xs",
-        lg: "h-12 px-7 text-base",
-        icon: "size-10 p-0",
+        default: "h-10 px-5 text-sm [&_svg:not([class*='size-'])]:size-4",
+        sm: "h-9 px-4 text-xs [&_svg:not([class*='size-'])]:size-4",
+        lg: "h-12 px-7 text-base [&_svg:not([class*='size-'])]:size-5",
+        icon: "size-10 p-0 [&_svg:not([class*='size-'])]:size-5",
       },
     },
     defaultVariants: {
@@ -55,53 +37,52 @@ const buttonVariants = cva(
 )
 
 export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
-  /** Show the chakra-inspired decorative icon. @default true */
-  showChakra?: boolean
+  extends React.ComponentProps<"button">,
+  VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+  isLoading?: boolean
+  loadingText?: string
 }
 
-const ChakraMark = () => (
-  <svg
-    viewBox="0 0 24 24"
-    fill="none"
-    className="size-[18px] shrink-0"
-    aria-hidden="true"
-  >
-    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth={1.2} />
-    <circle cx="12" cy="12" r="2" stroke="currentColor" strokeWidth={1.2} />
-    {Array.from({ length: 8 }, (_, index) => (
-      <line
-        key={index}
-        x1="12"
-        y1="3"
-        x2="12"
-        y2="10"
-        stroke="currentColor"
-        strokeWidth="1"
-        transform={`rotate(${index * 45} 12 12)`}
-      />
-    ))}
-  </svg>
-)
+function Button({
+  className,
+  variant = "default",
+  size = "default",
+  asChild = false,
+  isLoading = false,
+  loadingText,
+  disabled,
+  children,
+  ...props
+}: ButtonProps) {
+  const Comp = asChild ? Slot : "button"
+  const isDisabled = isLoading || disabled
 
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  (
-    { className, variant, size, showChakra = true, children, ...props },
-    ref
-  ) => {
-    return (
-      <button
-        ref={ref}
-        className={cn(buttonVariants({ variant, size }), className)}
-        {...props}
-      >
-        {showChakra && <ChakraMark />}
-        <span>{children}</span>
-      </button>
-    )
-  }
-)
-Button.displayName = "Button"
+  return (
+    <Comp
+      data-slot="button"
+      data-variant={variant}
+      data-size={size}
+      aria-disabled={asChild && isDisabled ? true : undefined}
+      className={cn(
+        buttonVariants({ variant, size, className }),
+        asChild && isDisabled && "pointer-events-none opacity-60"
+      )}
+      disabled={asChild ? undefined : isDisabled}
+      {...props}
+    >
+      {asChild ? (
+        children
+      ) : isLoading ? (
+        <>
+          <Loader2 className="animate-spin" />
+          {loadingText ? <span>{loadingText}</span> : children}
+        </>
+      ) : (
+        children
+      )}
+    </Comp>
+  )
+}
 
 export { Button, buttonVariants }

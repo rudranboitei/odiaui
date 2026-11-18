@@ -1,10 +1,26 @@
 ---
 title: Button
-description: The shared button in OdiaUI blue (#3b82f6), with a chakra mark and a plain outline option.
+description: A button component with variants, sizes, icon support, and a built-in loading state.
 ---
 
 import { ComponentPreview } from "@/components/component-preview"
-import { ButtonDemo, ButtonSizes } from "@/components/examples/button-demo"
+import {
+  ButtonDemo,
+  ButtonCursorDemo,
+  ButtonSizeDemo,
+  ButtonDefaultDemo,
+  ButtonOutlineDemo,
+  ButtonSecondaryDemo,
+  ButtonGhostDemo,
+  ButtonDestructiveDemo,
+  ButtonLinkDemo,
+  ButtonIconDemo,
+  ButtonWithIconDemo,
+  ButtonRoundedDemo,
+  ButtonSpinnerDemo,
+  ButtonGroupDemo,
+  ButtonAsLinkDemo,
+} from "@/components/examples/button-demo"
 
 ## Preview
 
@@ -13,6 +29,11 @@ import { ButtonDemo, ButtonSizes } from "@/components/examples/button-demo"
 </ComponentPreview>
 
 ## Installation
+
+This version includes a built-in loading state on top of the standard
+shadcn-style variants. Installing through the registry pulls in
+`class-variance-authority`, `@radix-ui/react-slot`, and `lucide-react` and wires
+up the `cn` utility from `@/lib/utils` automatically.
 
 ```bash
 bunx shadcn@latest add @odiaui/button
@@ -28,67 +49,282 @@ export function Example() {
 }
 ```
 
-This is the single shared button used by every OdiaUI component. It uses the
-OdiaUI blue `#3b82f6` with a chakra mark by default; set `showChakra={false}` or
-use `variant="outline"` for a quieter action.
+## Examples
 
-## Variants
+### Cursor
+
+Enabled buttons show a pointer cursor, while disabled buttons ignore pointer
+events so they never look clickable.
 
 <ComponentPreview>
-  <ButtonDemo />
+  <ButtonCursorDemo />
 </ComponentPreview>
 
 ```tsx
-<Button variant="default">Default</Button>
-<Button variant="outline">Outline</Button>
-<Button showChakra={false}>No Chakra</Button>
+<Button>Pointer</Button>
+<Button disabled>Disabled</Button>
 ```
 
-| Variant     | Appearance                                                   |
-| ----------- | ------------------------------------------------------------ |
-| `default`   | `#3b82f6` fill, blue edge, dark ink text                     |
-| `outline`   | Transparent, blue border and text (dark-mode aware)          |
+### Size
 
-## Sizes
+Use the `size` prop to adjust the button’s height, padding, and text size.
 
 <ComponentPreview>
-  <ButtonSizes />
+  <ButtonSizeDemo />
 </ComponentPreview>
 
 ```tsx
-<Button size="lg">Large</Button>
-<Button size="default">Default</Button>
 <Button size="sm">Small</Button>
+<Button size="default">Default</Button>
+<Button size="lg">Large</Button>
+```
+
+| `size`      | Description                        |
+| ----------- | ---------------------------------- |
+| `"default"` | Standard button size               |
+| `"sm"`      | Compact button                     |
+| `"lg"`      | Larger button                      |
+| `"icon"`    | Square button intended for an icon |
+
+### Default
+
+<ComponentPreview>
+  <ButtonDefaultDemo />
+</ComponentPreview>
+
+```tsx
+<Button>Default</Button>
+```
+
+### Outline
+
+<ComponentPreview>
+  <ButtonOutlineDemo />
+</ComponentPreview>
+
+```tsx
+<Button variant="outline">Outline</Button>
+```
+
+### Secondary
+
+<ComponentPreview>
+  <ButtonSecondaryDemo />
+</ComponentPreview>
+
+```tsx
+<Button variant="secondary">Secondary</Button>
+```
+
+### Ghost
+
+<ComponentPreview>
+  <ButtonGhostDemo />
+</ComponentPreview>
+
+```tsx
+<Button variant="ghost">Ghost</Button>
+```
+
+### Destructive
+
+<ComponentPreview>
+  <ButtonDestructiveDemo />
+</ComponentPreview>
+
+```tsx
+<Button variant="destructive">Destructive</Button>
+```
+
+### Link
+
+<ComponentPreview>
+  <ButtonLinkDemo />
+</ComponentPreview>
+
+```tsx
+<Button variant="link">Link</Button>
+```
+
+### Icon
+
+For icon-only buttons, always provide an accessible label with `aria-label`.
+
+<ComponentPreview>
+  <ButtonIconDemo />
+</ComponentPreview>
+
+```tsx
+import { Plus } from "lucide-react"
+
 <Button size="icon" aria-label="Add item">
   <Plus />
 </Button>
 ```
 
-| Size      | Dimensions            | Text size |
-| --------- | --------------------- | --------- |
-| `default` | `h-10 px-5`           | `text-sm` |
-| `sm`      | `h-9 px-4`            | `text-xs` |
-| `lg`      | `h-12 px-7`           | `text-base` |
-| `icon`    | `size-10 p-0`         | —         |
+### With Icon
 
-## Props
+Place an icon before or after the button text. Icons inherit the button’s text
+color and size.
 
-| Prop         | Type                                  | Default     | Description                               |
-| ------------ | ------------------------------------- | ----------- | ----------------------------------------- |
-| `variant`    | `"default" \| "outline"`              | `"default"` | Visual style.                             |
-| `size`       | `"sm" \| "default" \| "lg" \| "icon"` | `"default"` | Height and padding.                       |
-| `showChakra` | `boolean`                             | `true`      | Show the chakra-inspired decorative icon. |
+<ComponentPreview>
+  <ButtonWithIconDemo />
+</ComponentPreview>
 
-Extends all native `<button>` attributes and forwards refs. `className` is
-merged last, so you can override any style.
+```tsx
+import { ArrowRight, Mail } from "lucide-react"
+
+<Button>
+  <Mail />
+  Login with Email
+</Button>
+
+<Button variant="outline">
+  Continue
+  <ArrowRight />
+</Button>
+```
+
+### Rounded
+
+The button is pill-shaped (`rounded-full`) by default. Override the radius with
+`className` to match the surrounding UI.
+
+<ComponentPreview>
+  <ButtonRoundedDemo />
+</ComponentPreview>
+
+```tsx
+<Button className="rounded-md">Rounded md</Button>
+<Button className="rounded-lg">Rounded lg</Button>
+<Button className="rounded-full">Rounded full</Button>
+```
+
+### Spinner
+
+Set `isLoading` to display a spinner and disable the button. Use `loadingText`
+to show different text while the action is in progress.
+
+<ComponentPreview>
+  <ButtonSpinnerDemo />
+</ComponentPreview>
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+
+export function LoadingButton() {
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  function handleAction() {
+    setIsLoading(true)
+
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1500)
+  }
+
+  return (
+    <Button
+      isLoading={isLoading}
+      loadingText="Downloading..."
+      onClick={handleAction}
+    >
+      Download on the App Store
+    </Button>
+  )
+}
+```
+
+When `isLoading` is `true`, the button displays a spinner and becomes disabled.
+If `loadingText` is not provided, the button keeps its original children beside
+the spinner.
+
+### Button Group
+
+Join related actions by overriding each button’s radius. Remove the shared
+borders so the group reads as a single control.
+
+<ComponentPreview>
+  <ButtonGroupDemo />
+</ComponentPreview>
+
+```tsx
+<div className="inline-flex items-center">
+  <Button variant="outline" className="rounded-r-none">
+    Previous
+  </Button>
+  <Button variant="outline" className="rounded-none border-l-0">
+    Current
+  </Button>
+  <Button variant="outline" className="rounded-l-none border-l-0">
+    Next
+  </Button>
+</div>
+```
+
+### As Link
+
+Use `asChild` to apply the button’s styles to its child element. This is useful
+when rendering a button-styled link.
+
+<ComponentPreview>
+  <ButtonAsLinkDemo />
+</ComponentPreview>
+
+```tsx
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+
+export function LinkButton() {
+  return (
+    <Button asChild>
+      <Link href="/dashboard">Go to dashboard</Link>
+    </Button>
+  )
+}
+```
+
+## API Reference
+
+### Button
+
+`Button` accepts the standard HTML button props, along with the following
+component props.
+
+| Prop          | Type                                                                          | Default     | Description                                      |
+| ------------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------------------ |
+| `variant`     | `"default" \| "secondary" \| "outline" \| "ghost" \| "destructive" \| "link"` | `"default"` | Sets the visual style                            |
+| `size`        | `"default" \| "sm" \| "lg" \| "icon"`                                         | `"default"` | Sets the button size                             |
+| `asChild`     | `boolean`                                                                     | `false`     | Renders the styles on the child using Radix Slot |
+| `isLoading`   | `boolean`                                                                     | `false`     | Shows the spinner and disables the button        |
+| `loadingText` | `string`                                                                      | —           | Replaces the button content while loading         |
+| `disabled`    | `boolean`                                                                     | `false`     | Disables the button                              |
+| `className`   | `string`                                                                      | —           | Adds or overrides button styles                  |
+
+### buttonVariants
+
+`buttonVariants` is the exported `class-variance-authority` function for
+generating button classes.
+
+```tsx
+import { buttonVariants } from "@/components/ui/button"
+
+const className = buttonVariants({
+  variant: "outline",
+  size: "sm",
+})
+```
 
 ## Accessibility
 
-- Renders a real `<button>` with a visible `#3b82f6` focus ring and a themed offset.
-- The dark ink label (`#020617`) reaches **5.48:1** on the `#3b82f6` fill (WCAG
-  AA); white would only reach 3.68:1. The outline text uses a darker blue in
-  light mode and a lighter blue in dark mode.
-- The chakra mark is decorative (`aria-hidden="true"`) and never takes focus.
-- Disabled buttons use `disabled:pointer-events-none disabled:opacity-50`.
-- Icon-only buttons (`size="icon"`) need an `aria-label`.
-- The scale-down press effect is disabled under reduced-motion preferences.
+- Use descriptive text for buttons so their purpose is clear.
+- Give icon-only buttons an accessible name with `aria-label`.
+- Use `disabled` or `isLoading` to prevent interaction while an action is
+  unavailable or in progress.
+
+`isLoading` keeps the button disabled while an action runs so it cannot be
+triggered twice. The spinner and disabled state do not rely on color alone to
+communicate the change.

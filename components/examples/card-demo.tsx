@@ -30,7 +30,7 @@ export function CardDemo() {
           Enter your email below to login to your account
         </CardDescription>
         <CardAction>
-          <Button variant="outline" size="sm" showChakra={false}>
+          <Button variant="outline" size="sm">
             Sign Up
           </Button>
         </CardAction>
@@ -120,7 +120,6 @@ export function CardSpacingDemo() {
             key={value}
             size="sm"
             variant={spacing === value ? "default" : "outline"}
-            showChakra={false}
             onClick={() => setSpacing(value)}
           >
             {value}px
@@ -137,7 +136,7 @@ export function CardSpacingDemo() {
             Enter your email below to login to your account
           </CardDescription>
           <CardAction>
-            <Button variant="outline" size="sm" showChakra={false}>
+            <Button variant="outline" size="sm">
               Sign Up
             </Button>
           </CardAction>
