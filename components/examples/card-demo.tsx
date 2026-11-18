@@ -5,6 +5,8 @@ import { ChevronRight } from "lucide-react"
 
 import { Badge } from "@/registry/new-york/ui/badge"
 import { Button } from "@/registry/new-york/ui/button"
+import { Input } from "@/registry/new-york/ui/input"
+import { Label } from "@/registry/new-york/ui/label"
 import {
   Card,
   CardAction,
@@ -14,9 +16,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/registry/new-york/ui/card"
-
-const inputClassName =
-  "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring/50"
 
 /* --------------------------------- Login ----------------------------------- */
 
@@ -37,30 +36,21 @@ export function CardDemo() {
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <label htmlFor="card-login-email" className="text-sm font-medium">
-            Email
-          </label>
-          <input
+          <Label htmlFor="card-login-email">Email</Label>
+          <Input
             id="card-login-email"
             type="email"
             placeholder="m@example.com"
-            className={inputClassName}
           />
         </div>
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between">
-            <label htmlFor="card-login-password" className="text-sm font-medium">
-              Password
-            </label>
+            <Label htmlFor="card-login-password">Password</Label>
             <a href="#" className="text-sm underline underline-offset-4">
               Forgot your password?
             </a>
           </div>
-          <input
-            id="card-login-password"
-            type="password"
-            className={inputClassName}
-          />
+          <Input id="card-login-password" type="password" />
         </div>
       </CardContent>
       <CardFooter className="flex-col gap-2">
@@ -143,23 +133,12 @@ export function CardSpacingDemo() {
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            <label htmlFor="card-spacing-email" className="text-sm font-medium">
-              Email
-            </label>
-            <input id="card-spacing-email" type="email" className={inputClassName} />
+            <Label htmlFor="card-spacing-email">Email</Label>
+            <Input id="card-spacing-email" type="email" />
           </div>
           <div className="flex flex-col gap-2">
-            <label
-              htmlFor="card-spacing-password"
-              className="text-sm font-medium"
-            >
-              Password
-            </label>
-            <input
-              id="card-spacing-password"
-              type="password"
-              className={inputClassName}
-            />
+            <Label htmlFor="card-spacing-password">Password</Label>
+            <Input id="card-spacing-password" type="password" />
           </div>
         </CardContent>
         <CardFooter>

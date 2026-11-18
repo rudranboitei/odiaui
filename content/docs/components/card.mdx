@@ -33,7 +33,19 @@ import {
     </CardAction>
   </CardHeader>
   <CardContent className="flex flex-col gap-4">
-    {/* email + password fields */}
+    <div className="grid gap-2">
+      <Label htmlFor="card-email">Email</Label>
+      <Input id="card-email" type="email" placeholder="m@example.com" />
+    </div>
+    <div className="grid gap-2">
+      <div className="flex items-center justify-between">
+        <Label htmlFor="card-password">Password</Label>
+        <a href="#" className="text-sm underline underline-offset-4">
+          Forgot your password?
+        </a>
+      </div>
+      <Input id="card-password" type="password" />
+    </div>
   </CardContent>
   <CardFooter className="flex-col gap-2">
     <Button className="w-full">Login</Button>
@@ -52,10 +64,12 @@ The item needs `class-variance-authority` and installs the `badge` registry item
 (it supplies the decorative `BadgeIcon` watermarks). The sand palette is scoped
 to the card parts, so no custom theme or global CSS edit is required.
 
-The examples below use the shared `Button` (the heritage button is the only
-button in OdiaUI). Install the
-[`@odiaui/button`](/docs/components/button#installation) item and import it from
-`@/components/ui/button`.
+The examples below use the shared `Button`, `Input`, and `Label` components.
+Install the [`@odiaui/button`](/docs/components/button#installation),
+[`@odiaui/input`](/docs/components/input#installation), and
+[`@odiaui/label`](/docs/components/label#installation) items, then import them
+from `@/components/ui/button`, `@/components/ui/input`, and
+`@/components/ui/label`.
 
 ## Usage
 
