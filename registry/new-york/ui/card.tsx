@@ -54,6 +54,16 @@ const cardVariants = cva(
 
 /* ------------------------------- Watermarks -------------------------------- */
 
+/**
+ * Where each motif sits: fully inside the card, faint, and rotated slightly so
+ * it reads as a print on the paper instead of artwork clipped by the border.
+ */
+const WATERMARK_ART: Record<Exclude<CardWatermark, "none">, string> = {
+  deula: "right-4 bottom-4 w-[30%]",
+  chakra: "right-3 bottom-3 w-[36%] -rotate-6",
+  padma: "right-3 bottom-3 w-[36%] rotate-6",
+}
+
 function CardWatermarkArt({
   variant,
 }: {
@@ -64,11 +74,14 @@ function CardWatermarkArt({
       data-slot="card-watermark"
       data-variant={variant}
       aria-hidden="true"
-      className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit] text-foreground opacity-[0.07] dark:opacity-[0.1]"
+      className={cn(
+        "pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]",
+        "text-foreground opacity-[0.07] dark:opacity-[0.1]"
+      )}
     >
       <BadgeIcon
         name={variant}
-        className="absolute -right-8 -bottom-8 size-32"
+        className={cn("absolute", WATERMARK_ART[variant])}
       />
     </div>
   )
@@ -84,7 +97,7 @@ function Card({
   ...props
 }: React.ComponentProps<"div"> &
   VariantProps<typeof cardVariants> & {
-    /** Faint Odisha artwork cropped into the card's corner — "none" by default. */
+    /** Faint Odisha artwork printed into the card's corner — "none" by default. */
     watermark?: CardWatermark
   }) {
   return (

@@ -249,28 +249,44 @@ applies the same edge bleed and a sand fallback background. It also supports
 
 ## Watermarks
 
-The `watermark` prop adds faint, decorative Odisha artwork cropped into the
-corner. It is off by default and always `aria-hidden`.
+The `watermark` prop prints faint Odisha artwork into the corner of a card. It is
+off by default, decorative only (`aria-hidden`), and never sits on top of the
+content, so a card stays readable at any size.
 
 <ComponentPreview className="p-6">
   <CardWatermarksDemo />
 </ComponentPreview>
 
 ```tsx
-<Card size="sm" watermark="chakra">...</Card>
+<Card watermark="chakra">
+  <CardHeader>
+    <CardTitle>Chakra</CardTitle>
+    <CardDescription>The sixteen-spoke wheel carved at Konark.</CardDescription>
+  </CardHeader>
+</Card>
 ```
 
-| Value      | Motif                     |
-| ---------- | ------------------------- |
-| `"none"`   | No artwork (default)      |
-| `"deula"`  | Kalinga temple tower      |
-| `"chakra"` | Konark wheel              |
-| `"padma"`  | Lotus                     |
+| Value      | Motif                |
+| ---------- | -------------------- |
+| `"none"`   | No artwork (default) |
+| `"deula"`  | Kalinga temple tower |
+| `"chakra"` | Konark wheel         |
+| `"padma"`  | Lotus                |
+
+The motif sits fully inside the bottom-right corner and scales with the card's
+width, so it reads as a print on the paper instead of artwork clipped by the
+border. That keeps it intact on `size="sm"` cards and on tall ones alike.
 
 ## Ornament
 
-`CardOrnament` is a thin ikat diamond strip you can drop anywhere as a divider,
-for example under a header.
+`CardOrnament` is a thin ikat diamond strip. Drop it between sections as a
+divider — a negative inline margin lets it bleed to the card edges.
+
+```tsx
+<CardContent className="py-0">
+  <CardOrnament className="-mx-(--card-spacing) h-3" />
+</CardContent>
+```
 
 ## API Reference
 
@@ -282,22 +298,10 @@ for example under a header.
 | `watermark` | `"none" \| "deula" \| "chakra" \| "padma"` | `"none"`    |
 | `className` | `string`                                   | —           |
 
-### Parts
-
-| Part              | Element | Purpose                                             |
-| ----------------- | ------- | --------------------------------------------------- |
-| `CardHeader`      | `div`   | Title, description and optional action              |
-| `CardTitle`       | `div`   | Card title                                          |
-| `CardDescription` | `div`   | Helper text under the title                         |
-| `CardAction`      | `div`   | Top-right of the header                             |
-| `CardContent`     | `div`   | Main body                                           |
-| `CardFooter`      | `div`   | Actions and secondary content                       |
-| `CardMedia`       | `div`   | Edge-bleeding image slot (`top`/`left`/`bottom`)     |
-| `CardOrnament`    | `svg`   | Decorative ikat strip                               |
-
-Every part extends the native props of the element it renders. `className` is
-merged last through `cn`, so you can override any style. Refs are forwarded as
-regular props (React 19).
+Every part (`CardHeader`, `CardTitle`, `CardDescription`, `CardAction`,
+`CardContent`, `CardFooter`) takes the native props of the `div` it renders.
+`className` is merged last through `cn`, and refs pass through as regular props
+(React 19).
 
 ## Accessibility
 

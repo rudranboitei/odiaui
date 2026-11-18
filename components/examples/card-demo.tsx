@@ -221,15 +221,41 @@ export function CardImageDemo() {
   )
 }
 
-/** All three optional heritage watermarks. */
+const WATERMARKS = [
+  {
+    value: "deula",
+    title: "Deula",
+    description: "The rekha deula tower, from plinth to amalaka.",
+  },
+  {
+    value: "chakra",
+    title: "Chakra",
+    description: "The sixteen-spoke wheel carved at Konark.",
+  },
+  {
+    value: "padma",
+    title: "Padma",
+    description: "A lotus in two rings of petals around a seed pod.",
+  },
+] as const
+
+/** The three optional heritage watermarks, each on a full card. */
 export function CardWatermarksDemo() {
   return (
-    <div className="flex flex-wrap items-stretch justify-center gap-4">
-      {(["deula", "chakra", "padma"] as const).map((watermark) => (
-        <Card key={watermark} size="sm" watermark={watermark} className="w-44">
+    <div className="grid w-full gap-4 sm:grid-cols-3">
+      {WATERMARKS.map(({ value, title, description }) => (
+        <Card key={value} size="sm" watermark={value} className="w-full rounded-none">
           <CardHeader>
-            <CardTitle className="capitalize">{watermark}</CardTitle>
+            <CardTitle>{title}</CardTitle>
+            <CardDescription className="leading-relaxed">
+              {description}
+            </CardDescription>
           </CardHeader>
+          <CardFooter>
+            <code className="rounded-md bg-muted px-1.5 py-0.5 font-mono text-[0.6875rem] text-muted-foreground">
+              watermark=&quot;{value}&quot;
+            </code>
+          </CardFooter>
         </Card>
       ))}
     </div>
