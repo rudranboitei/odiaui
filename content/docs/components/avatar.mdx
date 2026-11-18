@@ -1,6 +1,6 @@
 ---
 title: Avatar
-description: An illustrated avatar with image, fallback, badge, and group parts, plus ten OdiaUI portraits.
+description: An avatar with local placeholder portraits, image, fallback, badge, and group parts.
 ---
 
 import { ComponentPreview } from "@/components/component-preview"
@@ -32,9 +32,7 @@ The item needs `@radix-ui/react-avatar` and `class-variance-authority`. Its
 colours come from self-contained `--odia-*` tokens, so it keeps its look in any
 host theme.
 
-The ten illustrated portraits ship inside the item as inline SVG
-(`components/ui/avatar-art.tsx`), so they need no image files. Fourteen extra
-placeholder portraits are installed as SVGs into `public/avatars/`, with a
+Fourteen placeholder portraits install as SVGs into `public/avatars/`, with a
 ready-made list in `components/ui/avatar-placeholders.ts`. They are local files
 on your own site — no remote URL or image host required. If you replace a
 placeholder with your own file, keep the same path so the list keeps working.
@@ -42,27 +40,34 @@ placeholder with your own file, keep the same path so the list keeps working.
 ## Usage
 
 ```tsx
-import { Avatar } from "@/components/ui/avatar"
-import { AvatarArt } from "@/components/ui/avatar-art"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { avatarPlaceholders } from "@/components/ui/avatar-placeholders"
 
 export function Example() {
+  const image = avatarPlaceholders[0]
+
   return (
-    <Avatar>
-      <AvatarArt name="odissi-dancer" />
+    <Avatar size="lg">
+      <AvatarImage src={image.src} alt={image.label} />
+      <AvatarFallback>?</AvatarFallback>
     </Avatar>
   )
 }
 ```
 
-`Avatar` wraps the Radix root. `AvatarArt` fills it with one of the built-in
-portraits; `AvatarImage` and `AvatarFallback` handle real photos and initials.
+`Avatar` wraps the Radix root. `AvatarImage` takes any local or remote image;
+`avatarPlaceholders` gives you local SVGs out of the box. `AvatarFallback`
+covers the initial state and any failed image.
 
 ## Composition
 
 ```text
 Avatar
 ├── AvatarImage
-├── AvatarArt
 ├── AvatarFallback
 └── AvatarBadge
 
@@ -73,18 +78,21 @@ AvatarGroup
 
 ## Basic
 
-An avatar with a portrait, and the same shape with initials instead.
+A placeholder image on its own, and the same shape with initials instead.
 
 <ComponentPreview>
   <AvatarBasicDemo />
 </ComponentPreview>
 
 ```tsx
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { AvatarArt } from "@/components/ui/avatar-art"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { avatarPlaceholders } from "@/components/ui/avatar-placeholders"
+
+const image = avatarPlaceholders[0]
 
 <Avatar size="lg">
-  <AvatarArt name="odissi-dancer" />
+  <AvatarImage src={image.src} alt={image.label} />
+  <AvatarFallback>?</AvatarFallback>
 </Avatar>
 
 <Avatar size="lg">
@@ -95,7 +103,7 @@ import { AvatarArt } from "@/components/ui/avatar-art"
 ## Badge
 
 `AvatarBadge` is a status dot in the bottom-right corner. It uses the shared ink
-colour by default; pass a `className` to use a presence colour.
+colour by default.
 
 <ComponentPreview>
   <AvatarBadgeDemo />
@@ -103,7 +111,8 @@ colour by default; pass a `className` to use a presence colour.
 
 ```tsx
 <Avatar size="lg">
-  <AvatarArt name="young-woman" />
+  <AvatarImage src={image.src} alt={image.label} />
+  <AvatarFallback>?</AvatarFallback>
   <AvatarBadge />
 </Avatar>
 ```
@@ -120,7 +129,8 @@ The badge also accepts a small icon.
 import { Plus } from "lucide-react"
 
 <Avatar size="lg">
-  <AvatarArt name="pattachitra-artist" />
+  <AvatarImage src={image.src} alt={image.label} />
+  <AvatarFallback>?</AvatarFallback>
   <AvatarBadge>
     <Plus aria-hidden="true" />
   </AvatarBadge>
@@ -138,13 +148,15 @@ the stack still reads on a card.
 
 ```tsx
 import { Avatar, AvatarGroup } from "@/components/ui/avatar"
-import { AvatarArt } from "@/components/ui/avatar-art"
+import { avatarPlaceholders } from "@/components/ui/avatar-placeholders"
 
 <AvatarGroup role="group" aria-label="OdiaUI team">
-  <Avatar><AvatarArt name="odissi-dancer" /></Avatar>
-  <Avatar><AvatarArt name="pattachitra-artist" /></Avatar>
-  <Avatar><AvatarArt name="sambalpuri-artisan" /></Avatar>
-  <Avatar><AvatarArt name="folk-performer" /></Avatar>
+  {avatarPlaceholders.slice(0, 4).map((image) => (
+    <Avatar key={image.src}>
+      <AvatarImage src={image.src} alt={image.label} />
+      <AvatarFallback>?</AvatarFallback>
+    </Avatar>
+  ))}
 </AvatarGroup>
 ```
 
@@ -159,9 +171,12 @@ the avatars in the group.
 
 ```tsx
 <AvatarGroup role="group" aria-label="OdiaUI team">
-  <Avatar><AvatarArt name="odissi-dancer" /></Avatar>
-  <Avatar><AvatarArt name="pattachitra-artist" /></Avatar>
-  <Avatar><AvatarArt name="sambalpuri-artisan" /></Avatar>
+  {avatarPlaceholders.slice(0, 3).map((image) => (
+    <Avatar key={image.src}>
+      <AvatarImage src={image.src} alt={image.label} />
+      <AvatarFallback>?</AvatarFallback>
+    </Avatar>
+  ))}
   <AvatarGroupCount>+3</AvatarGroupCount>
 </AvatarGroup>
 ```
@@ -192,10 +207,10 @@ Four sizes keep the avatar in step with the shared button and input scale.
 </ComponentPreview>
 
 ```tsx
-<Avatar size="sm"><AvatarArt name="odissi-dancer" /></Avatar>
-<Avatar size="default"><AvatarArt name="odissi-dancer" /></Avatar>
-<Avatar size="lg"><AvatarArt name="odissi-dancer" /></Avatar>
-<Avatar size="xl"><AvatarArt name="odissi-dancer" /></Avatar>
+<Avatar size="sm"><AvatarImage src={image.src} alt={image.label} /></Avatar>
+<Avatar size="default"><AvatarImage src={image.src} alt={image.label} /></Avatar>
+<Avatar size="lg"><AvatarImage src={image.src} alt={image.label} /></Avatar>
+<Avatar size="xl"><AvatarImage src={image.src} alt={image.label} /></Avatar>
 ```
 
 | `size`      | Edge     | Initials |
@@ -205,31 +220,52 @@ Four sizes keep the avatar in step with the shared button and input scale.
 | `"lg"`      | `3rem`   | `14px`   |
 | `"xl"`      | `4rem`   | `16px`   |
 
-## Illustrations
+## Placeholder Images
 
-Ten portraits are included, all drawn in the same flat style. Every one carries
-a default accessible label.
+All fourteen portraits ship with the item as local SVGs. They are installed into
+`public/avatars/`, so `src` is a root-relative path — nothing is fetched from a
+third-party URL. `avatarPlaceholders` gives you the paths and alt text in one
+typed list.
+
+<ComponentPreview>
+  <AvatarImageDemo />
+</ComponentPreview>
+
+```tsx
+import { avatarPlaceholders } from "@/components/ui/avatar-placeholders"
+
+avatarPlaceholders.map((image) => (
+  <Avatar key={image.src}>
+    <AvatarImage src={image.src} alt={image.label} />
+    <AvatarFallback>?</AvatarFallback>
+  </Avatar>
+))
+```
 
 <ComponentPreview className="p-6">
   <AvatarGalleryDemo />
 </ComponentPreview>
 
-| `name`                 | Portrait                |
-| ---------------------- | ----------------------- |
-| `"odissi-dancer"`      | Odissi dancer           |
-| `"pattachitra-artist"` | Pattachitra artist      |
-| `"sambalpuri-artisan"` | Sambalpuri weaver       |
-| `"folk-performer"`     | Odisha folk performer   |
-| `"young-woman"`        | Young Odia woman        |
-| `"young-man"`          | Young Odia man          |
-| `"adivasi-woman"`      | Adivasi community woman |
-| `"adivasi-man"`        | Adivasi community man   |
-| `"elder-woman"`        | Elderly Odia woman      |
-| `"elder-man"`          | Elderly Odia man        |
+| `src`                               | Label                          |
+| ----------------------------------- | ------------------------------ |
+| `/avatars/chakra-silhouette.svg`    | Silhouette with Konark chakra  |
+| `/avatars/deula-papercut.svg`       | Deula arch paper-cut portrait  |
+| `/avatars/duotone-turban.svg`       | Man in a pagadi, duotone       |
+| `/avatars/dusk-young-man.svg`       | Young man at dusk              |
+| `/avatars/ikat-hood.svg`            | Woman in Sambalpuri ikat       |
+| `/avatars/lineart-woman.svg`        | Line art Odia woman            |
+| `/avatars/pattachitra-portrait.svg` | Pattachitra style portrait     |
+| `/avatars/pattern-chakra.svg`       | Chakra pattern avatar          |
+| `/avatars/pattern-deula.svg`        | Deula temple pattern avatar    |
+| `/avatars/pattern-ikat.svg`         | Sambalpuri ikat pattern avatar |
+| `/avatars/pattern-padma.svg`        | Padma lotus pattern avatar     |
+| `/avatars/pattern-pida.svg`         | Pida diamond pattern avatar    |
+| `/avatars/santal-woman.svg`         | Santal woman with flowers      |
+| `/avatars/sticker-elder-woman.svg`  | Sticker style elder woman      |
 
-The portraits are illustrations, not photos of real people, so they are safe to
-use in demos and seeded data. Pass `label` to rename one, or `aria-hidden` when
-the surrounding text already names the person.
+These are illustrations and patterns, not photos of real people, so they are
+safe to use in demos and seeded data. Keep an `AvatarFallback` so a missing file
+still renders cleanly.
 
 ## Fallback
 
@@ -248,73 +284,15 @@ overflow count.
 
 ## Image
 
-For a real photo, use `AvatarImage`. Radix keeps the fallback visible until the
-image loads and whenever it fails.
+For a real photo, point `AvatarImage` at any image URL. Radix keeps the fallback
+visible until the image loads and whenever it fails.
 
 ```tsx
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-
 <Avatar size="lg">
   <AvatarImage src="/team/maya.jpg" alt="Maya" />
   <AvatarFallback>MK</AvatarFallback>
 </Avatar>
 ```
-
-## Placeholder Images
-
-Fourteen flat placeholder portraits come with the item. The SVGs install into
-`public/avatars/`, so `src` is a local, root-relative path — nothing is fetched
-from a third-party URL and nothing breaks if you deploy under your own domain.
-`avatarPlaceholders` gives you the paths and alt text in one typed list.
-
-<ComponentPreview>
-  <AvatarImageDemo />
-</ComponentPreview>
-
-```tsx
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/ui/avatar"
-import { avatarPlaceholders } from "@/components/ui/avatar-placeholders"
-
-export function Example() {
-  const placeholder = avatarPlaceholders[0]
-
-  return (
-    <Avatar size="lg">
-      <AvatarImage src={placeholder.src} alt={placeholder.label} />
-      <AvatarFallback>?</AvatarFallback>
-    </Avatar>
-  )
-}
-```
-
-| `src`                                  | Label                          |
-| -------------------------------------- | ------------------------------ |
-| `/avatars/chakra-silhouette.svg`       | Silhouette with Konark chakra  |
-| `/avatars/deula-papercut.svg`          | Deula arch paper-cut portrait  |
-| `/avatars/duotone-turban.svg`          | Man in a pagadi, duotone       |
-| `/avatars/dusk-young-man.svg`          | Young man at dusk              |
-| `/avatars/ikat-hood.svg`               | Woman in Sambalpuri ikat       |
-| `/avatars/lineart-woman.svg`           | Line art Odia woman            |
-| `/avatars/pattachitra-portrait.svg`    | Pattachitra style portrait     |
-| `/avatars/pattern-chakra.svg`          | Chakra pattern avatar          |
-| `/avatars/pattern-deula.svg`           | Deula temple pattern avatar    |
-| `/avatars/pattern-ikat.svg`            | Sambalpuri ikat pattern avatar |
-| `/avatars/pattern-padma.svg`           | Padma lotus pattern avatar     |
-| `/avatars/pattern-pida.svg`            | Pida diamond pattern avatar    |
-| `/avatars/santal-woman.svg`            | Santal woman with flowers      |
-| `/avatars/sticker-elder-woman.svg`     | Sticker style elder woman      |
-
-These are meant for seeded data, story fixtures, and demos. Swap in real photos
-when you have them; keep an `AvatarFallback` so a missing file still renders
-cleanly.
 
 ## API Reference
 
@@ -363,30 +341,19 @@ ring.
 
 Matches the size of the avatars in its group and accepts an icon.
 
-### AvatarArt
-
-| Prop        | Type            | Default                       |
-| ----------- | --------------- | ----------------------------- |
-| `name`      | `AvatarArtName` | — (required)                  |
-| `label`     | `string`        | a description of the portrait |
-| `className` | `string`        | —                             |
-
-`AvatarArtName` is the union of the ten names in the table above. `AvatarArt`
-also accepts native `<svg>` props, so `aria-hidden` works for decorative use.
-
-`className` merges last through `cn` on every part, so you can override any
-style.
-
 ### avatarPlaceholders
 
 A typed, read-only array of `{ src, label }` objects for the 14 installed SVGs.
 Use `src` as `AvatarImage`’s `src` and `label` as its `alt`. The files live at
 `public/avatars/<name>.svg`; no prop is required.
 
+`className` merges last through `cn` on every component part, so you can
+override any style.
+
 ## Accessibility
 
-- Every portrait has a default label such as “Odissi dancer”. Pass `label` to
-  give the actual person's name, or `aria-hidden` when nearby text already does.
+- Every placeholder label describes its artwork. Use it as `AvatarImage`’s
+  `alt`, or pass a person's name when the avatar represents someone.
 - `AvatarFallback` initials are read as-is. If they are cryptic, put an
   `aria-label` on the `Avatar` instead.
 - The overflow count needs context: label the `AvatarGroup` with `role="group"`,

@@ -156,7 +156,7 @@
       "name": "avatar",
       "type": "registry:ui",
       "title": "Avatar",
-      "description": "An illustrated avatar with image, fallback, badge, and group parts, ten portraits, and 14 local placeholder SVGs.",
+      "description": "An avatar with image, fallback, badge, and group parts, a four-step size scale, and 14 local placeholder SVGs.",
       "dependencies": [
         "@radix-ui/react-avatar",
         "class-variance-authority"
@@ -164,10 +164,6 @@
       "files": [
         {
           "path": "avatar.tsx",
-          "type": "registry:ui"
-        },
-        {
-          "path": "avatar-art.tsx",
           "type": "registry:ui"
         },
         {

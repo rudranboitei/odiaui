@@ -10,50 +10,45 @@ import {
   AvatarGroupCount,
   AvatarImage,
 } from "@/registry/new-york/ui/avatar"
-import { AvatarArt, type AvatarArtName } from "@/registry/new-york/ui/avatar-art"
 import { avatarPlaceholders } from "@/registry/new-york/ui/avatar-placeholders"
 
-const PORTRAITS: { name: AvatarArtName; label: string }[] = [
-  { name: "odissi-dancer", label: "Odissi dancer" },
-  { name: "pattachitra-artist", label: "Pattachitra artist" },
-  { name: "sambalpuri-artisan", label: "Sambalpuri weaver" },
-  { name: "young-woman", label: "Young woman" },
-  { name: "young-man", label: "Young man" },
-  { name: "adivasi-woman", label: "Adivasi woman" },
-  { name: "adivasi-man", label: "Adivasi man" },
-  { name: "elder-woman", label: "Elder woman" },
-  { name: "elder-man", label: "Elder man" },
-  { name: "folk-performer", label: "Folk performer" },
-]
+const IMAGES = avatarPlaceholders
 
 /* --------------------------------- Preview --------------------------------- */
 
-/** The default preview: illustrated portraits from the OdiaUI set. */
+/** A mix of the placeholder SVGs that ship with the item. */
 export function AvatarDemo() {
   return (
     <div className="flex flex-wrap items-start justify-center gap-6">
-      {PORTRAITS.slice(0, 5).map(({ name, label }) => (
-        <div key={name} className="flex w-20 flex-col items-center gap-2">
-          <Avatar size="lg">
-            <AvatarArt name={name} />
-          </Avatar>
-          <span className="text-center text-xs leading-tight text-muted-foreground">
-            {label}
-          </span>
-        </div>
-      ))}
+      {[0, 2, 4, 6, 12].map((index) => {
+        const image = IMAGES[index]
+        return (
+          <div key={image.src} className="flex w-20 flex-col items-center gap-2">
+            <Avatar size="lg">
+              <AvatarImage src={image.src} alt={image.label} />
+              <AvatarFallback>?</AvatarFallback>
+            </Avatar>
+            <span className="text-center text-xs leading-tight text-muted-foreground">
+              {image.label}
+            </span>
+          </div>
+        )
+      })}
     </div>
   )
 }
 
 /* ---------------------------------- Basic ---------------------------------- */
 
-/** One illustrated avatar on its own. */
+/** One placeholder image on its own, alongside the initials fallback. */
 export function AvatarBasicDemo() {
+  const image = IMAGES[0]
+
   return (
     <div className="flex items-center gap-4">
       <Avatar size="lg">
-        <AvatarArt name="odissi-dancer" />
+        <AvatarImage src={image.src} alt={image.label} />
+        <AvatarFallback>?</AvatarFallback>
       </Avatar>
       <Avatar size="lg">
         <AvatarFallback>RB</AvatarFallback>
@@ -62,20 +57,20 @@ export function AvatarBasicDemo() {
   )
 }
 
-/* --------------------------- Placeholder images ----------------------------- */
+/* -------------------------------- Placeholders ------------------------------ */
 
-/** Root-relative placeholder SVGs installed under `public/avatars`. */
+/** All 14 local placeholder portraits. */
 export function AvatarImageDemo() {
   return (
     <div className="flex flex-wrap items-start justify-center gap-6">
-      {avatarPlaceholders.slice(0, 5).map(({ src, label }) => (
-        <div key={src} className="flex w-20 flex-col items-center gap-2">
+      {IMAGES.slice(0, 5).map((image) => (
+        <div key={image.src} className="flex w-20 flex-col items-center gap-2">
           <Avatar size="lg">
-            <AvatarImage src={src} alt={label} />
+            <AvatarImage src={image.src} alt={image.label} />
             <AvatarFallback>?</AvatarFallback>
           </Avatar>
           <span className="text-center text-xs leading-tight text-muted-foreground">
-            {label}
+            {image.label}
           </span>
         </div>
       ))}
@@ -87,19 +82,25 @@ export function AvatarImageDemo() {
 
 /** Status dot in the bottom-right corner. */
 export function AvatarBadgeDemo() {
+  const image = IMAGES[4]
+
   return (
     <Avatar size="lg">
-      <AvatarArt name="young-woman" />
-      <AvatarBadge className="bg-green-500" />
+      <AvatarImage src={image.src} alt={image.label} />
+      <AvatarFallback>?</AvatarFallback>
+      <AvatarBadge />
     </Avatar>
   )
 }
 
 /** The badge can hold a small icon instead of being a plain dot. */
 export function AvatarBadgeIconDemo() {
+  const image = IMAGES[6]
+
   return (
     <Avatar size="lg">
-      <AvatarArt name="pattachitra-artist" />
+      <AvatarImage src={image.src} alt={image.label} />
+      <AvatarFallback>?</AvatarFallback>
       <AvatarBadge>
         <Plus aria-hidden="true" />
       </AvatarBadge>
@@ -109,22 +110,19 @@ export function AvatarBadgeIconDemo() {
 
 /* ---------------------------------- Group ---------------------------------- */
 
-/** Overlapping team avatars. */
+/** Overlapping team avatars, mixing portraits and patterns. */
 export function AvatarGroupDemo() {
   return (
     <AvatarGroup role="group" aria-label="OdiaUI team">
-      <Avatar>
-        <AvatarArt name="odissi-dancer" />
-      </Avatar>
-      <Avatar>
-        <AvatarArt name="pattachitra-artist" />
-      </Avatar>
-      <Avatar>
-        <AvatarArt name="sambalpuri-artisan" />
-      </Avatar>
-      <Avatar>
-        <AvatarArt name="folk-performer" />
-      </Avatar>
+      {[1, 3, 5, 12].map((index) => {
+        const image = IMAGES[index]
+        return (
+          <Avatar key={image.src}>
+            <AvatarImage src={image.src} alt={image.label} />
+            <AvatarFallback>?</AvatarFallback>
+          </Avatar>
+        )
+      })}
     </AvatarGroup>
   )
 }
@@ -133,15 +131,15 @@ export function AvatarGroupDemo() {
 export function AvatarGroupCountDemo() {
   return (
     <AvatarGroup role="group" aria-label="OdiaUI team">
-      <Avatar>
-        <AvatarArt name="odissi-dancer" />
-      </Avatar>
-      <Avatar>
-        <AvatarArt name="pattachitra-artist" />
-      </Avatar>
-      <Avatar>
-        <AvatarArt name="sambalpuri-artisan" />
-      </Avatar>
+      {[2, 7, 11].map((index) => {
+        const image = IMAGES[index]
+        return (
+          <Avatar key={image.src}>
+            <AvatarImage src={image.src} alt={image.label} />
+            <AvatarFallback>?</AvatarFallback>
+          </Avatar>
+        )
+      })}
       <AvatarGroupCount>+3</AvatarGroupCount>
     </AvatarGroup>
   )
@@ -151,15 +149,15 @@ export function AvatarGroupCountDemo() {
 export function AvatarGroupIconDemo() {
   return (
     <AvatarGroup role="group" aria-label="OdiaUI team">
-      <Avatar>
-        <AvatarArt name="odissi-dancer" />
-      </Avatar>
-      <Avatar>
-        <AvatarArt name="pattachitra-artist" />
-      </Avatar>
-      <Avatar>
-        <AvatarArt name="sambalpuri-artisan" />
-      </Avatar>
+      {[8, 9, 13].map((index) => {
+        const image = IMAGES[index]
+        return (
+          <Avatar key={image.src}>
+            <AvatarImage src={image.src} alt={image.label} />
+            <AvatarFallback>?</AvatarFallback>
+          </Avatar>
+        )
+      })}
       <AvatarGroupCount>
         <Plus aria-hidden="true" />
       </AvatarGroupCount>
@@ -169,14 +167,17 @@ export function AvatarGroupIconDemo() {
 
 /* ---------------------------------- Sizes ---------------------------------- */
 
-/** The four sizes, using the same portrait. */
+/** The four sizes, using one placeholder throughout. */
 export function AvatarSizesDemo() {
+  const image = IMAGES[10]
+
   return (
     <div className="flex items-end gap-4">
       {(["sm", "default", "lg", "xl"] as const).map((size) => (
         <div key={size} className="flex flex-col items-center gap-2">
           <Avatar size={size}>
-            <AvatarArt name="odissi-dancer" />
+            <AvatarImage src={image.src} alt={image.label} />
+            <AvatarFallback>?</AvatarFallback>
           </Avatar>
           <span className="text-xs text-muted-foreground">{size}</span>
         </div>
@@ -185,19 +186,20 @@ export function AvatarSizesDemo() {
   )
 }
 
-/* ------------------------------- Illustrations ------------------------------ */
+/* --------------------------------- Gallery --------------------------------- */
 
-/** All ten portraits that ship with the item. */
+/** Every placeholder portrait that ships with the item. */
 export function AvatarGalleryDemo() {
   return (
     <div className="grid w-full grid-cols-5 gap-x-4 gap-y-6">
-      {PORTRAITS.map(({ name, label }) => (
-        <div key={name} className="flex flex-col items-center gap-2">
+      {IMAGES.map((image) => (
+        <div key={image.src} className="flex flex-col items-center gap-2">
           <Avatar>
-            <AvatarArt name={name} />
+            <AvatarImage src={image.src} alt={image.label} />
+            <AvatarFallback>?</AvatarFallback>
           </Avatar>
           <span className="text-center text-[0.6875rem] leading-tight text-muted-foreground">
-            {label}
+            {image.label}
           </span>
         </div>
       ))}
@@ -207,7 +209,7 @@ export function AvatarGalleryDemo() {
 
 /* --------------------------------- Fallback -------------------------------- */
 
-/** Initials (or a count) while there is no portrait. */
+/** Initials (or a count) while there is no image. */
 export function AvatarFallbackDemo() {
   return (
     <div className="flex items-center gap-4">
