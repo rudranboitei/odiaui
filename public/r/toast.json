@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toast",
+  "title": "Toast",
+  "description": "Sonner-based notifications with OdiaUI tokens, all shadcn toast variants, and no extra theme dependency.",
+  "dependencies": [
+    "sonner",
+    "lucide-react",
+    "class-variance-authority"
+  ],
+  "files": [
+    {
+      "path": "registry/new-york/ui/toaster.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cva } from \"class-variance-authority\"\nimport {\n  CircleCheckIcon,\n  InfoIcon,\n  Loader2Icon,\n  OctagonXIcon,\n  TriangleAlertIcon,\n  XIcon,\n} from \"lucide-react\"\nimport {\n  Toaster as Sonner,\n  toast,\n  type ToasterProps as SonnerToasterProps,\n} from \"sonner\"\n\nimport { cn } from \"@/lib/utils\"\n\n/* -------------------------------------------------------------------------- */\n/*  OdiaUI Toaster                                                            */\n/*  Wraps Sonner — the toast primitive used by shadcn/ui — with OdiaUI tokens.  */\n/*  Variants are Sonner's toast types (default, success, info, warning, error,  */\n/*  loading and promise). Each type gets its own icon and a restrained border   */\n/*  tone, so state never depends on colour alone. No theme-provider package:    */\n/*  the light/dark values live in the --odia-* tokens shipped with this item.   */\n/* -------------------------------------------------------------------------- */\n\n/**\n * Scoped token defaults. The CLI also injects these into the consumer's CSS;\n * declaring them here means a copy-and-paste install still renders correctly.\n */\nconst TOAST_TOKENS = [\n  \"[--odia-surface:oklch(1_0_0)] dark:[--odia-surface:oklch(0.205_0_0)]\",\n  \"[--odia-ink:oklch(0.145_0_0)] dark:[--odia-ink:oklch(0.985_0_0)]\",\n  \"[--odia-muted:oklch(0.556_0_0)] dark:[--odia-muted:oklch(0.708_0_0)]\",\n  \"[--odia-border:oklch(0.88_0_0)] dark:[--odia-border:oklch(0.32_0_0)]\",\n  \"[--odia-ring:oklch(0.55_0_0)] dark:[--odia-ring:oklch(0.72_0_0)]\",\n  \"[--odia-invalid:oklch(0.577_0.245_27.325)] dark:[--odia-invalid:oklch(0.704_0.191_22.216)]\",\n]\n\n/** Sonner reads these CSS variables for every toast part. */\nconst TOAST_STYLE = {\n  \"--normal-bg\": \"var(--odia-surface)\",\n  \"--normal-text\": \"var(--odia-ink)\",\n  \"--normal-border\": \"var(--odia-border)\",\n  \"--normal-bg-hover\": \"var(--odia-surface)\",\n  \"--normal-border-hover\": \"var(--odia-border)\",\n  \"--success-bg\": \"var(--odia-surface)\",\n  \"--success-text\": \"var(--odia-ink)\",\n  \"--success-border\": \"var(--odia-ring)\",\n  \"--info-bg\": \"var(--odia-surface)\",\n  \"--info-text\": \"var(--odia-ink)\",\n  \"--info-border\": \"var(--odia-muted)\",\n  \"--warning-bg\": \"var(--odia-surface)\",\n  \"--warning-text\": \"var(--odia-ink)\",\n  \"--warning-border\": \"var(--odia-ink)\",\n  \"--error-bg\": \"var(--odia-surface)\",\n  \"--error-text\": \"var(--odia-ink)\",\n  \"--error-border\": \"var(--odia-invalid)\",\n  \"--border-radius\": \"1rem\",\n} as React.CSSProperties\n\n/**\n * Toast surface per Sonner type. Borders use existing OdiaUI tokens and stay\n * secondary to the icon + message, which carry the meaning.\n */\nconst toastVariants = cva(\n  \"!rounded-2xl !border !bg-(--odia-surface) !p-4 !text-(--odia-ink)\",\n  {\n    variants: {\n      variant: {\n        default: \"!border-(--odia-border)\",\n        success: \"!border-(--odia-ring)\",\n        info: \"!border-(--odia-muted)\",\n        warning: \"!border-(--odia-ink)\",\n        error: \"!border-(--odia-invalid)\",\n        loading: \"!border-(--odia-border)\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n    },\n  }\n)\n\nconst TOAST_ICONS = {\n  success: <CircleCheckIcon className=\"size-4\" aria-hidden=\"true\" />,\n  info: <InfoIcon className=\"size-4\" aria-hidden=\"true\" />,\n  warning: <TriangleAlertIcon className=\"size-4\" aria-hidden=\"true\" />,\n  error: <OctagonXIcon className=\"size-4\" aria-hidden=\"true\" />,\n  loading: (\n    <Loader2Icon\n      className=\"size-4 animate-spin motion-reduce:animate-none\"\n      aria-hidden=\"true\"\n    />\n  ),\n  close: <XIcon className=\"size-3.5\" aria-hidden=\"true\" />,\n}\n\nconst FOCUS_RING =\n  \"focus-visible:!outline-2 focus-visible:!outline-offset-2 focus-visible:!outline-(--odia-ring)\"\n\nexport type ToasterProps = SonnerToasterProps\n\n/** Mount once in your layout. Fire notifications with the exported `toast`. */\nfunction Toaster({\n  className,\n  icons,\n  toastOptions,\n  style,\n  theme = \"system\",\n  position = \"bottom-right\",\n  ...props\n}: ToasterProps) {\n  const custom = toastOptions?.classNames\n\n  return (\n    <Sonner\n      theme={theme}\n      position={position}\n      className={cn(TOAST_TOKENS, \"toaster group\", className)}\n      style={{ ...TOAST_STYLE, ...style } as React.CSSProperties}\n      icons={{ ...TOAST_ICONS, ...icons }}\n      toastOptions={{\n        ...toastOptions,\n        classNames: {\n          toast: cn(\"!font-normal !tracking-normal\", custom?.toast),\n          title: cn(\n            \"!text-sm !font-medium !tracking-[0.01em] !text-(--odia-ink)\",\n            custom?.title\n          ),\n          description: cn(\n            \"!text-xs !leading-relaxed !text-(--odia-muted)\",\n            custom?.description\n          ),\n          default: cn(toastVariants({ variant: \"default\" }), custom?.default),\n          success: cn(toastVariants({ variant: \"success\" }), custom?.success),\n          info: cn(toastVariants({ variant: \"info\" }), custom?.info),\n          warning: cn(toastVariants({ variant: \"warning\" }), custom?.warning),\n          error: cn(toastVariants({ variant: \"error\" }), custom?.error),\n          loading: cn(toastVariants({ variant: \"loading\" }), custom?.loading),\n          actionButton: cn(\n            \"!h-7 !rounded-full !px-3 !text-xs !font-medium\",\n            \"transition-opacity duration-200 hover:!opacity-90\",\n            FOCUS_RING,\n            custom?.actionButton\n          ),\n          cancelButton: cn(\n            \"!h-7 !rounded-full !border !border-(--odia-border) !bg-transparent !px-3 !text-xs !font-medium !text-(--odia-ink)\",\n            \"transition-opacity duration-200 hover:!opacity-90\",\n            FOCUS_RING,\n            custom?.cancelButton\n          ),\n          closeButton: cn(\n            \"!size-5 !rounded-full !border-(--odia-border) !bg-(--odia-surface) !text-(--odia-ink)\",\n            \"transition-opacity duration-200 hover:!opacity-90\",\n            FOCUS_RING,\n            custom?.closeButton\n          ),\n        },\n      }}\n      {...props}\n    />\n  )\n}\n\nexport { Toaster, toast, toastVariants }\n",
+      "type": "registry:ui"
+    }
+  ],
+  "cssVars": {
+    "light": {
+      "odia-surface": "oklch(1 0 0)",
+      "odia-ink": "oklch(0.145 0 0)",
+      "odia-muted": "oklch(0.556 0 0)",
+      "odia-border": "oklch(0.88 0 0)",
+      "odia-ring": "oklch(0.55 0 0)",
+      "odia-invalid": "oklch(0.577 0.245 27.325)"
+    },
+    "dark": {
+      "odia-surface": "oklch(0.205 0 0)",
+      "odia-ink": "oklch(0.985 0 0)",
+      "odia-muted": "oklch(0.708 0 0)",
+      "odia-border": "oklch(0.32 0 0)",
+      "odia-ring": "oklch(0.72 0 0)",
+      "odia-invalid": "oklch(0.704 0.191 22.216)"
+    }
+  },
+  "type": "registry:ui"
+}

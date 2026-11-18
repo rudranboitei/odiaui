@@ -1,0 +1,222 @@
+---
+title: Toast
+description: Sonner-based notifications with OdiaUI tokens, shadcn toast variants, and no extra theme dependency.
+---
+
+import { ComponentPreview } from "@/components/component-preview"
+import { Toaster } from "@/registry/new-york/ui/toaster"
+import {
+  ToastDemo,
+  ToastTypesDemo,
+  ToastPromiseDemo,
+  ToastActionDemo,
+  ToastPositionDemo,
+  ToastDismissibleDemo,
+} from "@/components/examples/toast-demo"
+
+{/* One toaster for the whole page. In an app, mount it once in the root layout. */}
+<Toaster />
+
+## Preview
+
+<ComponentPreview>
+  <ToastDemo />
+</ComponentPreview>
+
+## Installation
+
+<InstallCommand command="shadcn@latest add @odiaui/toast" />
+
+The item wraps [Sonner](https://sonner.emilkowal.ski/) — the toast primitive used
+by current shadcn/ui. It pulls in `sonner` and `lucide-react` and ships the
+`--odia-*` tokens it uses. It does **not** require `next-themes`: light and dark
+come from the same token set as Button and Input.
+
+Mount `<Toaster />` once in your root layout, then call `toast()` anywhere.
+
+```tsx
+// app/layout.tsx
+import { Toaster } from "@/components/ui/toaster"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  )
+}
+```
+
+If you copy the source without the CLI, the `--odia-*` tokens declared in the
+item's registry entry must exist in your CSS. The component also scopes them on
+the toaster itself, so copy-paste still renders correctly.
+
+## Usage
+
+```tsx
+import { toast, Toaster } from "@/components/ui/toaster"
+
+export function Example() {
+  return (
+    <Toaster />
+    // ...
+    toast("Event has been created", {
+      description: "Sunday, December 03, 2023 at 9:00 AM",
+    })
+  )
+}
+```
+
+Call `toast()` from an event handler, not during render. Both `toast` and
+`Toaster` are exported from the installed file, so you never need a second
+import path.
+
+## Variants
+
+Sonner's toast types are all supported. Each has its own icon and a subtle
+border tone from the OdiaUI token set; the message and icon carry the meaning,
+never the colour alone.
+
+<ComponentPreview>
+  <ToastTypesDemo />
+</ComponentPreview>
+
+```tsx
+toast("Event has been created")
+toast.success("Event has been created")
+toast.info("Be at the venue 10 minutes before the event time")
+toast.warning("Event start time cannot be earlier than 8am")
+toast.error("Event has not been created")
+toast.loading("Saving event…")
+```
+
+| Call                 | Type      | Icon            |
+| -------------------- | --------- | --------------- |
+| `toast()`            | default   | —               |
+| `toast.success()`    | success   | check circle    |
+| `toast.info()`       | info      | info circle     |
+| `toast.warning()`    | warning   | warning triangle|
+| `toast.error()`      | error     | octagon X       |
+| `toast.loading()`    | loading   | spinner         |
+| `toast.promise()`    | loading → success / error | spinner → check / X |
+
+## Promise
+
+`toast.promise()` follows one promise and swaps the message for success or
+error when it settles.
+
+<ComponentPreview>
+  <ToastPromiseDemo />
+</ComponentPreview>
+
+```tsx
+toast.promise(saveEvent(), {
+  loading: "Saving…",
+  success: (event) => `${event.name} has been created`,
+  error: "Could not save the event",
+})
+```
+
+## With Action
+
+Action and cancel buttons use the same pill shape and token palette as the
+shared Button.
+
+<ComponentPreview>
+  <ToastActionDemo />
+</ComponentPreview>
+
+```tsx
+toast("Event has been created", {
+  description: "You can still undo this.",
+  action: { label: "Undo", onClick: () => toast("Undone") },
+  cancel: { label: "Dismiss", onClick: () => toast("Dismissed") },
+  duration: 10000,
+})
+```
+
+## Position
+
+Set a default `position` on the toaster, or override it for one toast.
+
+<ComponentPreview>
+  <ToastPositionDemo />
+</ComponentPreview>
+
+```tsx
+<Toaster position="top-right" />
+
+toast("Top right toast", { position: "top-right" })
+toast("Bottom center toast", { position: "bottom-center" })
+```
+
+## Dismissible
+
+Use `closeButton: true` with a long or infinite duration for messages the user
+should dismiss themselves.
+
+<ComponentPreview>
+  <ToastDismissibleDemo />
+</ComponentPreview>
+
+```tsx
+toast("Profile updated", {
+  description: "Your changes are saved.",
+  closeButton: true,
+  duration: Infinity,
+})
+```
+
+## API Reference
+
+### Toaster
+
+All native Sonner `ToasterProps` pass through. Common options:
+
+| Prop           | Type                                                   | Default        |
+| -------------- | ------------------------------------------------------ | -------------- |
+| `position`     | `"top-left" \| "top-right" \| "bottom-left" \| "bottom-right" \| "top-center" \| "bottom-center"` | `"bottom-right"` |
+| `theme`        | `"light" \| "dark" \| "system"`                        | `"system"`     |
+| `duration`     | `number`                                               | Sonner default |
+| `closeButton`  | `boolean`                                              | `false`        |
+| `expand`       | `boolean`                                              | `false`        |
+| `visibleToasts`| `number`                                               | `3`            |
+| `toastOptions` | `ToastOptions`                                         | —              |
+| `icons`        | `ToastIcons`                                           | OdiaUI icons   |
+| `className`    | `string`                                               | —              |
+
+Your `className`, `style`, `icons` and `toastOptions.classNames` merge last, so
+any part can be overridden.
+
+### toast
+
+| Method                  | Description                                      |
+| ----------------------- | ------------------------------------------------ |
+| `toast(message, data?)` | Default toast with optional description/action   |
+| `toast.success()`       | Success variant                                  |
+| `toast.info()`          | Info variant                                     |
+| `toast.warning()`       | Warning variant                                  |
+| `toast.error()`         | Error variant                                    |
+| `toast.loading()`       | Pending variant with a spinner                   |
+| `toast.promise()`       | Pending → success/error from a promise           |
+| `toast.custom()`        | Fully custom JSX toast                           |
+| `toast.dismiss()`       | Dismiss one toast by id                          |
+
+`toastVariants` is also exported for advanced `toastOptions.classNames`
+overrides.
+
+## Accessibility
+
+- Sonner renders notifications in a labelled `aria-live="polite"` region, so
+  screen readers announce them without moving focus. Use `customAriaLabel` on
+  `<Toaster />` to rename the region, and the F8 hotkey to move focus into the
+  toasts.
+- All variant and close icons are decorative `aria-hidden` SVGs. The text, not
+  the colour, states what happened.
+- Action and cancel buttons are real `<button>` elements with a visible token
+  focus ring. Give their labels clear verb text such as “Undo”.
+- The loading spinner respects `motion-reduce`; other transitions are scoped
+  colour/opacity changes, never `transition-all`.

@@ -257,6 +257,41 @@
       "type": "registry:ui"
     },
     {
+      "name": "toast",
+      "title": "Toast",
+      "description": "Sonner-based notifications with OdiaUI tokens, all shadcn toast variants, and no extra theme dependency.",
+      "dependencies": [
+        "sonner",
+        "lucide-react",
+        "class-variance-authority"
+      ],
+      "files": [
+        {
+          "path": "registry/new-york/ui/toaster.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "cssVars": {
+        "light": {
+          "odia-surface": "oklch(1 0 0)",
+          "odia-ink": "oklch(0.145 0 0)",
+          "odia-muted": "oklch(0.556 0 0)",
+          "odia-border": "oklch(0.88 0 0)",
+          "odia-ring": "oklch(0.55 0 0)",
+          "odia-invalid": "oklch(0.577 0.245 27.325)"
+        },
+        "dark": {
+          "odia-surface": "oklch(0.205 0 0)",
+          "odia-ink": "oklch(0.985 0 0)",
+          "odia-muted": "oklch(0.708 0 0)",
+          "odia-border": "oklch(0.32 0 0)",
+          "odia-ring": "oklch(0.72 0 0)",
+          "odia-invalid": "oklch(0.704 0.191 22.216)"
+        }
+      },
+      "type": "registry:ui"
+    },
+    {
       "name": "theme-odiaui",
       "title": "odiaui Theme",
       "description": "Custom theme for odiaui.",

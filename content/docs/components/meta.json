@@ -9,6 +9,7 @@
     "textarea",
     "card",
     "badge",
-    "skeleton"
+    "skeleton",
+    "toast"
   ]
 }
