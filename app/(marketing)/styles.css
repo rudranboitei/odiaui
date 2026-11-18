@@ -30,9 +30,9 @@
  */
 
 @theme inline {
-  --font-sans: "Geist", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -155,7 +155,7 @@
 
 /* Serif display headline: Instrument Serif, tight tracking, balanced lines. */
 @utility display {
-  font-family: var(--font-display);
+  font-family: var(--font-instrument-serif), Georgia, "Times New Roman", serif;
   font-weight: 400;
   letter-spacing: -0.035em;
   line-height: 1.05;
