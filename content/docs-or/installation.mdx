@@ -1,0 +1,70 @@
+---
+title: ସ୍ଥାପନ
+description: ଆପଣଙ୍କ ପ୍ରୋଜେକ୍ଟରେ odiaui କମ୍ପୋନେଣ୍ଟ କିପରି ସ୍ଥାପନ କରିବେ।
+---
+
+## ପୂର୍ବ ଆବଶ୍ୟକତା
+
+ଆପଣଙ୍କ ପାଖରେ [shadcn/ui](https://ui.shadcn.com) ସହିତ ସେଟ୍ ଅପ୍ ହୋଇଥିବା ଏକ
+ପ୍ରୋଜେକ୍ଟ ଆବଶ୍ୟକ। ଯଦି ଏପର୍ଯ୍ୟନ୍ତ ସେଟ୍ ଅପ୍ କରିନାହାନ୍ତି, ତେବେ init କମାଣ୍ଡ
+ଚଲାନ୍ତୁ:
+
+<InstallCommand command="shadcn@latest init" />
+
+## ରେଜିଷ୍ଟ୍ରି ଯୋଡ଼ନ୍ତୁ
+
+<Steps>
+<Step>
+
+**ନେମସ୍ପେସ୍ ରେଜିଷ୍ଟର କରନ୍ତୁ**
+
+`components.json` ରେ ଥରେ `@odiaui` ଯୋଡ଼ନ୍ତୁ। କମ୍ପୋନେଣ୍ଟ ସ୍ଥାପନ କରିବାର ଏହା
+ହେଉଛି ସୁପାରିଶ କରାଯାଉଥିବା ଉପାୟ।
+
+<InstallCommand command="shadcn@latest registry add @odiaui=https://odiaui.xyz/r/{name}.json" />
+
+</Step>
+<Step>
+
+**ଏକ କମ୍ପୋନେଣ୍ଟ ସ୍ଥାପନ କରନ୍ତୁ**
+
+<InstallCommand command="shadcn@latest add @odiaui/button" />
+
+କମ୍ପୋନେଣ୍ଟଟି `components/ui` କୁ କପି ହୁଏ, ସହିତ ଆବଶ୍ୟକ ଡିପେଣ୍ଡେନ୍ସି ଏବଂ
+`--odia-*` CSS ଭେରିଏବଲ୍ ମଧ୍ୟ ଆସେ।
+
+</Step>
+<Step>
+
+**ଏହା ବ୍ୟବହାର କରନ୍ତୁ**
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export function Example() {
+  return <Button>Click me</Button>
+}
+```
+
+</Step>
+</Steps>
+
+## URL ଦ୍ୱାରା ସ୍ଥାପନ
+
+ଯଦି ଆପଣ ନେମସ୍ପେସ୍ ରେଜିଷ୍ଟର କରିବାକୁ ଚାହାନ୍ତି ନାହିଁ, ତେବେ ସିଧାସଳଖ ଆଇଟମ୍ URL
+ଦିଅନ୍ତୁ:
+
+<InstallCommand command="shadcn@latest add https://odiaui.xyz/r/button.json" />
+
+## ରେଜିଷ୍ଟ୍ରି ବ୍ରାଉଜ୍ କରନ୍ତୁ
+
+ସମସ୍ତ ଉପଲବ୍ଧ ଆଇଟମ୍ ଦେଖିବା ପାଇଁ `list` କମାଣ୍ଡ ବ୍ୟବହାର କରନ୍ତୁ:
+
+<InstallCommand command="shadcn@latest list @odiaui" />
+
+କିମ୍ବା [କମ୍ପୋନେଣ୍ଟ ଓଭରଭ୍ୟୁ](/or/docs/components) ଖୋଲନ୍ତୁ।
+
+<Callout title="ପ୍ୟାକେଜ୍ ମ୍ୟାନେଜର">
+  ଉପରର ପ୍ରତ୍ୟେକ କମାଣ୍ଡ Bun, npm, pnpm ଏବଂ Yarn ପାଇଁ ଉପଲବ୍ଧ — ଆପଣଙ୍କ ପ୍ରୋଜେକ୍ଟ
+  ଯେଉଁ ପ୍ୟାକେଜ୍ ମ୍ୟାନେଜର ବ୍ୟବହାର କରେ, ସେହି ଟ୍ୟାବ୍ ବାଛନ୍ତୁ।
+</Callout>

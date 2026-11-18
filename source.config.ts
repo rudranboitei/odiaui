@@ -12,4 +12,17 @@ export const docs = defineDocs({
   },
 });
 
+/**
+ * Odia translations of the docs.
+ *
+ * Pages that are not translated yet fall back to the English content, so the
+ * language switch never leads to a 404.
+ */
+export const docsOr = defineDocs({
+  dir: "content/docs-or",
+  docs: {
+    lastModified: true,
+  },
+});
+
 export default defineConfig();

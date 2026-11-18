@@ -1,0 +1,81 @@
+---
+title: କମ୍ପୋନେଣ୍ଟସ୍
+description: shadcn/ui ଟୋକେନ୍ ଉପରେ ନିର୍ମିତ ସ୍ଥାପନଯୋଗ୍ୟ କମ୍ପୋନେଣ୍ଟ, ଓଡ଼ିଆ ସ୍ୱାଦ ସହିତ।
+---
+
+import {
+  AlignLeft,
+  BadgeCheck,
+  Loader,
+  MousePointerClick,
+  Square,
+  Tag,
+  TextCursorInput,
+} from "lucide-react"
+
+ପ୍ରତ୍ୟେକ କମ୍ପୋନେଣ୍ଟ shadcn ରେଜିଷ୍ଟ୍ରି ମାଧ୍ୟମରେ ସୋର୍ସ କୋଡ୍ ଭାବରେ ବଣ୍ଟା ହୁଏ,
+ତେଣୁ ସ୍ଥାପନ ପରେ ତାହା ଆପଣଙ୍କର ଏବଂ ଆପଣ ତାହା ବଦଳାଇ ପାରିବେ।
+
+<InstallCommand command="shadcn@latest add @odiaui/button" />
+
+## ବ୍ରାଉଜ୍ କରନ୍ତୁ
+
+<Cards>
+  <Card
+    title="Button"
+    href="/or/docs/components/button"
+    description="ଭେରିଏଣ୍ଟ, ସାଇଜ୍, ଆଇକନ୍ ସମର୍ଥନ ଏବଂ ଅନ୍ତର୍ନିହିତ ଲୋଡିଂ ସ୍ଥିତି।"
+    icon={<MousePointerClick />}
+  />
+  <Card
+    title="Input"
+    href="/or/docs/components/input"
+    description="ଆଇକନ୍ ସମର୍ଥନ, ଅମାନ୍ୟ ଏବଂ ଅକ୍ଷମ ସ୍ଥିତି ସହିତ ଏକ ପିଲ୍-ଆକୃତି ଟେକ୍ସଟ୍ ଫିଲ୍ଡ।"
+    icon={<TextCursorInput />}
+  />
+  <Card
+    title="Label"
+    href="/or/docs/components/label"
+    description="Input ଏବଂ Textarea ସହିତ ଯୋଡ଼ି ହେଉଥିବା ସୁଗମ୍ୟ ଲେବଲ୍।"
+    icon={<Tag />}
+  />
+  <Card
+    title="Textarea"
+    href="/or/docs/components/textarea"
+    description="ରିସାଇଜ୍ ହେଉଥିବା ବଡ଼ ଟେକ୍ସଟ୍ ଫିଲ୍ଡ।"
+    icon={<AlignLeft />}
+  />
+  <Card
+    title="Card"
+    href="/or/docs/components/card"
+    description="ହେଡର, କଣ୍ଟେଣ୍ଟ ଏବଂ ଫୁଟର, ସହିତ ବୈକଳ୍ପିକ ଓଡ଼ିଶା ଚିତ୍ରକଳା।"
+    icon={<Square />}
+  />
+  <Card
+    title="Badge"
+    href="/or/docs/components/badge"
+    description="ଏକାଧିକ ଭେରିଏଣ୍ଟ ସହିତ ସ୍ଥିତି ଏବଂ ମେଟାଡାଟା ଲେବଲ୍।"
+    icon={<BadgeCheck />}
+  />
+  <Card
+    title="Skeleton"
+    href="/or/docs/components/skeleton"
+    description="ଖୋଦିତ ମନ୍ଦିର ଚିତ୍ରକଳା ସହିତ ଲୋଡିଂ ପ୍ଲେସହୋଲ୍ଡର।"
+    icon={<Loader />}
+  />
+</Cards>
+
+## ନିୟମ
+
+- ରଙ୍ଗ shadcn ଥିମ୍ ଟୋକେନ୍ (`primary`, `muted`, `border`, …) ଏବଂ ସ୍ୱତନ୍ତ୍ର
+  `--odia-*` ଟୋକେନ୍‌ରୁ ଆସେ, ତେଣୁ କମ୍ପୋନେଣ୍ଟ ଲାଇଟ୍ ଏବଂ ଡାର୍କ ମୋଡ୍‌ରେ କାମ
+  କରେ।
+- `className` ଶେଷରେ `cn` ମାଧ୍ୟମରେ ମିଶେ, ତେଣୁ ଆପଣ ଯେକୌଣସି ଷ୍ଟାଇଲ୍ ଓଭରରାଇଡ୍
+  କରିପାରିବେ।
+- Ref ଆଗକୁ ପଠାଯାଏ, ଏବଂ ପ୍ରତ୍ୟେକ କମ୍ପୋନେଣ୍ଟ ସମ୍ପୃକ୍ତ HTML ପ୍ରପ୍ ଗ୍ରହଣ କରେ।
+
+<Callout>
+  କିଛି ନିଜସ୍ୱ ତିଆରି କରୁଛନ୍ତି? ଏକ shadcn/ui କମ୍ପୋନେଣ୍ଟରୁ ଆରମ୍ଭ କରି
+  [ଡିଜାଇନ୍ ନିୟମ](/or/docs/design) ଲାଗୁ କରନ୍ତୁ, ଯାହା ଫଳରେ ତାହା ରେଜିଷ୍ଟ୍ରିର
+  ଅନ୍ୟ କମ୍ପୋନେଣ୍ଟ ସହିତ ମେଳ ଖାଇବ।
+</Callout>
