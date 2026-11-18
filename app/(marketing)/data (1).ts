@@ -1,14 +1,19 @@
+/**
+ * Internal routes are relative so local development stays on localhost.
+ * `site` stays absolute: it builds copyable registry install commands that
+ * must point at the public registry even when viewed locally.
+ */
 export const LINKS = {
   site: "https://odiaui.xyz",
-  docs: "https://odiaui.xyz/docs",
-  install: "https://odiaui.xyz/docs/installation",
-  components: "https://odiaui.xyz/docs/components",
-  blocks: "https://odiaui.xyz/blocks",
+  docs: "/docs",
+  install: "/docs/installation",
+  components: "/docs/components",
+  blocks: "/blocks",
   github: "https://github.com/rudranboitei/odiaui",
   discussions: "https://github.com/rudranboitei/odiaui/discussions",
   author: "https://rudranboitei.com",
   x: "https://x.com/rudranboitei",
-  llms: "https://odiaui.xyz/llms.txt",
+  llms: "/llms.txt",
 } as const;
 
 export type RegistryItem = { slug: string; name: string; note: string };
